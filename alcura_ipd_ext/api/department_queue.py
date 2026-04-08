@@ -23,6 +23,8 @@ _QUEUE_FIELDS = [
 
 _ACTIONABLE_STATUSES = ("Ordered", "Acknowledged", "In Progress")
 
+_URGENCY_RANK = {"Emergency": 0, "STAT": 1, "Urgent": 2, "Routine": 3}
+
 
 @frappe.whitelist()
 def get_pharmacy_queue(
@@ -41,10 +43,10 @@ def get_pharmacy_queue(
 		"IPD Clinical Order",
 		filters=filters,
 		fields=_QUEUE_FIELDS,
-		order_by="FIELD(urgency, 'Emergency', 'STAT', 'Urgent', 'Routine'), ordered_at ASC",
+		order_by="ordered_at ASC",
 		limit_page_length=200,
 	)
-	return _enrich_with_sla(orders)
+	return _enrich_with_sla(_sort_by_urgency(orders))
 
 
 @frappe.whitelist()
@@ -64,10 +66,10 @@ def get_lab_queue(
 		"IPD Clinical Order",
 		filters=filters,
 		fields=_QUEUE_FIELDS,
-		order_by="FIELD(urgency, 'Emergency', 'STAT', 'Urgent', 'Routine'), ordered_at ASC",
+		order_by="ordered_at ASC",
 		limit_page_length=200,
 	)
-	return _enrich_with_sla(orders)
+	return _enrich_with_sla(_sort_by_urgency(orders))
 
 
 @frappe.whitelist()
@@ -90,13 +92,18 @@ def get_nurse_station_queue(
 		"IPD Clinical Order",
 		filters=filters,
 		fields=_QUEUE_FIELDS,
-		order_by="FIELD(urgency, 'Emergency', 'STAT', 'Urgent', 'Routine'), ordered_at ASC",
+		order_by="ordered_at ASC",
 		limit_page_length=300,
 	)
-	return _enrich_with_sla(orders)
+	return _enrich_with_sla(_sort_by_urgency(orders))
 
 
 # ── Private helpers ──────────────────────────────────────────────────
+
+
+def _sort_by_urgency(orders: list[dict]) -> list[dict]:
+	"""Sort orders by urgency priority (Emergency first), preserving ordered_at order within each level."""
+	return sorted(orders, key=lambda o: _URGENCY_RANK.get(o.get("urgency"), 99))
 
 
 def _apply_common_filters(

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"ipd_operations_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Operations</b></span>\",\"col\":12}},{\"id\":\"shortcut_occupancy_dashboard\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Occupancy Dashboard\",\"col\":3}},{\"id\":\"shortcut_live_bed_board\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Bed Board\",\"col\":3}},{\"id\":\"shortcut_adt_census\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADT Census\",\"col\":3}},{\"id\":\"shortcut_transfer_housekeeping\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Transfer and Housekeeping\",\"col\":3}},{\"id\":\"shortcut_bed_movement_log\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Movement Log\",\"col\":3}},{\"id\":\"shortcut_housekeeping_task\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Housekeeping Task\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "content": "[{\"id\":\"ipd_operations_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Operations</b></span>\",\"col\":12}},{\"id\":\"shortcut_occupancy_dashboard\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Occupancy Dashboard\",\"col\":3}},{\"id\":\"shortcut_live_bed_board\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Bed Board\",\"col\":3}},{\"id\":\"shortcut_adt_census\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADT Census\",\"col\":3}},{\"id\":\"shortcut_transfer_housekeeping\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Transfer and Housekeeping\",\"col\":3}},{\"id\":\"shortcut_bed_movement_log\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Movement Log\",\"col\":3}},{\"id\":\"shortcut_housekeeping_task\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Housekeeping Task\",\"col\":3}},{\"id\":\"shortcut_nursing_workload\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Nursing Workload by Ward\",\"col\":3}},{\"id\":\"shortcut_incident_alert\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Incident Alert Report\",\"col\":3}},{\"id\":\"shortcut_device_exception\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Device Observation Exception\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
  "creation": "2026-04-08 00:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -84,6 +84,39 @@
    "label": "Doctor Census",
    "link_count": 0,
    "link_to": "Doctor Census",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Nursing Workload by Ward",
+   "link_count": 0,
+   "link_to": "Nursing Workload by Ward",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Incident Alert Report",
+   "link_count": 0,
+   "link_to": "Incident Alert Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Device Observation Exception",
+   "link_count": 0,
+   "link_to": "Device Observation Exception",
    "link_type": "Report",
    "onboard": 1,
    "type": "Link"
@@ -224,6 +257,30 @@
    "link_to": "Bed Housekeeping Task",
    "stats_filter": "{\"status\":[\"in\",[\"Pending\",\"In Progress\"]]}",
    "type": "DocType"
+  },
+  {
+   "color": "Pink",
+   "doc_view": "",
+   "label": "Nursing Workload by Ward",
+   "link_to": "Nursing Workload by Ward",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Red",
+   "doc_view": "",
+   "label": "Incident Alert Report",
+   "link_to": "Incident Alert Report",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "",
+   "label": "Device Observation Exception",
+   "link_to": "Device Observation Exception",
+   "stats_filter": "",
+   "type": "Report"
   }
  ],
  "title": "IPD Operations"
