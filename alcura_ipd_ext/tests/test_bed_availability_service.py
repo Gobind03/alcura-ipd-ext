@@ -9,7 +9,7 @@ entry point.
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from alcura_ipd_ext.alcura_ipd_ext.report.live_bed_board.live_bed_board import (
+from alcura_ipd_ext.alcura_ipd_extensions.report.live_bed_board.live_bed_board import (
 	execute as report_execute,
 )
 from alcura_ipd_ext.services.bed_availability_service import (

@@ -6,7 +6,7 @@ Covers: validation, cached get_policy(), defaults, and role-based permissions.
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from alcura_ipd_ext.alcura_ipd_ext.doctype.ipd_bed_policy.ipd_bed_policy import (
+from alcura_ipd_ext.alcura_ipd_extensions.doctype.ipd_bed_policy.ipd_bed_policy import (
 	get_policy,
 )
 

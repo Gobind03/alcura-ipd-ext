@@ -100,7 +100,7 @@ frappe.query_reports["Protocol Compliance Report"] = {
 function _show_step_detail(bundle) {
 	frappe.call({
 		method:
-			"alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report.get_step_detail",
+			"alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report.get_step_detail",
 		args: { active_bundle: bundle },
 		freeze: true,
 		freeze_message: __("Loading Steps..."),

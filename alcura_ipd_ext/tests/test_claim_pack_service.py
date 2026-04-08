@@ -10,7 +10,7 @@ import frappe
 import pytest
 from frappe.utils import today
 
-from alcura_ipd_ext.alcura_ipd_ext.doctype.tpa_claim_pack.tpa_claim_pack import (
+from alcura_ipd_ext.alcura_ipd_extensions.doctype.tpa_claim_pack.tpa_claim_pack import (
 	VALID_TRANSITIONS,
 )
 from alcura_ipd_ext.services.claim_pack_service import (

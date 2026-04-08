@@ -11,7 +11,7 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime, add_to_date, get_datetime
 
-from alcura_ipd_ext.alcura_ipd_ext.doctype.ipd_bed_policy.ipd_bed_policy import (
+from alcura_ipd_ext.alcura_ipd_extensions.doctype.ipd_bed_policy.ipd_bed_policy import (
 	get_policy,
 )
 from alcura_ipd_ext.utils.bed_helpers import recompute_capacity_for_bed

@@ -147,7 +147,7 @@ class TestDoctorCensusEnhanced:
 
 	def test_report_execute_returns_summary(self, admin_session):
 		"""Report execute returns 5-tuple with report_summary."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.doctor_census.doctor_census import execute
+		from alcura_ipd_ext.alcura_ipd_extensions.report.doctor_census.doctor_census import execute
 
 		practitioner = _make_practitioner("L1EX")
 		_make_ir(
@@ -174,7 +174,7 @@ class TestDoctorCensusEnhanced:
 
 	def test_report_execute_empty_without_practitioner(self, admin_session):
 		"""Report returns empty data when no practitioner is specified."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.doctor_census.doctor_census import execute
+		from alcura_ipd_ext.alcura_ipd_extensions.report.doctor_census.doctor_census import execute
 
 		result = execute({})
 		_, data, _, _, summary = result

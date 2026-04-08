@@ -10,7 +10,7 @@ import frappe
 import pytest
 from frappe.utils import now_datetime, today
 
-from alcura_ipd_ext.alcura_ipd_ext.doctype.tpa_preauth_request.tpa_preauth_request import (
+from alcura_ipd_ext.alcura_ipd_extensions.doctype.tpa_preauth_request.tpa_preauth_request import (
 	VALID_TRANSITIONS,
 )
 

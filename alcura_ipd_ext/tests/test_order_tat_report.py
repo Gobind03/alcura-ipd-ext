@@ -114,7 +114,7 @@ class TestOrderTATReport:
 
 	def test_tat_calculated_for_completed_orders(self, admin_session):
 		"""TAT is calculated when both ordered_at and completed_at are set."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			execute,
 		)
 
@@ -148,7 +148,7 @@ class TestOrderTATReport:
 
 	def test_report_returns_summary_metrics(self, admin_session):
 		"""Report returns summary with total, avg TAT, median TAT, etc."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			execute,
 		)
 
@@ -178,7 +178,7 @@ class TestOrderTATReport:
 
 	def test_department_column_present(self, admin_session):
 		"""Report includes target_department column."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			_get_columns,
 		)
 
@@ -187,7 +187,7 @@ class TestOrderTATReport:
 
 	def test_sla_target_column_present(self, admin_session):
 		"""Report includes sla_target_minutes column."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			_get_columns,
 		)
 
@@ -196,7 +196,7 @@ class TestOrderTATReport:
 
 	def test_chart_generated(self, admin_session):
 		"""Report returns a chart when data exists."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			execute,
 		)
 
@@ -221,7 +221,7 @@ class TestOrderTATReport:
 
 	def test_empty_report(self, admin_session):
 		"""Empty data returns no chart and no summary."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.order_tat_report.order_tat_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.order_tat_report.order_tat_report import (
 			execute,
 		)
 
@@ -242,7 +242,7 @@ class TestSLABreachReport:
 
 	def test_breach_report_includes_department(self, admin_session):
 		"""Breach report includes target_department column."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.sla_breach_report.sla_breach_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.sla_breach_report.sla_breach_report import (
 			_get_columns,
 		)
 
@@ -251,7 +251,7 @@ class TestSLABreachReport:
 
 	def test_breach_report_returns_summary(self, admin_session):
 		"""Breach report returns summary metrics."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.sla_breach_report.sla_breach_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.sla_breach_report.sla_breach_report import (
 			execute,
 		)
 
@@ -279,7 +279,7 @@ class TestSLABreachReport:
 
 	def test_breach_report_chart(self, admin_session):
 		"""Breach report includes a bar chart by order type."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.sla_breach_report.sla_breach_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.sla_breach_report.sla_breach_report import (
 			execute,
 		)
 

@@ -9,7 +9,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, today
 
-from alcura_ipd_ext.alcura_ipd_ext.report.adt_census.adt_census import (
+from alcura_ipd_ext.alcura_ipd_extensions.report.adt_census.adt_census import (
 	execute as report_execute,
 )
 from alcura_ipd_ext.services.adt_census_service import (

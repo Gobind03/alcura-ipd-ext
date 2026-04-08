@@ -9,7 +9,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, now_datetime, today
 
-from alcura_ipd_ext.alcura_ipd_ext.report.bed_transfer_housekeeping.bed_transfer_housekeeping import (
+from alcura_ipd_ext.alcura_ipd_extensions.report.bed_transfer_housekeeping.bed_transfer_housekeeping import (
 	_count_transfers,
 	_get_blocked_beds,
 	_get_housekeeping_by_ward,

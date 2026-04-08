@@ -147,7 +147,7 @@ class TestProtocolComplianceReport:
 
 	def test_report_includes_patient_name(self, admin_session):
 		"""Report rows include patient_name."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			get_columns,
 			get_data,
 		)
@@ -167,7 +167,7 @@ class TestProtocolComplianceReport:
 
 	def test_report_includes_delayed_steps(self, admin_session):
 		"""Report counts delayed steps (completed after due_at)."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			get_data,
 		)
 
@@ -186,7 +186,7 @@ class TestProtocolComplianceReport:
 
 	def test_step_detail_returns_steps(self, admin_session):
 		"""get_step_detail returns individual step tracker rows."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			get_step_detail,
 		)
 
@@ -207,7 +207,7 @@ class TestProtocolComplianceReport:
 
 	def test_report_summary(self, admin_session):
 		"""Report returns summary with avg compliance and totals."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			execute,
 		)
 
@@ -229,7 +229,7 @@ class TestProtocolComplianceReport:
 
 	def test_report_chart(self, admin_session):
 		"""Report returns a bar chart by category."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			execute,
 		)
 
@@ -245,7 +245,7 @@ class TestProtocolComplianceReport:
 
 	def test_category_filter(self, admin_session):
 		"""Category filter restricts results to matching protocol bundles."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			get_data,
 		)
 
@@ -265,7 +265,7 @@ class TestProtocolComplianceReport:
 
 	def test_empty_report(self, admin_session):
 		"""Empty data returns no chart and no summary."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.protocol_compliance_report.protocol_compliance_report import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.protocol_compliance_report.protocol_compliance_report import (
 			execute,
 		)
 

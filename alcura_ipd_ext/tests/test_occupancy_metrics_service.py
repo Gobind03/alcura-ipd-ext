@@ -9,7 +9,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_days, today
 
-from alcura_ipd_ext.alcura_ipd_ext.report.bed_occupancy_dashboard.bed_occupancy_dashboard import (
+from alcura_ipd_ext.alcura_ipd_extensions.report.bed_occupancy_dashboard.bed_occupancy_dashboard import (
 	execute as report_execute,
 )
 from alcura_ipd_ext.services.occupancy_metrics_service import (

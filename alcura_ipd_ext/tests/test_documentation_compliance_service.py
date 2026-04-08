@@ -246,7 +246,7 @@ class TestDocumentationCompliance:
 
 	def test_report_execute_returns_chart(self, admin_session):
 		"""Report execute returns a chart configuration."""
-		from alcura_ipd_ext.alcura_ipd_ext.report.documentation_compliance.documentation_compliance import (
+		from alcura_ipd_ext.alcura_ipd_extensions.report.documentation_compliance.documentation_compliance import (
 			execute,
 		)
 

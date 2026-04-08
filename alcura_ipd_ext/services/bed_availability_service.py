@@ -13,7 +13,7 @@ from __future__ import annotations
 import frappe
 from frappe.utils import today
 
-from alcura_ipd_ext.alcura_ipd_ext.doctype.ipd_bed_policy.ipd_bed_policy import (
+from alcura_ipd_ext.alcura_ipd_extensions.doctype.ipd_bed_policy.ipd_bed_policy import (
 	get_policy,
 )
 
