@@ -213,3 +213,20 @@ def _get_notification_recipients() -> list[str]:
 	users.discard("Administrator")
 	users.discard("Guest")
 	return list(users)
+
+
+# ── Housekeeping SLA (US-J3) ─────────────────────────────────────────
+
+
+def check_housekeeping_sla_breaches():
+	"""Check for overdue housekeeping tasks and flag SLA breaches.
+
+	Runs every 15 minutes via scheduler.
+	"""
+	from alcura_ipd_ext.services.housekeeping_service import check_sla_breaches
+
+	count = check_sla_breaches()
+	if count:
+		frappe.logger("alcura_ipd_ext").info(
+			f"Housekeeping SLA: {count} new breach(es) flagged"
+		)

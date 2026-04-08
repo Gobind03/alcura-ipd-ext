@@ -28,6 +28,7 @@ frappe.ui.form.on("Hospital Bed", {
 		);
 
 		_set_status_indicator(frm);
+		_add_housekeeping_buttons(frm);
 	},
 
 	bed_number(frm) {
@@ -82,4 +83,83 @@ function _set_status_indicator(frm) {
 	} else {
 		frm.page.set_indicator(__("Available"), "green");
 	}
+}
+
+function _add_housekeeping_buttons(frm) {
+	if (frm.is_new() || frm.is_dirty()) return;
+	if (frm.doc.occupancy_status !== "Vacant") return;
+
+	if (frm.doc.housekeeping_status === "Dirty") {
+		frm.add_custom_button(__("Start Cleaning"), () => {
+			frappe.call({
+				method: "alcura_ipd_ext.api.discharge.start_cleaning",
+				args: { task_name: _get_active_task_name(frm) },
+				freeze: true,
+				freeze_message: __("Starting cleaning..."),
+				callback(r) {
+					if (r.message) {
+						frappe.show_alert({ message: __("Cleaning started."), indicator: "blue" });
+						frm.reload_doc();
+					}
+				},
+				error() {
+					frappe.msgprint(__("No active housekeeping task found. Create one from the Bed Housekeeping Task list."));
+				},
+			});
+		}, __("Housekeeping"));
+	}
+
+	if (frm.doc.housekeeping_status === "In Progress") {
+		frm.add_custom_button(__("Complete Cleaning"), () => {
+			frappe.call({
+				method: "alcura_ipd_ext.api.discharge.complete_cleaning",
+				args: { task_name: _get_active_task_name(frm) },
+				freeze: true,
+				freeze_message: __("Completing cleaning..."),
+				callback(r) {
+					if (r.message) {
+						frappe.show_alert({
+							message: __("Cleaning completed. Bed is now available."),
+							indicator: "green",
+						});
+						frm.reload_doc();
+					}
+				},
+				error() {
+					frappe.msgprint(__("No active housekeeping task found."));
+				},
+			});
+		}, __("Housekeeping"));
+	}
+
+	if (frm.doc.housekeeping_status === "Dirty" || frm.doc.housekeeping_status === "In Progress") {
+		frm.add_custom_button(__("View Housekeeping Task"), () => {
+			frappe.set_route("List", "Bed Housekeeping Task", {
+				hospital_bed: frm.doc.name,
+				status: ["in", ["Pending", "In Progress"]],
+			});
+		}, __("Housekeeping"));
+	}
+}
+
+function _get_active_task_name(frm) {
+	let task_name = null;
+	frappe.call({
+		method: "frappe.client.get_value",
+		args: {
+			doctype: "Bed Housekeeping Task",
+			filters: {
+				hospital_bed: frm.doc.name,
+				status: ["in", ["Pending", "In Progress"]],
+			},
+			fieldname: "name",
+		},
+		async: false,
+		callback(r) {
+			if (r.message) {
+				task_name = r.message.name;
+			}
+		},
+	});
+	return task_name;
 }

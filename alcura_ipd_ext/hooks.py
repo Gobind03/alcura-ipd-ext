@@ -136,6 +136,7 @@ scheduler_events = {
 			"alcura_ipd_ext.tasks.check_overdue_charts",
 			"alcura_ipd_ext.tasks.mark_overdue_mar_entries",
 			"alcura_ipd_ext.tasks.check_protocol_compliance",
+			"alcura_ipd_ext.tasks.check_housekeeping_sla_breaches",
 		],
 	},
 	"daily": [

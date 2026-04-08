@@ -17,6 +17,10 @@
   "cleaning_turnaround_sla_minutes",
   "column_break_cleaning",
   "auto_mark_dirty_on_discharge",
+  "cleaning_sla_multipliers_section",
+  "deep_clean_sla_multiplier",
+  "column_break_sla_mult",
+  "isolation_clean_sla_multiplier",
   "reservation_section",
   "reservation_timeout_minutes",
   "payer_eligibility_section",
@@ -100,6 +104,31 @@
    "fieldtype": "Check",
    "label": "Auto-Mark Dirty on Discharge",
    "description": "Automatically set housekeeping status to 'Dirty' when a bed is vacated."
+  },
+  {
+   "fieldname": "cleaning_sla_multipliers_section",
+   "fieldtype": "Section Break",
+   "label": "Cleaning SLA Multipliers",
+   "collapsible": 1,
+   "description": "Multipliers applied to the base cleaning SLA for special cleaning types."
+  },
+  {
+   "default": "2.0",
+   "fieldname": "deep_clean_sla_multiplier",
+   "fieldtype": "Float",
+   "label": "Deep Clean SLA Multiplier",
+   "description": "Multiplied against the base cleaning SLA for deep-clean tasks (e.g. 2.0 = 2x the base time)."
+  },
+  {
+   "fieldname": "column_break_sla_mult",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3.0",
+   "fieldname": "isolation_clean_sla_multiplier",
+   "fieldtype": "Float",
+   "label": "Isolation Clean SLA Multiplier",
+   "description": "Multiplied against the base cleaning SLA for isolation-clean tasks."
   },
   {
    "fieldname": "reservation_section",

@@ -1,0 +1,407 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "header_section",
+  "naming_series",
+  "inpatient_record",
+  "patient",
+  "patient_name",
+  "column_break_header",
+  "consultant",
+  "company",
+  "status",
+  "timing_section",
+  "expected_discharge_datetime",
+  "column_break_timing",
+  "actual_discharge_datetime",
+  "discharge_type",
+  "condition_at_discharge",
+  "clinical_summary_section",
+  "primary_diagnosis",
+  "column_break_diag",
+  "secondary_diagnoses",
+  "medications_section",
+  "discharge_medications",
+  "follow_up_section",
+  "follow_up_instructions",
+  "column_break_follow_up",
+  "follow_up_date",
+  "follow_up_practitioner",
+  "diet_section",
+  "diet_instructions",
+  "column_break_diet",
+  "activity_restrictions",
+  "warnings_section",
+  "warning_signs",
+  "additional_section",
+  "additional_instructions",
+  "audit_section",
+  "advised_by",
+  "advised_on",
+  "column_break_audit_1",
+  "acknowledged_by",
+  "acknowledged_on",
+  "column_break_audit_2",
+  "cancelled_by",
+  "cancelled_on",
+  "cancellation_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "header_section",
+   "fieldtype": "Section Break",
+   "label": "Discharge Advice"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "DDA-.YYYY.-.#####",
+   "reqd": 1,
+   "default": "DDA-.YYYY.-.#####"
+  },
+  {
+   "bold": 1,
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1,
+   "unique": 0
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "consultant",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Consultant",
+   "options": "Healthcare Practitioner",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "inpatient_record.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nAdvised\nAcknowledged\nCompleted\nCancelled",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "timing_section",
+   "fieldtype": "Section Break",
+   "label": "Discharge Timing"
+  },
+  {
+   "bold": 1,
+   "fieldname": "expected_discharge_datetime",
+   "fieldtype": "Datetime",
+   "label": "Expected Discharge Date/Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_timing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_discharge_datetime",
+   "fieldtype": "Datetime",
+   "label": "Actual Discharge Date/Time",
+   "read_only": 1
+  },
+  {
+   "default": "Normal",
+   "fieldname": "discharge_type",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Discharge Type",
+   "options": "Normal\nLAMA\nAgainst Medical Advice\nTransfer\nDeath\nAbsconded",
+   "reqd": 1
+  },
+  {
+   "default": "Improved",
+   "fieldname": "condition_at_discharge",
+   "fieldtype": "Select",
+   "label": "Condition at Discharge",
+   "options": "\nImproved\nUnchanged\nDeteriorated\nLAMA\nExpired\nReferred"
+  },
+  {
+   "fieldname": "clinical_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Clinical Summary"
+  },
+  {
+   "fieldname": "primary_diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Primary Diagnosis"
+  },
+  {
+   "fieldname": "column_break_diag",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "secondary_diagnoses",
+   "fieldtype": "Small Text",
+   "label": "Secondary Diagnoses"
+  },
+  {
+   "fieldname": "medications_section",
+   "fieldtype": "Section Break",
+   "label": "Discharge Medications"
+  },
+  {
+   "fieldname": "discharge_medications",
+   "fieldtype": "Text Editor",
+   "label": "Discharge Medications"
+  },
+  {
+   "fieldname": "follow_up_section",
+   "fieldtype": "Section Break",
+   "label": "Follow-Up"
+  },
+  {
+   "fieldname": "follow_up_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Follow-Up Instructions"
+  },
+  {
+   "fieldname": "column_break_follow_up",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "follow_up_date",
+   "fieldtype": "Date",
+   "label": "Follow-Up Date"
+  },
+  {
+   "fieldname": "follow_up_practitioner",
+   "fieldtype": "Link",
+   "label": "Follow-Up Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "diet_section",
+   "fieldtype": "Section Break",
+   "label": "Diet & Lifestyle",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "diet_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Diet Instructions"
+  },
+  {
+   "fieldname": "column_break_diet",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "activity_restrictions",
+   "fieldtype": "Small Text",
+   "label": "Activity Restrictions"
+  },
+  {
+   "fieldname": "warnings_section",
+   "fieldtype": "Section Break",
+   "label": "Warning Signs"
+  },
+  {
+   "fieldname": "warning_signs",
+   "fieldtype": "Text Editor",
+   "label": "Warning Signs",
+   "description": "Signs requiring immediate return to hospital"
+  },
+  {
+   "fieldname": "additional_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Notes",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "additional_instructions",
+   "fieldtype": "Text Editor",
+   "label": "Additional Instructions"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "advised_by",
+   "fieldtype": "Link",
+   "label": "Advised By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "advised_on",
+   "fieldtype": "Datetime",
+   "label": "Advised On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "acknowledged_by",
+   "fieldtype": "Link",
+   "label": "Acknowledged By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "acknowledged_on",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cancelled_by",
+   "fieldtype": "Link",
+   "label": "Cancelled By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_on",
+   "fieldtype": "Datetime",
+   "label": "Cancelled On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancellation_reason",
+   "fieldtype": "Small Text",
+   "label": "Cancellation Reason",
+   "mandatory_depends_on": "eval:doc.status === 'Cancelled'"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Discharge Advice",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "IPD Billing User",
+   "share": 0,
+   "write": 0
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "TPA Desk User",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1,
+ "show_title_field_in_link": 1
+}

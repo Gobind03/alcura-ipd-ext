@@ -1,0 +1,335 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "header_section",
+  "naming_series",
+  "hospital_bed",
+  "hospital_room",
+  "hospital_ward",
+  "column_break_header",
+  "company",
+  "status",
+  "trigger_event",
+  "context_section",
+  "inpatient_record",
+  "column_break_context",
+  "movement_log",
+  "cleaning_section",
+  "cleaning_type",
+  "requires_deep_clean",
+  "column_break_cleaning",
+  "special_instructions",
+  "timing_section",
+  "created_on",
+  "started_on",
+  "column_break_timing",
+  "completed_on",
+  "sla_target_minutes",
+  "sla_section",
+  "sla_breached",
+  "column_break_sla",
+  "turnaround_minutes",
+  "assignment_section",
+  "assigned_to",
+  "column_break_assignment",
+  "assigned_team",
+  "audit_section",
+  "started_by",
+  "column_break_audit",
+  "completed_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "header_section",
+   "fieldtype": "Section Break",
+   "label": "Housekeeping Task"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BHT-.#####",
+   "reqd": 1,
+   "default": "BHT-.#####"
+  },
+  {
+   "bold": 1,
+   "fieldname": "hospital_bed",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Hospital Bed",
+   "options": "Hospital Bed",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "hospital_bed.hospital_room",
+   "fieldname": "hospital_room",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Hospital Room",
+   "options": "Hospital Room",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "hospital_bed.hospital_ward",
+   "fieldname": "hospital_ward",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Hospital Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "hospital_bed.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nIn Progress\nCompleted\nCancelled",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Discharge",
+   "fieldname": "trigger_event",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Trigger Event",
+   "options": "Discharge\nTransfer\nManual"
+  },
+  {
+   "fieldname": "context_section",
+   "fieldtype": "Section Break",
+   "label": "Context"
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "label": "Departing Patient IR",
+   "options": "Inpatient Record",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_context",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "movement_log",
+   "fieldtype": "Link",
+   "label": "Movement Log",
+   "options": "Bed Movement Log"
+  },
+  {
+   "fieldname": "cleaning_section",
+   "fieldtype": "Section Break",
+   "label": "Cleaning"
+  },
+  {
+   "bold": 1,
+   "default": "Standard",
+   "fieldname": "cleaning_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Cleaning Type",
+   "options": "Standard\nDeep Clean\nIsolation Clean\nTerminal Clean",
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_deep_clean",
+   "fieldtype": "Check",
+   "label": "Requires Deep Clean",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cleaning",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "special_instructions",
+   "fieldtype": "Small Text",
+   "label": "Special Instructions"
+  },
+  {
+   "fieldname": "timing_section",
+   "fieldtype": "Section Break",
+   "label": "Timing"
+  },
+  {
+   "default": "Now",
+   "fieldname": "created_on",
+   "fieldtype": "Datetime",
+   "label": "Created On",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "started_on",
+   "fieldtype": "Datetime",
+   "label": "Started On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_timing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "completed_on",
+   "fieldtype": "Datetime",
+   "label": "Completed On",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sla_target_minutes",
+   "fieldtype": "Int",
+   "label": "SLA Target (Minutes)"
+  },
+  {
+   "fieldname": "sla_section",
+   "fieldtype": "Section Break",
+   "label": "SLA"
+  },
+  {
+   "default": "0",
+   "fieldname": "sla_breached",
+   "fieldtype": "Check",
+   "label": "SLA Breached",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_sla",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "turnaround_minutes",
+   "fieldtype": "Int",
+   "label": "Turnaround (Minutes)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "assignment_section",
+   "fieldtype": "Section Break",
+   "label": "Assignment",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "assigned_to",
+   "fieldtype": "Link",
+   "label": "Assigned To",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_assignment",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assigned_team",
+   "fieldtype": "Data",
+   "label": "Assigned Team"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "started_by",
+   "fieldtype": "Link",
+   "label": "Started By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "completed_by",
+   "fieldtype": "Link",
+   "label": "Completed By",
+   "options": "User",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 0,
+ "istable": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Bed Housekeeping Task",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 0,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0,
+   "write": 1
+  },
+  {
+   "create": 0,
+   "delete": 0,
+   "email": 0,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "IPD Admission Officer",
+   "share": 0,
+   "write": 0
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

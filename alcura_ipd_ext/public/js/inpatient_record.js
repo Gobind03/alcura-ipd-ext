@@ -46,6 +46,8 @@ frappe.ui.form.on("Inpatient Record", {
 			_show_orders_banner(frm);
 			_add_tpa_billing_buttons(frm);
 			_show_tpa_billing_banner(frm);
+			_show_discharge_journey_banner(frm);
+			_add_discharge_journey_buttons(frm);
 		}
 	},
 });
@@ -1407,4 +1409,246 @@ function _add_round_note_button(frm) {
 		});
 		d.show();
 	}, __("Clinical"));
+}
+
+// ── US-J1/J2/J3: Discharge Journey ─────────────────────────────────
+
+function _show_discharge_journey_banner(frm) {
+	frappe.call({
+		method: "alcura_ipd_ext.api.discharge.get_discharge_status",
+		args: { inpatient_record: frm.doc.name },
+		callback(r) {
+			if (!r.message) return;
+			const ds = r.message;
+			if (!ds.advice) return;
+
+			const parts = [];
+
+			const advice_color_map = {
+				Draft: "orange", Advised: "blue", Acknowledged: "cyan",
+				Completed: "green", Cancelled: "red",
+			};
+			const ac = advice_color_map[ds.advice.status] || "grey";
+			const advice_link = `<a href="/app/ipd-discharge-advice/${ds.advice.name}">${ds.advice.name}</a>`;
+			parts.push(
+				`${__("Advice")}: ${advice_link} <span class="indicator-pill ${ac}">${ds.advice.status}</span>`
+			);
+
+			if (ds.advice.expected_discharge_datetime) {
+				parts.push(
+					`${__("EDD")}: <strong>${frappe.datetime.str_to_user(ds.advice.expected_discharge_datetime)}</strong>`
+				);
+			}
+
+			if (ds.billing_checklist) {
+				const bl = `<a href="/app/discharge-billing-checklist/${ds.billing_checklist.name}">${ds.billing_checklist.status}</a>`;
+				parts.push(`${__("Billing")}: ${bl}`);
+			}
+
+			if (ds.nursing_checklist) {
+				const nl = `<a href="/app/nursing-discharge-checklist/${ds.nursing_checklist.name}">${ds.nursing_checklist.status}</a>`;
+				parts.push(`${__("Nursing")}: ${nl}`);
+			}
+
+			const color = ds.ready_to_vacate ? "green" : "blue";
+			frm.dashboard.add_comment(
+				`<strong>${__("Discharge")}:</strong> ${parts.join(" &nbsp;|&nbsp; ")}`,
+				color,
+				true
+			);
+		},
+	});
+}
+
+function _add_discharge_journey_buttons(frm) {
+	if (!frm.doc.custom_discharge_advice) {
+		frm.add_custom_button(__("Initiate Discharge"), () => {
+			_show_discharge_advice_dialog(frm);
+		}, __("Discharge"));
+		frm.change_custom_button_type(__("Initiate Discharge"), __("Discharge"), "warning");
+	} else {
+		frm.add_custom_button(__("View Discharge Advice"), () => {
+			frappe.set_route("Form", "IPD Discharge Advice", frm.doc.custom_discharge_advice);
+		}, __("Discharge"));
+
+		const advice_status = frm.doc.custom_discharge_advice_status;
+
+		if (advice_status === "Advised") {
+			frm.add_custom_button(__("Acknowledge Discharge"), () => {
+				frappe.call({
+					method: "alcura_ipd_ext.api.discharge.acknowledge_discharge_advice",
+					args: { advice_name: frm.doc.custom_discharge_advice },
+					freeze: true,
+					freeze_message: __("Acknowledging..."),
+					callback(r) {
+						if (r.message) {
+							frappe.show_alert({ message: __("Discharge acknowledged."), indicator: "green" });
+							frm.reload_doc();
+						}
+					},
+				});
+			}, __("Discharge"));
+		}
+
+		if (!frm.doc.custom_nursing_discharge_checklist && advice_status !== "Cancelled") {
+			frm.add_custom_button(__("Create Nursing Checklist"), () => {
+				frappe.call({
+					method: "alcura_ipd_ext.api.discharge.create_nursing_checklist",
+					args: {
+						inpatient_record: frm.doc.name,
+						discharge_advice: frm.doc.custom_discharge_advice || "",
+					},
+					freeze: true,
+					freeze_message: __("Creating nursing checklist..."),
+					callback(r) {
+						if (r.message) {
+							frappe.show_alert({
+								message: __("Nursing Checklist {0} created.", [r.message.checklist]),
+								indicator: "green",
+							});
+							frm.reload_doc();
+						}
+					},
+				});
+			}, __("Discharge"));
+		}
+
+		if (frm.doc.custom_nursing_discharge_checklist) {
+			frm.add_custom_button(__("View Nursing Checklist"), () => {
+				frappe.set_route("Form", "Nursing Discharge Checklist", frm.doc.custom_nursing_discharge_checklist);
+			}, __("Discharge"));
+		}
+
+		if (advice_status === "Acknowledged" || advice_status === "Completed") {
+			frm.add_custom_button(__("Vacate Bed"), () => {
+				frappe.confirm(
+					__("Vacate the bed and trigger housekeeping? This will release the bed."),
+					() => {
+						frappe.call({
+							method: "alcura_ipd_ext.api.discharge.vacate_bed",
+							args: { inpatient_record: frm.doc.name },
+							freeze: true,
+							freeze_message: __("Processing bed vacate..."),
+							callback(r) {
+								if (r.message) {
+									frappe.show_alert({
+										message: __("Bed vacated successfully."),
+										indicator: "green",
+									});
+									frm.reload_doc();
+								}
+							},
+						});
+					}
+				);
+			}, __("Discharge"));
+		}
+	}
+}
+
+function _show_discharge_advice_dialog(frm) {
+	const d = new frappe.ui.Dialog({
+		title: __("Initiate Discharge Advice"),
+		size: "extra-large",
+		fields: [
+			{
+				fieldtype: "Link", fieldname: "consultant",
+				label: __("Consultant"), options: "Healthcare Practitioner",
+				default: frm.doc.primary_practitioner, reqd: 1,
+			},
+			{
+				fieldtype: "Column Break",
+			},
+			{
+				fieldtype: "Datetime", fieldname: "expected_discharge_datetime",
+				label: __("Expected Discharge Date/Time"), reqd: 1,
+			},
+			{
+				fieldtype: "Section Break", label: __("Discharge Details"),
+			},
+			{
+				fieldtype: "Select", fieldname: "discharge_type",
+				label: __("Discharge Type"),
+				options: "Normal\nLAMA\nAgainst Medical Advice\nTransfer\nDeath\nAbsconded",
+				default: "Normal",
+			},
+			{
+				fieldtype: "Select", fieldname: "condition_at_discharge",
+				label: __("Condition"),
+				options: "\nImproved\nUnchanged\nDeteriorated\nLAMA\nExpired\nReferred",
+			},
+			{
+				fieldtype: "Section Break", label: __("Clinical Summary"),
+			},
+			{
+				fieldtype: "Small Text", fieldname: "primary_diagnosis",
+				label: __("Primary Diagnosis"),
+			},
+			{
+				fieldtype: "Column Break",
+			},
+			{
+				fieldtype: "Small Text", fieldname: "secondary_diagnoses",
+				label: __("Secondary Diagnoses"),
+			},
+			{
+				fieldtype: "Section Break", label: __("Medications & Follow-up"),
+			},
+			{
+				fieldtype: "Text Editor", fieldname: "discharge_medications",
+				label: __("Discharge Medications"),
+			},
+			{
+				fieldtype: "Section Break",
+			},
+			{
+				fieldtype: "Text Editor", fieldname: "follow_up_instructions",
+				label: __("Follow-Up Instructions"),
+			},
+			{
+				fieldtype: "Column Break",
+			},
+			{
+				fieldtype: "Date", fieldname: "follow_up_date",
+				label: __("Follow-Up Date"),
+			},
+			{
+				fieldtype: "Section Break", label: __("Additional"), collapsible: 1,
+			},
+			{
+				fieldtype: "Text Editor", fieldname: "diet_instructions",
+				label: __("Diet Instructions"),
+			},
+			{
+				fieldtype: "Column Break",
+			},
+			{
+				fieldtype: "Text Editor", fieldname: "warning_signs",
+				label: __("Warning Signs"),
+			},
+		],
+		primary_action_label: __("Submit Discharge Advice"),
+		primary_action(values) {
+			d.hide();
+			frappe.call({
+				method: "alcura_ipd_ext.api.discharge.create_discharge_advice",
+				args: {
+					inpatient_record: frm.doc.name,
+					...values,
+				},
+				freeze: true,
+				freeze_message: __("Submitting discharge advice..."),
+				callback(r) {
+					if (r.message) {
+						frappe.show_alert({
+							message: __("Discharge advice {0} submitted.", [r.message.advice]),
+							indicator: "green",
+						});
+						frm.reload_doc();
+					}
+				},
+			});
+		},
+	});
+	d.show();
 }

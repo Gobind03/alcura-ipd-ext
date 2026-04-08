@@ -9,3 +9,4 @@ alcura_ipd_ext.patches.v0_0_6.setup_clinical_order_sla_defaults
 alcura_ipd_ext.patches.v0_0_7.add_dispense_and_sample_fields
 alcura_ipd_ext.patches.v0_0_8.add_charting_indexes_and_icu_fields
 alcura_ipd_ext.patches.v0_0_9.setup_tpa_billing_module
+alcura_ipd_ext.patches.v0_0_10.add_discharge_journey_fields
