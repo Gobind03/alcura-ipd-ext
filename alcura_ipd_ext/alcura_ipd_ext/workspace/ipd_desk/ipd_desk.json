@@ -516,6 +516,50 @@
    "link_type": "Report",
    "onboard": 1,
    "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Bed Occupancy Dashboard",
+   "link_count": 0,
+   "link_to": "Bed Occupancy Dashboard",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Bed Transfer and Housekeeping",
+   "link_count": 0,
+   "link_to": "Bed Transfer and Housekeeping",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "ADT Census",
+   "link_count": 0,
+   "link_to": "ADT Census",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Housekeeping TAT Report",
+   "link_count": 0,
+   "link_to": "Housekeeping TAT Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
   }
  ],
  "modified": "2026-04-08 00:00:00.000000",

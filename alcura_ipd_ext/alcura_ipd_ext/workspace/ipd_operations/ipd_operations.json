@@ -1,0 +1,230 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ipd_operations_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Operations</b></span>\",\"col\":12}},{\"id\":\"shortcut_occupancy_dashboard\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Occupancy Dashboard\",\"col\":3}},{\"id\":\"shortcut_live_bed_board\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Bed Board\",\"col\":3}},{\"id\":\"shortcut_adt_census\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADT Census\",\"col\":3}},{\"id\":\"shortcut_transfer_housekeeping\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Transfer and Housekeeping\",\"col\":3}},{\"id\":\"shortcut_bed_movement_log\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Movement Log\",\"col\":3}},{\"id\":\"shortcut_housekeeping_task\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Housekeeping Task\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2026-04-08 00:00:00.000000",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "chart-line",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "IPD Operations",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Bed Occupancy Dashboard",
+   "link_count": 0,
+   "link_to": "Bed Occupancy Dashboard",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Bed Transfer and Housekeeping",
+   "link_count": 0,
+   "link_to": "Bed Transfer and Housekeeping",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "ADT Census",
+   "link_count": 0,
+   "link_to": "ADT Census",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Live Bed Board",
+   "link_count": 0,
+   "link_to": "Live Bed Board",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Housekeeping TAT Report",
+   "link_count": 0,
+   "link_to": "Housekeeping TAT Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Doctor Census",
+   "link_count": 0,
+   "link_to": "Doctor Census",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Ward",
+   "link_count": 0,
+   "link_to": "Hospital Ward",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Bed",
+   "link_count": 0,
+   "link_to": "Hospital Bed",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Room",
+   "link_count": 0,
+   "link_to": "Hospital Room",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inpatient Record",
+   "link_count": 0,
+   "link_to": "Inpatient Record",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bed Movement Log",
+   "link_count": 0,
+   "link_to": "Bed Movement Log",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bed Housekeeping Task",
+   "link_count": 0,
+   "link_to": "Bed Housekeeping Task",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Operations",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "Healthcare",
+ "roles": [],
+ "sequence_id": 25.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Bed Occupancy Dashboard",
+   "link_to": "Bed Occupancy Dashboard",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "",
+   "label": "Live Bed Board",
+   "link_to": "Live Bed Board",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "",
+   "label": "ADT Census",
+   "link_to": "ADT Census",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "",
+   "label": "Bed Transfer and Housekeeping",
+   "link_to": "Bed Transfer and Housekeeping",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Bed Movement Log",
+   "link_to": "Bed Movement Log",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Bed Housekeeping Task",
+   "link_to": "Bed Housekeeping Task",
+   "stats_filter": "{\"status\":[\"in\",[\"Pending\",\"In Progress\"]]}",
+   "type": "DocType"
+  }
+ ],
+ "title": "IPD Operations"
+}
