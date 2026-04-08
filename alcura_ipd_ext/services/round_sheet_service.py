@@ -65,6 +65,9 @@ def get_doctor_census(
 			ir.custom_last_progress_note_date.as_("last_progress_note"),
 			ir.custom_last_vitals_at.as_("last_vitals_at"),
 			ir.custom_overdue_charts_count.as_("overdue_charts"),
+			ir.custom_active_lab_orders.as_("pending_tests"),
+			ir.custom_due_meds_count.as_("due_meds"),
+			ir.custom_critical_alerts_count.as_("critical_alerts"),
 		)
 		.where(ir.primary_practitioner == practitioner)
 		.where(ir.status == "Admitted")

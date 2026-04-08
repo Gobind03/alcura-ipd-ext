@@ -1,15 +1,23 @@
-"""Protocol Compliance Report — shows compliance by bundle type, ward, and date."""
+"""Protocol Compliance Report (US-L4).
+
+Shows protocol adherence for ICU/CICU/MICU and other units with compliance
+scoring, step-level detail, and summary metrics.
+"""
 
 from __future__ import annotations
 
 import frappe
 from frappe import _
+from frappe.utils import time_diff_in_seconds
 
 
 def execute(filters=None):
+	filters = filters or {}
 	columns = get_columns()
-	data = get_data(filters or {})
-	return columns, data
+	data = get_data(filters)
+	report_summary = _get_report_summary(data)
+	chart = _get_chart(data)
+	return columns, data, None, chart, report_summary
 
 
 def get_columns():
@@ -39,6 +47,12 @@ def get_columns():
 			"label": _("Patient"),
 			"fieldtype": "Link",
 			"options": "Patient",
+			"width": 120,
+		},
+		{
+			"fieldname": "patient_name",
+			"label": _("Patient Name"),
+			"fieldtype": "Data",
 			"width": 140,
 		},
 		{
@@ -79,6 +93,12 @@ def get_columns():
 			"width": 80,
 		},
 		{
+			"fieldname": "delayed_steps",
+			"label": _("Delayed"),
+			"fieldtype": "Int",
+			"width": 80,
+		},
+		{
 			"fieldname": "activated_at",
 			"label": _("Activated"),
 			"fieldtype": "Datetime",
@@ -107,6 +127,10 @@ def get_data(filters):
 		conditions.append("apb.activated_at <= %(to_date)s")
 		values["to_date"] = filters["to_date"]
 
+	if filters.get("category"):
+		conditions.append("mpb.category = %(category)s")
+		values["category"] = filters["category"]
+
 	where = " AND ".join(conditions) if conditions else "1=1"
 
 	bundles = frappe.db.sql(
@@ -130,34 +154,201 @@ def get_data(filters):
 		as_dict=True,
 	)
 
-	for row in bundles:
-		row["ward"] = frappe.db.get_value(
-			"Inpatient Record",
-			row.get("inpatient_record"),
-			"custom_current_ward",
-		)
+	if not bundles:
+		return []
 
-		step_counts = frappe.db.sql(
-			"""
-			SELECT
-				COUNT(*) AS total,
-				SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed,
-				SUM(CASE WHEN status = 'Missed' THEN 1 ELSE 0 END) AS missed
-			FROM `tabProtocol Step Tracker`
-			WHERE parent = %(bundle)s
-			""",
-			{"bundle": row["active_bundle"]},
-			as_dict=True,
-		)
-		if step_counts:
-			row["total_steps"] = step_counts[0].total or 0
-			row["completed_steps"] = step_counts[0].completed or 0
-			row["missed_steps"] = step_counts[0].missed or 0
+	ir_names = list({b["inpatient_record"] for b in bundles if b.get("inpatient_record")})
+	ir_data = _batch_ir_data(ir_names)
+
+	icu_ward_filter = filters.get("unit_type")
+	icu_wards = set()
+	if icu_ward_filter:
+		icu_wards = _get_wards_by_unit_type(icu_ward_filter)
+
+	bundle_names = [b["active_bundle"] for b in bundles]
+	step_counts = _batch_step_counts(bundle_names)
+
+	result = []
+	for row in bundles:
+		ir_info = ir_data.get(row.get("inpatient_record"), {})
+		row["ward"] = ir_info.get("ward", "")
+		row["patient_name"] = ir_info.get("patient_name", "")
 
 		if filters.get("ward") and row["ward"] != filters["ward"]:
 			continue
 
-	if filters.get("ward"):
-		bundles = [r for r in bundles if r.get("ward") == filters["ward"]]
+		if icu_ward_filter and row["ward"] not in icu_wards:
+			continue
 
-	return bundles
+		counts = step_counts.get(row["active_bundle"], {})
+		row["total_steps"] = counts.get("total", 0)
+		row["completed_steps"] = counts.get("completed", 0)
+		row["missed_steps"] = counts.get("missed", 0)
+		row["delayed_steps"] = counts.get("delayed", 0)
+
+		result.append(row)
+
+	return result
+
+
+@frappe.whitelist()
+def get_step_detail(active_bundle: str) -> list[dict]:
+	"""Return individual step tracker rows for drilldown display."""
+	steps = frappe.get_all(
+		"Protocol Step Tracker",
+		filters={"parent": active_bundle},
+		fields=[
+			"step_name", "step_type", "sequence", "is_mandatory",
+			"status", "due_at", "completed_at", "completed_by", "notes",
+		],
+		order_by="sequence asc",
+	)
+
+	for step in steps:
+		if step.get("completed_at") and step.get("due_at"):
+			delay_seconds = time_diff_in_seconds(step["completed_at"], step["due_at"])
+			step["delay_minutes"] = round(delay_seconds / 60, 1) if delay_seconds > 0 else 0
+		else:
+			step["delay_minutes"] = None
+
+	return steps
+
+
+# ── Batch Helpers ────────────────────────────────────────────────────
+
+
+def _batch_ir_data(ir_names: list[str]) -> dict[str, dict]:
+	"""Fetch ward and patient_name for a batch of IRs."""
+	if not ir_names:
+		return {}
+
+	rows = frappe.db.sql(
+		"""
+		SELECT name, custom_current_ward AS ward, patient_name
+		FROM `tabInpatient Record`
+		WHERE name IN %(names)s
+		""",
+		{"names": ir_names},
+		as_dict=True,
+	)
+	return {r.name: {"ward": r.ward or "", "patient_name": r.patient_name or ""} for r in rows}
+
+
+def _batch_step_counts(bundle_names: list[str]) -> dict[str, dict]:
+	"""Fetch step counts (total, completed, missed, delayed) per bundle."""
+	if not bundle_names:
+		return {}
+
+	rows = frappe.db.sql(
+		"""
+		SELECT
+			parent,
+			COUNT(*) AS total,
+			SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed,
+			SUM(CASE WHEN status = 'Missed' THEN 1 ELSE 0 END) AS missed,
+			SUM(
+				CASE WHEN status = 'Completed' AND completed_at > due_at
+				THEN 1 ELSE 0 END
+			) AS delayed
+		FROM `tabProtocol Step Tracker`
+		WHERE parent IN %(names)s
+		GROUP BY parent
+		""",
+		{"names": bundle_names},
+		as_dict=True,
+	)
+	return {
+		r.parent: {
+			"total": r.total or 0,
+			"completed": r.completed or 0,
+			"missed": r.missed or 0,
+			"delayed": r.delayed or 0,
+		}
+		for r in rows
+	}
+
+
+def _get_wards_by_unit_type(unit_type: str) -> set[str]:
+	"""Return set of Hospital Ward names whose Healthcare Service Unit Type
+	matches the given category (e.g. ICU, CICU, MICU)."""
+	wards = frappe.db.sql(
+		"""
+		SELECT hw.name
+		FROM `tabHospital Ward` hw
+		INNER JOIN `tabHealthcare Service Unit Type` hsut
+			ON hsut.name = hw.service_unit_type
+		WHERE hsut.ipd_room_category = %(unit_type)s
+		""",
+		{"unit_type": unit_type},
+		as_dict=True,
+	)
+	return {w.name for w in wards}
+
+
+def _get_report_summary(data: list[dict]) -> list[dict]:
+	if not data:
+		return []
+
+	total = len(data)
+	scores = [r.get("compliance_score") or 0 for r in data]
+	avg_score = round(sum(scores) / total, 1) if total else 0
+	total_missed = sum(r.get("missed_steps") or 0 for r in data)
+	total_delayed = sum(r.get("delayed_steps") or 0 for r in data)
+	full_compliance = sum(1 for s in scores if s >= 100)
+
+	return [
+		{"value": total, "label": _("Total Bundles"), "datatype": "Int"},
+		{
+			"value": avg_score,
+			"label": _("Avg Compliance"),
+			"datatype": "Percent",
+			"indicator": "red" if avg_score < 80 else ("orange" if avg_score < 95 else "green"),
+		},
+		{
+			"value": full_compliance,
+			"label": _("Full Compliance"),
+			"datatype": "Int",
+			"indicator": "green",
+		},
+		{
+			"value": total_missed,
+			"label": _("Total Missed Steps"),
+			"datatype": "Int",
+			"indicator": "red" if total_missed else "green",
+		},
+		{
+			"value": total_delayed,
+			"label": _("Delayed Steps"),
+			"datatype": "Int",
+			"indicator": "orange" if total_delayed else "green",
+		},
+	]
+
+
+def _get_chart(data: list[dict]) -> dict | None:
+	if not data:
+		return None
+
+	category_scores: dict[str, list[float]] = {}
+	for row in data:
+		cat = row.get("category") or "Uncategorised"
+		score = row.get("compliance_score") or 0
+		category_scores.setdefault(cat, []).append(score)
+
+	if not category_scores:
+		return None
+
+	labels = sorted(category_scores.keys())
+	avg_values = [
+		round(sum(category_scores[c]) / len(category_scores[c]), 1)
+		for c in labels
+	]
+
+	return {
+		"data": {
+			"labels": labels,
+			"datasets": [{"name": _("Avg Compliance %"), "values": avg_values}],
+		},
+		"type": "bar",
+		"colors": ["#36a2eb"],
+	}

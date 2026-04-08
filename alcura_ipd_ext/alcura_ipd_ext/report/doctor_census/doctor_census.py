@@ -1,8 +1,9 @@
-"""Doctor Census — Script Report (US-E5).
+"""Doctor Census — Script Report (US-E5 / US-L1).
 
 Shows all admitted patients for a practitioner with round-relevant
-summary data: location, days admitted, active problems, last progress
-note, last vitals, allergy alerts, and overdue charts.
+summary data: location, days admitted, active problems, pending tests,
+due medications, critical alerts, last progress note, last vitals,
+allergy alerts, and overdue charts.
 """
 
 from __future__ import annotations
@@ -16,7 +17,8 @@ def execute(filters: dict | None = None) -> tuple[list[dict], list[dict]]:
 	filters = filters or {}
 	columns = _get_columns()
 	data = _get_data(filters)
-	return columns, data
+	report_summary = _get_report_summary(data)
+	return columns, data, None, None, report_summary
 
 
 def _get_columns() -> list[dict]:
@@ -78,6 +80,24 @@ def _get_columns() -> list[dict]:
 			"width": 80,
 		},
 		{
+			"fieldname": "pending_tests",
+			"label": _("Pending Tests"),
+			"fieldtype": "Int",
+			"width": 90,
+		},
+		{
+			"fieldname": "due_meds",
+			"label": _("Due Meds"),
+			"fieldtype": "Int",
+			"width": 80,
+		},
+		{
+			"fieldname": "critical_alerts",
+			"label": _("Critical"),
+			"fieldtype": "Int",
+			"width": 70,
+		},
+		{
 			"fieldname": "last_progress_note",
 			"label": _("Last Note"),
 			"fieldtype": "Date",
@@ -133,6 +153,9 @@ def _get_data(filters: dict) -> list[dict]:
 			ir.custom_last_progress_note_date.as_("last_progress_note"),
 			ir.custom_last_vitals_at.as_("last_vitals_at"),
 			ir.custom_overdue_charts_count.as_("overdue_charts"),
+			ir.custom_active_lab_orders.as_("pending_tests"),
+			ir.custom_due_meds_count.as_("due_meds"),
+			ir.custom_critical_alerts_count.as_("critical_alerts"),
 		)
 		.where(ir.primary_practitioner == filters["practitioner"])
 		.where(ir.status == "Admitted")
@@ -155,3 +178,36 @@ def _get_data(filters: dict) -> list[dict]:
 		row["days_admitted"] = date_diff(today_date, admission) + 1
 
 	return rows
+
+
+def _get_report_summary(data: list[dict]) -> list[dict]:
+	"""Summary cards shown above the report grid."""
+	if not data:
+		return []
+
+	total = len(data)
+	with_critical = sum(1 for r in data if r.get("critical_alerts"))
+	with_overdue = sum(1 for r in data if r.get("overdue_charts"))
+	pending_tests_total = sum(r.get("pending_tests") or 0 for r in data)
+
+	return [
+		{"value": total, "label": _("Total Patients"), "datatype": "Int"},
+		{
+			"value": with_critical,
+			"label": _("With Critical Alerts"),
+			"datatype": "Int",
+			"indicator": "red" if with_critical else "green",
+		},
+		{
+			"value": with_overdue,
+			"label": _("Overdue Charts"),
+			"datatype": "Int",
+			"indicator": "orange" if with_overdue else "green",
+		},
+		{
+			"value": pending_tests_total,
+			"label": _("Pending Tests"),
+			"datatype": "Int",
+			"indicator": "blue",
+		},
+	]
