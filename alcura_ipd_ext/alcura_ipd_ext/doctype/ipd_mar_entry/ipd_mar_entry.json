@@ -1,0 +1,324 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "patient",
+  "inpatient_record",
+  "column_break_med",
+  "medication_name",
+  "medication_item",
+  "section_break_dosage",
+  "dose",
+  "dose_uom",
+  "route",
+  "column_break_timing",
+  "scheduled_time",
+  "administered_at",
+  "section_break_status",
+  "administration_status",
+  "hold_reason",
+  "refusal_reason",
+  "delay_reason",
+  "delay_minutes",
+  "column_break_admin",
+  "administered_by",
+  "witness",
+  "site",
+  "shift",
+  "dispense_entry",
+  "section_break_location",
+  "ward",
+  "bed",
+  "column_break_correction",
+  "status",
+  "is_correction",
+  "corrects_entry",
+  "correction_reason",
+  "clinical_order",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "MAR-.#####",
+   "reqd": 1,
+   "default": "MAR-.#####"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_med",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "medication_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "medication_item",
+   "fieldtype": "Link",
+   "label": "Medication Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "section_break_dosage",
+   "fieldtype": "Section Break",
+   "label": "Dosage"
+  },
+  {
+   "fieldname": "dose",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Dose"
+  },
+  {
+   "fieldname": "dose_uom",
+   "fieldtype": "Data",
+   "label": "Dose UOM"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Route",
+   "options": "\nOral\nIV\nIM\nSC\nTopical\nInhalation\nRectal\nSublingual\nOther"
+  },
+  {
+   "fieldname": "column_break_timing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "scheduled_time",
+   "fieldtype": "Datetime",
+   "label": "Scheduled Time",
+   "search_index": 1
+  },
+  {
+   "fieldname": "administered_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Administered At",
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Administration Status"
+  },
+  {
+   "default": "Scheduled",
+   "fieldname": "administration_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Administration Status",
+   "options": "Scheduled\nGiven\nHeld\nRefused\nMissed\nDelayed\nSelf-Administered",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.administration_status === 'Held'",
+   "fieldname": "hold_reason",
+   "fieldtype": "Small Text",
+   "label": "Hold Reason"
+  },
+  {
+   "depends_on": "eval:doc.administration_status === 'Refused'",
+   "fieldname": "refusal_reason",
+   "fieldtype": "Small Text",
+   "label": "Refusal Reason"
+  },
+  {
+   "fieldname": "delay_reason",
+   "fieldtype": "Small Text",
+   "label": "Delay Reason",
+   "depends_on": "eval:doc.administration_status === 'Delayed'",
+   "mandatory_depends_on": "eval:doc.administration_status === 'Delayed'"
+  },
+  {
+   "fieldname": "delay_minutes",
+   "fieldtype": "Int",
+   "label": "Delay (Minutes)",
+   "depends_on": "eval:doc.administration_status === 'Delayed'"
+  },
+  {
+   "fieldname": "column_break_admin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "administered_by",
+   "fieldtype": "Link",
+   "label": "Administered By",
+   "options": "User"
+  },
+  {
+   "fieldname": "witness",
+   "fieldtype": "Link",
+   "label": "Witness",
+   "options": "User",
+   "description": "For controlled substances"
+  },
+  {
+   "fieldname": "site",
+   "fieldtype": "Data",
+   "label": "Administration Site",
+   "description": "Injection/IV site"
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "label": "Shift",
+   "options": "\nMorning\nAfternoon\nNight",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "dispense_entry",
+   "fieldtype": "Link",
+   "label": "Dispense Entry",
+   "options": "IPD Dispense Entry",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_location",
+   "fieldtype": "Section Break",
+   "label": "Location & Correction"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_correction",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nCorrected",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": 0,
+   "fieldname": "is_correction",
+   "fieldtype": "Check",
+   "label": "Is Correction"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "corrects_entry",
+   "fieldtype": "Link",
+   "label": "Corrects Entry",
+   "options": "IPD MAR Entry"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "correction_reason",
+   "fieldtype": "Small Text",
+   "label": "Correction Reason"
+  },
+  {
+   "fieldname": "clinical_order",
+   "fieldtype": "Link",
+   "label": "Clinical Order",
+   "options": "IPD Clinical Order",
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD MAR Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,medication_name,administration_status,scheduled_time",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

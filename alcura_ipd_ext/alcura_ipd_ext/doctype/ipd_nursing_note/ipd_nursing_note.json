@@ -1,0 +1,219 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "patient",
+  "inpatient_record",
+  "note_datetime",
+  "column_break_note",
+  "category",
+  "urgency",
+  "section_break_text",
+  "note_text",
+  "section_break_location",
+  "ward",
+  "bed",
+  "column_break_audit",
+  "recorded_by",
+  "section_break_addendum",
+  "status",
+  "is_addendum",
+  "addendum_to",
+  "column_break_addendum",
+  "addendum_reason"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "NN-.#####",
+   "reqd": 1,
+   "default": "NN-.#####"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "note_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Note Date/Time",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_note",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "General",
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "Assessment\nIntervention\nResponse\nHandoff\nEscalation\nGeneral\nOther",
+   "reqd": 1
+  },
+  {
+   "default": "Routine",
+   "fieldname": "urgency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Urgency",
+   "options": "Routine\nUrgent\nCritical"
+  },
+  {
+   "fieldname": "section_break_text",
+   "fieldtype": "Section Break",
+   "label": "Note"
+  },
+  {
+   "fieldname": "note_text",
+   "fieldtype": "Text Editor",
+   "label": "Note Text",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_location",
+   "fieldtype": "Section Break",
+   "label": "Location & Audit"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:!doc.is_addendum",
+   "fieldname": "section_break_addendum",
+   "fieldtype": "Section Break",
+   "label": "Addendum"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nAmended",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": 0,
+   "fieldname": "is_addendum",
+   "fieldtype": "Check",
+   "label": "Is Addendum"
+  },
+  {
+   "depends_on": "eval:doc.is_addendum",
+   "fieldname": "addendum_to",
+   "fieldtype": "Link",
+   "label": "Addendum To",
+   "options": "IPD Nursing Note"
+  },
+  {
+   "fieldname": "column_break_addendum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.is_addendum",
+   "fieldname": "addendum_reason",
+   "fieldtype": "Small Text",
+   "label": "Addendum Reason"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Nursing Note",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,category,urgency,note_datetime",
+ "sort_field": "note_datetime",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

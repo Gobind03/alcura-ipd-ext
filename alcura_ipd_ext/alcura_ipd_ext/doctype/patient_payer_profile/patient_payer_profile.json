@@ -1,0 +1,396 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "identity_section",
+  "patient",
+  "patient_name",
+  "column_break_identity",
+  "payer_type",
+  "company",
+  "payer_details_section",
+  "payer",
+  "insurance_payor",
+  "insurance_policy",
+  "column_break_payer_details",
+  "employer_name",
+  "scheme_name",
+  "tpa_name",
+  "member_details_section",
+  "policy_number",
+  "member_id",
+  "column_break_member",
+  "relationship_to_primary",
+  "primary_holder_name",
+  "validity_section",
+  "valid_from",
+  "valid_to",
+  "column_break_validity",
+  "sum_insured",
+  "balance_available",
+  "sub_limit_per_visit",
+  "room_category_entitlement",
+  "billing_rules_section",
+  "preauth_required",
+  "co_pay_percent",
+  "column_break_billing",
+  "deductible_amount",
+  "default_price_list",
+  "status_section",
+  "is_active",
+  "column_break_status",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "PPP-.YYYY.-.#####",
+   "print_hide": 1,
+   "report_hide": 1,
+   "default": "PPP-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Identity"
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "default": "Cash",
+   "fieldname": "payer_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Payer Type",
+   "options": "Cash\nCorporate\nInsurance TPA\nPSU\nGovernment Scheme",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "default": ":Company",
+   "reqd": 1,
+   "search_index": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "depends_on": "eval:doc.payer_type !== 'Cash'",
+   "fieldname": "payer_details_section",
+   "fieldtype": "Section Break",
+   "label": "Payer Details"
+  },
+  {
+   "depends_on": "eval:['Corporate','PSU'].includes(doc.payer_type)",
+   "fieldname": "payer",
+   "fieldtype": "Link",
+   "label": "Payer (Customer)",
+   "mandatory_depends_on": "eval:['Corporate','PSU'].includes(doc.payer_type)",
+   "options": "Customer",
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.payer_type === 'Insurance TPA'",
+   "fieldname": "insurance_payor",
+   "fieldtype": "Link",
+   "label": "Insurance Payor",
+   "mandatory_depends_on": "eval:doc.payer_type === 'Insurance TPA'",
+   "options": "Insurance Payor",
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.payer_type === 'Insurance TPA'",
+   "fieldname": "insurance_policy",
+   "fieldtype": "Link",
+   "label": "Insurance Policy",
+   "options": "Patient Insurance Policy"
+  },
+  {
+   "fieldname": "column_break_payer_details",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:['Corporate','PSU','Government Scheme'].includes(doc.payer_type)",
+   "fieldname": "employer_name",
+   "fieldtype": "Data",
+   "label": "Employer / Organization"
+  },
+  {
+   "depends_on": "eval:doc.payer_type === 'Government Scheme'",
+   "fieldname": "scheme_name",
+   "fieldtype": "Data",
+   "label": "Scheme Name",
+   "description": "e.g. CGHS, ECHS, Ayushman Bharat, MJPJAY"
+  },
+  {
+   "depends_on": "eval:doc.payer_type === 'Insurance TPA'",
+   "fetch_from": "insurance_payor.insurance_payor_name",
+   "fieldname": "tpa_name",
+   "fieldtype": "Data",
+   "label": "TPA Name",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.payer_type !== 'Cash'",
+   "fieldname": "member_details_section",
+   "fieldtype": "Section Break",
+   "label": "Member Details"
+  },
+  {
+   "fieldname": "policy_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Policy / Card Number"
+  },
+  {
+   "fieldname": "member_id",
+   "fieldtype": "Data",
+   "label": "Member ID"
+  },
+  {
+   "fieldname": "column_break_member",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Self",
+   "fieldname": "relationship_to_primary",
+   "fieldtype": "Select",
+   "label": "Relationship to Primary Holder",
+   "options": "\nSelf\nSpouse\nChild\nParent\nSibling\nDependent\nOther"
+  },
+  {
+   "depends_on": "eval:doc.relationship_to_primary && doc.relationship_to_primary !== 'Self'",
+   "fieldname": "primary_holder_name",
+   "fieldtype": "Data",
+   "label": "Primary Holder Name"
+  },
+  {
+   "fieldname": "validity_section",
+   "fieldtype": "Section Break",
+   "label": "Validity & Coverage"
+  },
+  {
+   "bold": 1,
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Valid From",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "description": "Leave blank for an open-ended profile.",
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Valid To",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_validity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sum_insured",
+   "fieldtype": "Currency",
+   "label": "Sum Insured / Credit Limit"
+  },
+  {
+   "fieldname": "balance_available",
+   "fieldtype": "Currency",
+   "label": "Balance Available"
+  },
+  {
+   "fieldname": "sub_limit_per_visit",
+   "fieldtype": "Currency",
+   "label": "Sub-Limit Per Visit"
+  },
+  {
+   "fieldname": "room_category_entitlement",
+   "fieldtype": "Select",
+   "label": "Room Category Entitlement",
+   "options": "\nGeneral\nTwin Sharing\nSemi-Private\nPrivate\nDeluxe\nSuite\nICU\nCICU\nMICU\nNICU\nPICU\nSICU\nHDU\nBurns\nIsolation\nOther"
+  },
+  {
+   "fieldname": "billing_rules_section",
+   "fieldtype": "Section Break",
+   "label": "Billing Rules",
+   "collapsible": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "preauth_required",
+   "fieldtype": "Check",
+   "label": "Pre-authorization Required"
+  },
+  {
+   "fieldname": "co_pay_percent",
+   "fieldtype": "Percent",
+   "label": "Co-pay %"
+  },
+  {
+   "fieldname": "column_break_billing",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "deductible_amount",
+   "fieldtype": "Currency",
+   "label": "Deductible Amount"
+  },
+  {
+   "fieldname": "default_price_list",
+   "fieldtype": "Link",
+   "label": "Applicable Price List",
+   "options": "Price List"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Patient",
+   "link_doctype": "Patient",
+   "link_fieldname": "name"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Patient Payer Profile",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "TPA Desk User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Receptionist",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,payer_type,policy_number,member_id,insurance_payor",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

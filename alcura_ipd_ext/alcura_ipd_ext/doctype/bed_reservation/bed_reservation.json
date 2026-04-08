@@ -1,0 +1,421 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reservation_identity_section",
+  "naming_series",
+  "reservation_type",
+  "status",
+  "column_break_identity",
+  "company",
+  "patient_section",
+  "patient",
+  "patient_name",
+  "column_break_patient",
+  "consulting_practitioner",
+  "practitioner_name",
+  "bed_selection_section",
+  "service_unit_type",
+  "hospital_ward",
+  "column_break_bed",
+  "hospital_room",
+  "hospital_bed",
+  "bed_name",
+  "reservation_window_section",
+  "reservation_start",
+  "timeout_minutes",
+  "column_break_window",
+  "reservation_end",
+  "payer_section",
+  "payer_type",
+  "column_break_payer",
+  "payer",
+  "patient_payer_profile",
+  "notes_section",
+  "notes",
+  "audit_trail_section",
+  "reserved_by",
+  "reserved_on",
+  "column_break_audit_1",
+  "cancelled_by",
+  "cancelled_on",
+  "cancellation_reason",
+  "override_subsection",
+  "is_override",
+  "override_authorized_by",
+  "override_reason",
+  "consumption_subsection",
+  "expired_on",
+  "column_break_audit_2",
+  "consumed_on",
+  "consumed_by_inpatient_record"
+ ],
+ "fields": [
+  {
+   "fieldname": "reservation_identity_section",
+   "fieldtype": "Section Break",
+   "label": "Reservation Identity"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BED-RES-.#####",
+   "reqd": 1,
+   "default": "BED-RES-.#####"
+  },
+  {
+   "bold": 1,
+   "default": "Specific Bed",
+   "fieldname": "reservation_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Reservation Type",
+   "options": "Specific Bed\nRoom Type Hold",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nActive\nExpired\nCancelled\nConsumed",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient_section",
+   "fieldtype": "Section Break",
+   "label": "Patient & Consultant"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_patient",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consulting_practitioner",
+   "fieldtype": "Link",
+   "label": "Consulting Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fetch_from": "consulting_practitioner.practitioner_name",
+   "fieldname": "practitioner_name",
+   "fieldtype": "Data",
+   "label": "Practitioner Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bed_selection_section",
+   "fieldtype": "Section Break",
+   "label": "Bed Selection"
+  },
+  {
+   "fieldname": "service_unit_type",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Room Type",
+   "options": "Healthcare Service Unit Type",
+   "search_index": 1
+  },
+  {
+   "fieldname": "hospital_ward",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Hospital Ward",
+   "options": "Hospital Ward",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_bed",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.reservation_type === 'Specific Bed'",
+   "fieldname": "hospital_room",
+   "fieldtype": "Link",
+   "label": "Hospital Room",
+   "options": "Hospital Room"
+  },
+  {
+   "depends_on": "eval:doc.reservation_type === 'Specific Bed'",
+   "fieldname": "hospital_bed",
+   "fieldtype": "Link",
+   "label": "Hospital Bed",
+   "options": "Hospital Bed",
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.reservation_type === 'Specific Bed'",
+   "fetch_from": "hospital_bed.bed_label",
+   "fieldname": "bed_name",
+   "fieldtype": "Data",
+   "label": "Bed Label",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reservation_window_section",
+   "fieldtype": "Section Break",
+   "label": "Reservation Window"
+  },
+  {
+   "default": "Now",
+   "fieldname": "reservation_start",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Reservation Start",
+   "reqd": 1
+  },
+  {
+   "default": "120",
+   "fieldname": "timeout_minutes",
+   "fieldtype": "Int",
+   "label": "Timeout (Minutes)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_window",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reservation_end",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Reservation End",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "payer_section",
+   "fieldtype": "Section Break",
+   "label": "Provisional Payer"
+  },
+  {
+   "fieldname": "payer_type",
+   "fieldtype": "Select",
+   "label": "Payer Type",
+   "options": "\nCash\nCorporate\nInsurance TPA\nPSU\nGovernment Scheme"
+  },
+  {
+   "fieldname": "column_break_payer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:['Corporate','Insurance TPA','PSU','Government Scheme'].includes(doc.payer_type)",
+   "fieldname": "payer",
+   "fieldtype": "Link",
+   "label": "Payer",
+   "options": "Customer"
+  },
+  {
+   "depends_on": "eval:doc.patient",
+   "fieldname": "patient_payer_profile",
+   "fieldtype": "Link",
+   "label": "Patient Payer Profile",
+   "options": "Patient Payer Profile",
+   "description": "Select the payer profile to use for this reservation"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "audit_trail_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail"
+  },
+  {
+   "fieldname": "reserved_by",
+   "fieldtype": "Link",
+   "label": "Reserved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reserved_on",
+   "fieldtype": "Datetime",
+   "label": "Reserved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cancelled_by",
+   "fieldtype": "Link",
+   "label": "Cancelled By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_on",
+   "fieldtype": "Datetime",
+   "label": "Cancelled On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancellation_reason",
+   "fieldtype": "Small Text",
+   "label": "Cancellation Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "override_subsection",
+   "fieldtype": "Section Break",
+   "label": "Override Details",
+   "collapsible": 1,
+   "depends_on": "eval:doc.is_override"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_override",
+   "fieldtype": "Check",
+   "label": "Is Override",
+   "read_only": 1
+  },
+  {
+   "fieldname": "override_authorized_by",
+   "fieldtype": "Link",
+   "label": "Override Authorized By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "override_reason",
+   "fieldtype": "Small Text",
+   "label": "Override Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consumption_subsection",
+   "fieldtype": "Section Break",
+   "label": "Expiry / Consumption",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "expired_on",
+   "fieldtype": "Datetime",
+   "label": "Expired On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consumed_on",
+   "fieldtype": "Datetime",
+   "label": "Consumed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "consumed_by_inpatient_record",
+   "fieldtype": "Link",
+   "label": "Consumed By Inpatient Record",
+   "options": "Inpatient Record",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Related",
+   "link_doctype": "Hospital Bed",
+   "link_fieldname": "name"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Bed Reservation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,hospital_bed,hospital_ward,service_unit_type,status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

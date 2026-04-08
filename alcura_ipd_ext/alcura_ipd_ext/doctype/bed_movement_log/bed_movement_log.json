@@ -1,0 +1,344 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "movement_section",
+  "naming_series",
+  "movement_type",
+  "movement_datetime",
+  "column_break_movement",
+  "reason",
+  "patient_section",
+  "inpatient_record",
+  "patient",
+  "column_break_patient",
+  "patient_name",
+  "source_section",
+  "from_bed",
+  "from_room",
+  "from_ward",
+  "column_break_source",
+  "from_service_unit",
+  "destination_section",
+  "to_bed",
+  "to_room",
+  "to_ward",
+  "column_break_destination",
+  "to_service_unit",
+  "clinical_section",
+  "ordered_by_practitioner",
+  "column_break_clinical",
+  "practitioner_name",
+  "housekeeping_section",
+  "source_bed_action",
+  "audit_trail_section",
+  "performed_by",
+  "performed_on",
+  "column_break_audit",
+  "consumed_reservation",
+  "company"
+ ],
+ "fields": [
+  {
+   "fieldname": "movement_section",
+   "fieldtype": "Section Break",
+   "label": "Movement"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BML-.#####",
+   "reqd": 1,
+   "default": "BML-.#####"
+  },
+  {
+   "bold": 1,
+   "fieldname": "movement_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Movement Type",
+   "options": "Admission\nTransfer\nDischarge",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "default": "Now",
+   "fieldname": "movement_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Movement Date/Time",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_movement",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Small Text",
+   "label": "Reason"
+  },
+  {
+   "fieldname": "patient_section",
+   "fieldtype": "Section Break",
+   "label": "Patient"
+  },
+  {
+   "bold": 1,
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_patient",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "collapsible_depends_on": "eval:doc.movement_type === 'Admission'",
+   "fieldname": "source_section",
+   "fieldtype": "Section Break",
+   "label": "Source (From)"
+  },
+  {
+   "fieldname": "from_bed",
+   "fieldtype": "Link",
+   "label": "From Bed",
+   "options": "Hospital Bed",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "from_bed.hospital_room",
+   "fieldname": "from_room",
+   "fieldtype": "Link",
+   "label": "From Room",
+   "options": "Hospital Room",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "from_bed.hospital_ward",
+   "fieldname": "from_ward",
+   "fieldtype": "Link",
+   "label": "From Ward",
+   "options": "Hospital Ward",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_source",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "from_bed.healthcare_service_unit",
+   "fieldname": "from_service_unit",
+   "fieldtype": "Link",
+   "label": "From Service Unit",
+   "options": "Healthcare Service Unit",
+   "read_only": 1
+  },
+  {
+   "collapsible_depends_on": "eval:doc.movement_type === 'Discharge'",
+   "fieldname": "destination_section",
+   "fieldtype": "Section Break",
+   "label": "Destination (To)"
+  },
+  {
+   "fieldname": "to_bed",
+   "fieldtype": "Link",
+   "label": "To Bed",
+   "options": "Hospital Bed",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "to_bed.hospital_room",
+   "fieldname": "to_room",
+   "fieldtype": "Link",
+   "label": "To Room",
+   "options": "Hospital Room",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "to_bed.hospital_ward",
+   "fieldname": "to_ward",
+   "fieldtype": "Link",
+   "label": "To Ward",
+   "options": "Hospital Ward",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_destination",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "to_bed.healthcare_service_unit",
+   "fieldname": "to_service_unit",
+   "fieldtype": "Link",
+   "label": "To Service Unit",
+   "options": "Healthcare Service Unit",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "clinical_section",
+   "fieldtype": "Section Break",
+   "label": "Clinical"
+  },
+  {
+   "fieldname": "ordered_by_practitioner",
+   "fieldtype": "Link",
+   "label": "Ordered By Practitioner",
+   "options": "Healthcare Practitioner"
+  },
+  {
+   "fieldname": "column_break_clinical",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "ordered_by_practitioner.practitioner_name",
+   "fieldname": "practitioner_name",
+   "fieldtype": "Data",
+   "label": "Practitioner Name",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.movement_type !== 'Admission'",
+   "fieldname": "housekeeping_section",
+   "fieldtype": "Section Break",
+   "label": "Housekeeping"
+  },
+  {
+   "default": "Mark Dirty",
+   "fieldname": "source_bed_action",
+   "fieldtype": "Select",
+   "label": "Source Bed Action",
+   "options": "Mark Dirty\nMark Vacant\nNo Change"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "audit_trail_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail"
+  },
+  {
+   "default": "",
+   "fieldname": "performed_by",
+   "fieldtype": "Link",
+   "label": "Performed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "performed_on",
+   "fieldtype": "Datetime",
+   "label": "Performed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "consumed_reservation",
+   "fieldtype": "Link",
+   "label": "Consumed Reservation",
+   "options": "Bed Reservation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Related",
+   "link_doctype": "Inpatient Record",
+   "link_fieldname": "inpatient_record"
+  },
+  {
+   "group": "Related",
+   "link_doctype": "Hospital Bed",
+   "link_fieldname": "to_bed"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Bed Movement Log",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0,
+   "write": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,inpatient_record,movement_type,from_bed,to_bed",
+ "sort_field": "movement_datetime",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

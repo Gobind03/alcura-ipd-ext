@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "Page",
+ "icon": "flask",
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "lab-queue",
+ "owner": "Administrator",
+ "page_name": "lab-queue",
+ "roles": [
+  {"role": "Laboratory User"},
+  {"role": "Healthcare Administrator"}
+ ],
+ "standard": "Yes",
+ "system_page": 0,
+ "title": "Lab Queue"
+}

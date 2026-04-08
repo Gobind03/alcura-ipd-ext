@@ -1,0 +1,50 @@
+[project]
+name = "alcura_ipd_ext"
+authors = [
+    { name = "Alcura", email = "dev@alcura.io" },
+]
+description = "Alcura IPD Extensions for Frappe/ERPNext Healthcare"
+requires-python = ">=3.11"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = []
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench]
+frappe-version = ">=16.0.0"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "F",   # pyflakes
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+]
+ignore = [
+    "E501", # line too long (handled by formatter)
+    "B017", # pytest.raises(Exception)
+]
+
+[tool.ruff.lint.isort]
+known-third-party = ["frappe", "erpnext"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "tab"
+
+[tool.pytest.ini_options]
+addopts = "--tb=short -q"
+testpaths = ["alcura_ipd_ext/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

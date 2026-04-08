@@ -1,0 +1,249 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ipd_setup_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Setup</b></span>\",\"col\":12}},{\"id\":\"shortcut_hospital_ward\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hospital Ward\",\"col\":3}},{\"id\":\"shortcut_hospital_room\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hospital Room\",\"col\":3}},{\"id\":\"shortcut_hospital_bed\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hospital Bed\",\"col\":3}},{\"id\":\"shortcut_hsut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Healthcare Service Unit Type\",\"col\":3}},{\"id\":\"shortcut_room_tariff\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Tariff Mapping\",\"col\":3}},{\"id\":\"shortcut_bed_policy\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Bed Policy\",\"col\":3}},{\"id\":\"shortcut_live_bed_board\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Bed Board\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2026-04-08 00:00:00.000000",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "hospital",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "IPD Setup",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Ward",
+   "link_count": 0,
+   "link_to": "Hospital Ward",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Room",
+   "link_count": 0,
+   "link_to": "Hospital Room",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Bed",
+   "link_count": 0,
+   "link_to": "Hospital Bed",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Healthcare Service Unit Type",
+   "link_count": 0,
+   "link_to": "Healthcare Service Unit Type",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Bed Policy",
+   "link_count": 0,
+   "link_to": "IPD Bed Policy",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Admission Checklist Template",
+   "link_count": 0,
+   "link_to": "Admission Checklist Template",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ICU Monitoring",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ICU Monitoring Profile",
+   "link_count": 0,
+   "link_to": "ICU Monitoring Profile",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Device Observation Mapping",
+   "link_count": 0,
+   "link_to": "Device Observation Mapping",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Monitoring Protocol Bundle",
+   "link_count": 0,
+   "link_to": "Monitoring Protocol Bundle",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tariffs",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Room Tariff Mapping",
+   "link_count": 0,
+   "link_to": "Room Tariff Mapping",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Live Bed Board",
+   "link_count": 0,
+   "link_to": "Live Bed Board",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Setup",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "Healthcare",
+ "roles": [],
+ "sequence_id": 10.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Hospital Ward",
+   "link_to": "Hospital Ward",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Hospital Room",
+   "link_to": "Hospital Room",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Hospital Bed",
+   "link_to": "Hospital Bed",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Healthcare Service Unit Type",
+   "link_to": "Healthcare Service Unit Type",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Room Tariff Mapping",
+   "link_to": "Room Tariff Mapping",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "IPD Bed Policy",
+   "link_to": "IPD Bed Policy",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Live Bed Board",
+   "link_to": "Live Bed Board",
+   "stats_filter": "",
+   "type": "Report"
+  }
+ ],
+ "title": "IPD Setup"
+}

@@ -1,0 +1,195 @@
+{%- set ctx = get_admission_label_context(doc.name) -%}
+<style>
+	.file-cover {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 12px;
+		line-height: 1.5;
+		padding: 10mm;
+		max-width: 190mm;
+	}
+	.file-cover-header {
+		text-align: center;
+		margin-bottom: 8mm;
+		border-bottom: 2px solid #333;
+		padding-bottom: 4mm;
+	}
+	.file-cover-title {
+		font-size: 18px;
+		font-weight: bold;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+	}
+	.file-cover-company {
+		font-size: 14px;
+		color: #555;
+		margin-top: 2mm;
+	}
+	.file-cover-section {
+		margin-bottom: 6mm;
+	}
+	.file-cover-section-title {
+		font-size: 13px;
+		font-weight: bold;
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 1mm;
+		margin-bottom: 3mm;
+		text-transform: uppercase;
+		color: #333;
+	}
+	.file-cover-grid {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.file-cover-field {
+		width: 50%;
+		margin-bottom: 2mm;
+		display: flex;
+	}
+	.file-cover-field.full-width {
+		width: 100%;
+	}
+	.file-cover-label {
+		font-weight: bold;
+		color: #555;
+		min-width: 35mm;
+		flex-shrink: 0;
+	}
+	.file-cover-value {
+		flex: 1;
+	}
+	.file-cover-codes {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-top: 6mm;
+		padding-top: 4mm;
+		border-top: 1px solid #ccc;
+	}
+	.file-cover-barcode {
+		text-align: center;
+	}
+	.file-cover-barcode svg {
+		max-width: 60mm;
+		height: 15mm;
+	}
+	.file-cover-qr {
+		text-align: center;
+	}
+	.file-cover-qr img {
+		width: 25mm !important;
+		height: 25mm !important;
+	}
+	.file-cover-allergy {
+		color: #d32f2f;
+		font-weight: bold;
+		font-size: 14px;
+		border: 2px solid #d32f2f;
+		padding: 3mm 5mm;
+		text-align: center;
+		margin-top: 4mm;
+	}
+	.file-cover-sticker-area {
+		margin-top: 8mm;
+		border: 1px dashed #ccc;
+		min-height: 40mm;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #ccc;
+		font-size: 11px;
+	}
+</style>
+
+<div class="file-cover">
+	<div class="file-cover-header">
+		<div class="file-cover-title">Inpatient Record</div>
+		<div class="file-cover-company">{{ ctx.company }}</div>
+	</div>
+
+	{%- if ctx.allergy_html %}
+	<div class="file-cover-allergy">!! ALLERGY ALERT — {{ ctx.allergy_html }} !!</div>
+	{%- endif %}
+
+	<div class="file-cover-section">
+		<div class="file-cover-section-title">Patient Information</div>
+		<div class="file-cover-grid">
+			<div class="file-cover-field">
+				<span class="file-cover-label">Patient Name:</span>
+				<span class="file-cover-value"><strong>{{ ctx.patient_name }}</strong></span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">MR Number:</span>
+				<span class="file-cover-value">{{ ctx.mr_number or ctx.patient_id }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Sex / Age:</span>
+				<span class="file-cover-value">{{ ctx.sex }}{% if ctx.age %} / {{ ctx.age }}{% endif %}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Date of Birth:</span>
+				<span class="file-cover-value">{{ ctx.dob }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Blood Group:</span>
+				<span class="file-cover-value">{{ ctx.blood_group or '-' }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Mobile:</span>
+				<span class="file-cover-value">{{ ctx.mobile or '-' }}</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="file-cover-section">
+		<div class="file-cover-section-title">Admission Details</div>
+		<div class="file-cover-grid">
+			<div class="file-cover-field">
+				<span class="file-cover-label">IPD Number:</span>
+				<span class="file-cover-value"><strong>{{ ctx.ir_name }}</strong></span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Admission Date:</span>
+				<span class="file-cover-value">{{ ctx.admission_date }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Consultant:</span>
+				<span class="file-cover-value">{{ ctx.practitioner }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Department:</span>
+				<span class="file-cover-value">{{ ctx.medical_department }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Ward:</span>
+				<span class="file-cover-value">{{ ctx.ward_name }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Room / Bed:</span>
+				<span class="file-cover-value">{{ ctx.room_name }} / {{ ctx.bed_label or ctx.bed }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Priority:</span>
+				<span class="file-cover-value">{{ ctx.admission_priority }}</span>
+			</div>
+			<div class="file-cover-field">
+				<span class="file-cover-label">Payer:</span>
+				<span class="file-cover-value">{{ ctx.payer_display }}</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="file-cover-codes">
+		<div class="file-cover-barcode">
+			<div style="font-size: 9px; color: #888; margin-bottom: 1mm;">{{ ctx.ir_name }}</div>
+			{{ ctx.barcode }}
+		</div>
+		<div class="file-cover-qr">
+			{{ ctx.qr_code }}
+			<div style="font-size: 8px; color: #888; margin-top: 1mm;">Bedside Profile</div>
+		</div>
+	</div>
+
+	<div class="file-cover-sticker-area">
+		Sticker / Label Area
+	</div>
+</div>

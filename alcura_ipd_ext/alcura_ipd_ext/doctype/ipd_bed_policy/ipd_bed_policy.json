@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "availability_exclusion_section",
+  "exclude_dirty_beds",
+  "exclude_cleaning_beds",
+  "column_break_excl_1",
+  "exclude_maintenance_beds",
+  "exclude_infection_blocked",
+  "gender_policy_section",
+  "gender_enforcement",
+  "cleaning_section",
+  "cleaning_turnaround_sla_minutes",
+  "column_break_cleaning",
+  "auto_mark_dirty_on_discharge",
+  "reservation_section",
+  "reservation_timeout_minutes",
+  "payer_eligibility_section",
+  "enforce_payer_eligibility",
+  "column_break_payer_elig",
+  "enforce_eligibility_verification",
+  "buffer_section",
+  "min_buffer_beds_per_ward"
+ ],
+ "fields": [
+  {
+   "fieldname": "availability_exclusion_section",
+   "fieldtype": "Section Break",
+   "label": "Availability Exclusion Rules",
+   "description": "Control which bed statuses are excluded from the available bed count and the Live Bed Board."
+  },
+  {
+   "default": "1",
+   "fieldname": "exclude_dirty_beds",
+   "fieldtype": "Check",
+   "label": "Exclude Dirty Beds",
+   "description": "Vacant beds with housekeeping status 'Dirty' will not appear as available."
+  },
+  {
+   "default": "1",
+   "fieldname": "exclude_cleaning_beds",
+   "fieldtype": "Check",
+   "label": "Exclude Beds Being Cleaned",
+   "description": "Vacant beds with housekeeping status 'In Progress' will not appear as available."
+  },
+  {
+   "fieldname": "column_break_excl_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "exclude_maintenance_beds",
+   "fieldtype": "Check",
+   "label": "Exclude Maintenance-Hold Beds",
+   "description": "Beds under maintenance hold will not appear as available."
+  },
+  {
+   "default": "1",
+   "fieldname": "exclude_infection_blocked",
+   "fieldtype": "Check",
+   "label": "Exclude Infection-Blocked Beds",
+   "description": "Beds with an active infection block will not appear as available."
+  },
+  {
+   "fieldname": "gender_policy_section",
+   "fieldtype": "Section Break",
+   "label": "Gender Policy"
+  },
+  {
+   "default": "Strict",
+   "fieldname": "gender_enforcement",
+   "fieldtype": "Select",
+   "label": "Gender Enforcement",
+   "options": "Strict\nAdvisory\nIgnore",
+   "description": "Strict: hard-filter beds by gender restriction. Advisory: show warning but include. Ignore: no gender filtering."
+  },
+  {
+   "fieldname": "cleaning_section",
+   "fieldtype": "Section Break",
+   "label": "Cleaning & Turnaround"
+  },
+  {
+   "default": "60",
+   "fieldname": "cleaning_turnaround_sla_minutes",
+   "fieldtype": "Int",
+   "label": "Cleaning Turnaround SLA (Minutes)",
+   "description": "Expected turnaround time for housekeeping after a bed is vacated."
+  },
+  {
+   "fieldname": "column_break_cleaning",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "auto_mark_dirty_on_discharge",
+   "fieldtype": "Check",
+   "label": "Auto-Mark Dirty on Discharge",
+   "description": "Automatically set housekeeping status to 'Dirty' when a bed is vacated."
+  },
+  {
+   "fieldname": "reservation_section",
+   "fieldtype": "Section Break",
+   "label": "Reservation",
+   "collapsible": 1
+  },
+  {
+   "default": "120",
+   "fieldname": "reservation_timeout_minutes",
+   "fieldtype": "Int",
+   "label": "Reservation Timeout (Minutes)",
+   "description": "How long a bed reservation holds before auto-release. Used by future bed allocation workflows."
+  },
+  {
+   "fieldname": "payer_eligibility_section",
+   "fieldtype": "Section Break",
+   "label": "Payer Eligibility"
+  },
+  {
+   "default": "Advisory",
+   "fieldname": "enforce_payer_eligibility",
+   "fieldtype": "Select",
+   "label": "Enforce Payer Eligibility",
+   "options": "Strict\nAdvisory\nIgnore",
+   "description": "Strict: hide beds without a tariff for the selected payer. Advisory: flag but still show. Ignore: no payer filtering."
+  },
+  {
+   "fieldname": "column_break_payer_elig",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Advisory",
+   "fieldname": "enforce_eligibility_verification",
+   "fieldtype": "Select",
+   "label": "Enforce Eligibility Verification",
+   "options": "Strict\nAdvisory\nIgnore",
+   "description": "Strict: block admission without verified eligibility for non-Cash payers. Advisory: warn but allow. Ignore: no eligibility check at admission."
+  },
+  {
+   "fieldname": "buffer_section",
+   "fieldtype": "Section Break",
+   "label": "Ward Buffer",
+   "collapsible": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "min_buffer_beds_per_ward",
+   "fieldtype": "Int",
+   "label": "Minimum Buffer Beds per Ward",
+   "description": "Minimum beds to keep unallocated per ward for emergency use. Used by future allocation workflows."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Bed Policy",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Nursing User"
+  },
+  {
+   "read": 1,
+   "role": "Physician"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

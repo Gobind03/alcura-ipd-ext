@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "autoname": "format:{source_device_type}-{chart_template}",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "source_device_type",
+  "chart_template",
+  "column_break_flags",
+  "is_active",
+  "requires_manual_validation",
+  "section_break_mappings",
+  "mappings"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_device_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Source Device Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "chart_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chart Template",
+   "options": "IPD Chart Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_flags",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "default": "0",
+   "description": "If checked, device readings require nurse review before entering chart.",
+   "fieldname": "requires_manual_validation",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Requires Manual Validation"
+  },
+  {
+   "fieldname": "section_break_mappings",
+   "fieldtype": "Section Break",
+   "label": "Parameter Mappings"
+  },
+  {
+   "fieldname": "mappings",
+   "fieldtype": "Table",
+   "label": "Mappings",
+   "options": "Device Parameter Mapping",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Device Observation Mapping",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "ICU Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "source_device_type,chart_template",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

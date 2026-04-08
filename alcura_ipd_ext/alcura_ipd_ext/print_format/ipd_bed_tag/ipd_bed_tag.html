@@ -1,0 +1,100 @@
+{%- set ctx = get_admission_label_context(doc.name) -%}
+<style>
+	@page { size: 100mm 70mm; margin: 2mm; }
+	.bed-tag {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 11px;
+		line-height: 1.4;
+		padding: 3mm;
+		width: 94mm;
+		height: 64mm;
+		border: 1px solid #333;
+		border-radius: 3mm;
+		position: relative;
+		overflow: hidden;
+	}
+	.bed-tag-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 2mm;
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 2mm;
+	}
+	.bed-tag-name {
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.bed-tag-bed {
+		font-size: 20px;
+		font-weight: bold;
+		text-align: right;
+		color: #1a237e;
+	}
+	.bed-tag-row {
+		margin-bottom: 1mm;
+	}
+	.bed-tag-label {
+		font-weight: bold;
+		color: #555;
+		display: inline-block;
+		width: 22mm;
+	}
+	.bed-tag-allergy {
+		color: #d32f2f;
+		font-weight: bold;
+		font-size: 12px;
+		border: 1px solid #d32f2f;
+		padding: 1mm 2mm;
+		margin-top: 2mm;
+		text-align: center;
+	}
+	.bed-tag-footer {
+		position: absolute;
+		bottom: 3mm;
+		left: 3mm;
+		right: 3mm;
+		font-size: 8px;
+		color: #888;
+		border-top: 1px solid #eee;
+		padding-top: 1mm;
+	}
+</style>
+
+<div class="bed-tag">
+	<div class="bed-tag-header">
+		<div>
+			<div class="bed-tag-name">{{ ctx.patient_name }}</div>
+			<div style="font-size: 10px; color: #666;">
+				{{ ctx.mr_number or ctx.patient_id }}
+				{%- if ctx.age %} &bull; {{ ctx.sex }}/{{ ctx.age }}{% endif %}
+			</div>
+		</div>
+		<div class="bed-tag-bed">{{ ctx.bed_label or ctx.bed }}</div>
+	</div>
+
+	<div class="bed-tag-row">
+		<span class="bed-tag-label">Consultant:</span> {{ ctx.practitioner }}
+	</div>
+	<div class="bed-tag-row">
+		<span class="bed-tag-label">Ward:</span> {{ ctx.ward_name }}
+		&nbsp;|&nbsp;
+		<span class="bed-tag-label" style="width: auto;">Room:</span> {{ ctx.room_name }}
+	</div>
+	<div class="bed-tag-row">
+		<span class="bed-tag-label">Admitted:</span> {{ ctx.admission_date }}
+	</div>
+	{%- if ctx.blood_group %}
+	<div class="bed-tag-row">
+		<span class="bed-tag-label">Blood Group:</span> <strong>{{ ctx.blood_group }}</strong>
+	</div>
+	{%- endif %}
+
+	{%- if ctx.allergy_html %}
+	<div class="bed-tag-allergy">!! ALLERGY ALERT !!</div>
+	{%- endif %}
+
+	<div class="bed-tag-footer">
+		{{ ctx.ir_name }} | {{ ctx.company }} | {{ ctx.payer_display }}
+	</div>
+</div>

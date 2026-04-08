@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "autoname": "field:template_name",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_name",
+  "chart_type",
+  "column_break_meta",
+  "is_active",
+  "default_frequency_minutes",
+  "section_break_scope",
+  "applicable_unit_types",
+  "description",
+  "section_break_params",
+  "parameters"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "chart_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chart Type",
+   "options": "Vitals\nGlucose\nPain\nVentilator\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": 1,
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "default": 240,
+   "description": "Default recording interval in minutes (e.g. 240 = every 4 hours)",
+   "fieldname": "default_frequency_minutes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Default Frequency (min)",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_scope",
+   "fieldtype": "Section Break",
+   "label": "Scope & Description"
+  },
+  {
+   "description": "Comma-separated unit types this template applies to (e.g. General, ICU, HDU). Leave blank for all.",
+   "fieldname": "applicable_unit_types",
+   "fieldtype": "Small Text",
+   "label": "Applicable Unit Types"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_break_params",
+   "fieldtype": "Section Break",
+   "label": "Chart Parameters"
+  },
+  {
+   "fieldname": "parameters",
+   "fieldtype": "Table",
+   "label": "Parameters",
+   "options": "IPD Chart Template Parameter",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Chart Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Nursing User"
+  },
+  {
+   "read": 1,
+   "role": "Physician"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

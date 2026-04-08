@@ -1,0 +1,230 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "source_device_type",
+  "source_device_id",
+  "column_break_patient",
+  "patient",
+  "inpatient_record",
+  "bedside_chart",
+  "section_break_status",
+  "status",
+  "received_at",
+  "processed_at",
+  "column_break_audit",
+  "idempotency_key",
+  "chart_entry",
+  "error_message",
+  "section_break_validation",
+  "requires_validation",
+  "validated_by",
+  "validated_at",
+  "section_break_payload",
+  "payload",
+  "section_break_readings",
+  "readings"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "DOF-.#####",
+   "reqd": 1,
+   "default": "DOF-.#####"
+  },
+  {
+   "fieldname": "source_device_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Device Type",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "source_device_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Device ID",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_patient",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "search_index": 1
+  },
+  {
+   "fieldname": "bedside_chart",
+   "fieldtype": "Link",
+   "label": "Bedside Chart",
+   "options": "IPD Bedside Chart",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_status",
+   "fieldtype": "Section Break",
+   "label": "Processing"
+  },
+  {
+   "default": "Received",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Received\nMapped\nValidated\nRejected\nError",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "received_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Received At",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "processed_at",
+   "fieldtype": "Datetime",
+   "label": "Processed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "idempotency_key",
+   "fieldtype": "Data",
+   "label": "Idempotency Key",
+   "unique": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "chart_entry",
+   "fieldtype": "Link",
+   "label": "Chart Entry",
+   "options": "IPD Chart Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "error_message",
+   "fieldtype": "Small Text",
+   "label": "Error Message",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_validation",
+   "fieldtype": "Section Break",
+   "label": "Manual Validation"
+  },
+  {
+   "default": "0",
+   "fieldname": "requires_validation",
+   "fieldtype": "Check",
+   "label": "Requires Validation",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.requires_validation",
+   "fieldname": "validated_by",
+   "fieldtype": "Link",
+   "label": "Validated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.requires_validation",
+   "fieldname": "validated_at",
+   "fieldtype": "Datetime",
+   "label": "Validated At",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_payload",
+   "fieldtype": "Section Break",
+   "label": "Raw Payload"
+  },
+  {
+   "fieldname": "payload",
+   "fieldtype": "JSON",
+   "label": "Payload"
+  },
+  {
+   "fieldname": "section_break_readings",
+   "fieldtype": "Section Break",
+   "label": "Mapped Readings"
+  },
+  {
+   "fieldname": "readings",
+   "fieldtype": "Table",
+   "label": "Readings",
+   "options": "Device Observation Reading"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Device Observation Feed",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Device Integration User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Nursing User",
+   "write": 1
+  }
+ ],
+ "search_fields": "source_device_type,source_device_id,patient,status",
+ "sort_field": "received_at",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

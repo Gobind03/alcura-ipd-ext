@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "step_name",
+  "step_type",
+  "sequence",
+  "is_mandatory",
+  "column_break_status",
+  "status",
+  "due_at",
+  "section_break_completion",
+  "completed_at",
+  "completed_by",
+  "column_break_linked",
+  "linked_document_type",
+  "linked_document",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "step_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Step Name"
+  },
+  {
+   "fieldname": "step_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Step Type"
+  },
+  {
+   "fieldname": "sequence",
+   "fieldtype": "Int",
+   "label": "Sequence"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_mandatory",
+   "fieldtype": "Check",
+   "label": "Mandatory"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending\nDue\nCompleted\nMissed\nSkipped"
+  },
+  {
+   "fieldname": "due_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Due At"
+  },
+  {
+   "fieldname": "section_break_completion",
+   "fieldtype": "Section Break",
+   "label": "Completion"
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At"
+  },
+  {
+   "fieldname": "completed_by",
+   "fieldtype": "Link",
+   "label": "Completed By",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_linked",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "linked_document_type",
+   "fieldtype": "Link",
+   "label": "Linked Document Type",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "linked_document",
+   "fieldtype": "Dynamic Link",
+   "label": "Linked Document",
+   "options": "linked_document_type"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Protocol Step Tracker",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "sequence",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

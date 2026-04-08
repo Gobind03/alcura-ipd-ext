@@ -1,0 +1,200 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "protocol_bundle",
+  "patient",
+  "inpatient_record",
+  "column_break_status",
+  "status",
+  "compliance_score",
+  "section_break_lifecycle",
+  "activated_at",
+  "activated_by",
+  "column_break_end",
+  "completed_at",
+  "discontinued_at",
+  "discontinued_by",
+  "discontinuation_reason",
+  "section_break_steps",
+  "step_trackers"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "APB-.#####",
+   "reqd": 1,
+   "default": "APB-.#####"
+  },
+  {
+   "fieldname": "protocol_bundle",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Protocol Bundle",
+   "options": "Monitoring Protocol Bundle",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nCompleted\nDiscontinued\nExpired",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "compliance_score",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Compliance Score",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_lifecycle",
+   "fieldtype": "Section Break",
+   "label": "Lifecycle"
+  },
+  {
+   "fieldname": "activated_at",
+   "fieldtype": "Datetime",
+   "label": "Activated At",
+   "reqd": 1
+  },
+  {
+   "fieldname": "activated_by",
+   "fieldtype": "Link",
+   "label": "Activated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_end",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.status === 'Completed'",
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status === 'Discontinued'",
+   "fieldname": "discontinued_at",
+   "fieldtype": "Datetime",
+   "label": "Discontinued At",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status === 'Discontinued'",
+   "fieldname": "discontinued_by",
+   "fieldtype": "Link",
+   "label": "Discontinued By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status === 'Discontinued'",
+   "fieldname": "discontinuation_reason",
+   "fieldtype": "Small Text",
+   "label": "Discontinuation Reason"
+  },
+  {
+   "fieldname": "section_break_steps",
+   "fieldtype": "Section Break",
+   "label": "Step Tracking"
+  },
+  {
+   "fieldname": "step_trackers",
+   "fieldtype": "Table",
+   "label": "Step Trackers",
+   "options": "Protocol Step Tracker"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Active Protocol Bundle",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "ICU Administrator",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Nursing User",
+   "write": 1
+  }
+ ],
+ "search_fields": "protocol_bundle,patient,status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

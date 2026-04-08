@@ -1,0 +1,279 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "ward_identity_section",
+  "ward_code",
+  "ward_name",
+  "column_break_identity",
+  "company",
+  "location_section",
+  "branch",
+  "building",
+  "column_break_location",
+  "floor",
+  "nursing_station",
+  "clinical_configuration_section",
+  "medical_department",
+  "ward_classification",
+  "column_break_clinical",
+  "gender_restriction",
+  "is_critical_care",
+  "supports_isolation",
+  "healthcare_linkage_section",
+  "healthcare_service_unit",
+  "column_break_healthcare",
+  "healthcare_service_unit_type",
+  "capacity_section",
+  "total_beds",
+  "occupied_beds",
+  "column_break_capacity",
+  "available_beds",
+  "status_section",
+  "is_active",
+  "notes_section",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "ward_identity_section",
+   "fieldtype": "Section Break",
+   "label": "Ward Identity"
+  },
+  {
+   "bold": 1,
+   "fieldname": "ward_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ward Code",
+   "no_copy": 1,
+   "reqd": 1,
+   "unique": 0
+  },
+  {
+   "bold": 1,
+   "fieldname": "ward_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Ward Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": ":Company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "location_section",
+   "fieldtype": "Section Break",
+   "label": "Location"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "in_standard_filter": 1,
+   "label": "Branch"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Data",
+   "label": "Building"
+  },
+  {
+   "fieldname": "column_break_location",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "floor",
+   "fieldtype": "Data",
+   "label": "Floor"
+  },
+  {
+   "fieldname": "nursing_station",
+   "fieldtype": "Data",
+   "label": "Nursing Station"
+  },
+  {
+   "fieldname": "clinical_configuration_section",
+   "fieldtype": "Section Break",
+   "label": "Clinical Configuration"
+  },
+  {
+   "fieldname": "medical_department",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Specialty / Department",
+   "options": "Medical Department"
+  },
+  {
+   "fieldname": "ward_classification",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Ward Classification",
+   "options": "\nGeneral\nSemi-Private\nPrivate\nDeluxe\nSuite\nICU\nCICU\nMICU\nNICU\nPICU\nSICU\nHDU\nBurns\nIsolation\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_clinical",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "No Restriction",
+   "fieldname": "gender_restriction",
+   "fieldtype": "Select",
+   "label": "Gender Restriction",
+   "options": "No Restriction\nMale Only\nFemale Only"
+  },
+  {
+   "default": "0",
+   "depends_on": "",
+   "fieldname": "is_critical_care",
+   "fieldtype": "Check",
+   "label": "Is Critical Care",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "supports_isolation",
+   "fieldtype": "Check",
+   "label": "Supports Isolation"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "healthcare_linkage_section",
+   "fieldtype": "Section Break",
+   "label": "Healthcare Linkage"
+  },
+  {
+   "description": "Optional: the Healthcare Service Unit group node representing this ward in the facility tree.",
+   "fieldname": "healthcare_service_unit",
+   "fieldtype": "Link",
+   "label": "Healthcare Service Unit",
+   "options": "Healthcare Service Unit"
+  },
+  {
+   "fieldname": "column_break_healthcare",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "healthcare_service_unit_type",
+   "fieldtype": "Link",
+   "label": "Healthcare Service Unit Type",
+   "options": "Healthcare Service Unit Type"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "capacity_section",
+   "fieldtype": "Section Break",
+   "label": "Capacity"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_beds",
+   "fieldtype": "Int",
+   "label": "Total Beds",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "occupied_beds",
+   "fieldtype": "Int",
+   "label": "Occupied Beds",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_capacity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "available_beds",
+   "fieldtype": "Int",
+   "label": "Available Beds",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Hospital Ward",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  }
+ ],
+ "search_fields": "ward_code,ward_name,ward_classification,medical_department",
+ "show_title_field_in_link": 1,
+ "sort_field": "ward_name",
+ "sort_order": "ASC",
+ "title_field": "ward_name",
+ "track_changes": 1
+}

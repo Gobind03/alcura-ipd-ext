@@ -1,0 +1,12 @@
+{
+  "name": "alcura_ipd_ext",
+  "version": "0.0.1",
+  "description": "Alcura IPD Extensions for Frappe/ERPNext Healthcare",
+  "main": "alcura_ipd_ext/public/js/alcura_ipd_ext.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

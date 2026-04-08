@@ -1,0 +1,255 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "patient",
+  "patient_name",
+  "inpatient_record",
+  "column_break_chart",
+  "chart_template",
+  "chart_type",
+  "status",
+  "section_break_schedule",
+  "frequency_minutes",
+  "started_at",
+  "started_by",
+  "column_break_lifecycle",
+  "discontinued_at",
+  "discontinued_by",
+  "section_break_tracking",
+  "last_entry_at",
+  "total_entries",
+  "column_break_location",
+  "ward",
+  "bed",
+  "missed_count",
+  "source_profile"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "BSC-.#####",
+   "reqd": 1,
+   "default": "BSC-.#####"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_chart",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "chart_template",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Chart Template",
+   "options": "IPD Chart Template",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "chart_template.chart_type",
+   "fieldname": "chart_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chart Type",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nPaused\nDiscontinued",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_schedule",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "fetch_from": "chart_template.default_frequency_minutes",
+   "fieldname": "frequency_minutes",
+   "fieldtype": "Int",
+   "label": "Frequency (min)",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "started_at",
+   "fieldtype": "Datetime",
+   "label": "Started At",
+   "reqd": 1
+  },
+  {
+   "fieldname": "started_by",
+   "fieldtype": "Link",
+   "label": "Started By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_lifecycle",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.status === 'Discontinued'",
+   "fieldname": "discontinued_at",
+   "fieldtype": "Datetime",
+   "label": "Discontinued At",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.status === 'Discontinued'",
+   "fieldname": "discontinued_by",
+   "fieldtype": "Link",
+   "label": "Discontinued By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_tracking",
+   "fieldtype": "Section Break",
+   "label": "Tracking"
+  },
+  {
+   "fieldname": "last_entry_at",
+   "fieldtype": "Datetime",
+   "label": "Last Entry At",
+   "read_only": 1
+  },
+  {
+   "default": 0,
+   "fieldname": "total_entries",
+   "fieldtype": "Int",
+   "label": "Total Entries",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_location",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "missed_count",
+   "fieldtype": "Int",
+   "label": "Missed Observations",
+   "read_only": 1
+  },
+  {
+   "fieldname": "source_profile",
+   "fieldtype": "Link",
+   "label": "Source Profile",
+   "options": "ICU Monitoring Profile",
+   "read_only": 1,
+   "description": "Set when chart was auto-started by a monitoring profile."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Entries",
+   "link_doctype": "IPD Chart Entry",
+   "link_fieldname": "bedside_chart"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Bedside Chart",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient_name,chart_type,ward",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

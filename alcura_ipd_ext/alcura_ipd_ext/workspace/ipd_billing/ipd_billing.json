@@ -1,0 +1,162 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ipd_billing_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Billing</b></span>\",\"col\":12}},{\"id\":\"shortcut_interim_bill\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Interim Bill\",\"col\":3}},{\"id\":\"shortcut_room_tariff\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Tariff Mapping\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_billing_rules\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Billing Rule Set\",\"col\":3}},{\"id\":\"shortcut_discharge_checklist\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Discharge Billing Checklist\",\"col\":3}},{\"id\":\"shortcut_eligibility\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2026-04-08 00:00:00.000000",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "currency",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "IPD Billing",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Billing Setup",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payer Billing Rule Set",
+   "link_count": 0,
+   "link_to": "Payer Billing Rule Set",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Room Tariff Mapping",
+   "link_count": 0,
+   "link_to": "Room Tariff Mapping",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Patient Payer Profile",
+   "link_count": 0,
+   "link_to": "Patient Payer Profile",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payer Eligibility Check",
+   "link_count": 0,
+   "link_to": "Payer Eligibility Check",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Discharge",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Discharge Billing Checklist",
+   "link_count": 0,
+   "link_to": "Discharge Billing Checklist",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Reports",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "IPD Interim Bill",
+   "link_count": 0,
+   "link_to": "IPD Interim Bill",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Billing",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "",
+ "roles": [
+  {"role": "Accounts User"},
+  {"role": "IPD Billing User"},
+  {"role": "Healthcare Administrator"},
+  {"role": "System Manager"}
+ ],
+ "sequence_id": 21,
+ "shortcuts": [
+  {
+   "label": "IPD Interim Bill",
+   "link_to": "IPD Interim Bill",
+   "type": "Report"
+  },
+  {
+   "label": "Room Tariff Mapping",
+   "link_to": "Room Tariff Mapping",
+   "type": "DocType"
+  },
+  {
+   "label": "Patient Payer Profile",
+   "link_to": "Patient Payer Profile",
+   "type": "DocType"
+  },
+  {
+   "label": "Payer Billing Rule Set",
+   "link_to": "Payer Billing Rule Set",
+   "type": "DocType"
+  },
+  {
+   "label": "Discharge Billing Checklist",
+   "link_to": "Discharge Billing Checklist",
+   "type": "DocType"
+  },
+  {
+   "label": "Payer Eligibility Check",
+   "link_to": "Payer Eligibility Check",
+   "type": "DocType"
+  }
+ ],
+ "title": "IPD Billing"
+}

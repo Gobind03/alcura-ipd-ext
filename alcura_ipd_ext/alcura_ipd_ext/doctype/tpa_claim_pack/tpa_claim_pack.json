@@ -1,0 +1,367 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "identity_section",
+  "inpatient_record",
+  "patient",
+  "patient_name",
+  "column_break_identity",
+  "patient_payer_profile",
+  "insurance_payor",
+  "company",
+  "references_section",
+  "tpa_preauth_request",
+  "column_break_references",
+  "final_invoice",
+  "status_section",
+  "status",
+  "column_break_status",
+  "submission_section",
+  "submission_date",
+  "submission_reference",
+  "column_break_submission",
+  "submission_mode",
+  "settlement_section",
+  "settlement_amount",
+  "settlement_date",
+  "settlement_reference",
+  "column_break_settlement",
+  "disallowance_amount",
+  "disallowance_reason",
+  "documents_section",
+  "documents",
+  "audit_section",
+  "prepared_by",
+  "prepared_on",
+  "column_break_audit_1",
+  "reviewed_by",
+  "reviewed_on",
+  "column_break_audit_2",
+  "submitted_by_user",
+  "submitted_on_datetime"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "TCP-.YYYY.-.#####",
+   "print_hide": 1,
+   "report_hide": 1,
+   "default": "TCP-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Patient & Payer"
+  },
+  {
+   "bold": 1,
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "patient_payer_profile",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Payer Profile",
+   "options": "Patient Payer Profile",
+   "search_index": 1
+  },
+  {
+   "fieldname": "insurance_payor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Insurance Payor",
+   "options": "Insurance Payor",
+   "search_index": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "references_section",
+   "fieldtype": "Section Break",
+   "label": "References"
+  },
+  {
+   "fieldname": "tpa_preauth_request",
+   "fieldtype": "Link",
+   "label": "TPA Preauth Request",
+   "options": "TPA Preauth Request"
+  },
+  {
+   "fieldname": "column_break_references",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "final_invoice",
+   "fieldtype": "Link",
+   "label": "Final Invoice",
+   "options": "Sales Invoice"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "bold": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nIn Review\nSubmitted\nAcknowledged\nSettled\nDisputed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "submission_section",
+   "fieldtype": "Section Break",
+   "label": "Submission Details",
+   "depends_on": "eval:doc.status !== 'Draft'",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "submission_date",
+   "fieldtype": "Date",
+   "label": "Submission Date"
+  },
+  {
+   "fieldname": "submission_reference",
+   "fieldtype": "Data",
+   "label": "Submission Reference"
+  },
+  {
+   "fieldname": "column_break_submission",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Online",
+   "fieldname": "submission_mode",
+   "fieldtype": "Select",
+   "label": "Submission Mode",
+   "options": "Online\nCourier\nIn-Person"
+  },
+  {
+   "fieldname": "settlement_section",
+   "fieldtype": "Section Break",
+   "label": "Settlement",
+   "depends_on": "eval:['Settled','Disputed'].includes(doc.status)",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "settlement_amount",
+   "fieldtype": "Currency",
+   "label": "Settlement Amount"
+  },
+  {
+   "fieldname": "settlement_date",
+   "fieldtype": "Date",
+   "label": "Settlement Date"
+  },
+  {
+   "fieldname": "settlement_reference",
+   "fieldtype": "Data",
+   "label": "Settlement Reference"
+  },
+  {
+   "fieldname": "column_break_settlement",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "disallowance_amount",
+   "fieldtype": "Currency",
+   "label": "Disallowance Amount"
+  },
+  {
+   "fieldname": "disallowance_reason",
+   "fieldtype": "Small Text",
+   "label": "Disallowance Reason"
+  },
+  {
+   "fieldname": "documents_section",
+   "fieldtype": "Section Break",
+   "label": "Claim Documents"
+  },
+  {
+   "fieldname": "documents",
+   "fieldtype": "Table",
+   "label": "Documents",
+   "options": "TPA Claim Pack Document",
+   "reqd": 1
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "prepared_by",
+   "fieldtype": "Link",
+   "label": "Prepared By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "prepared_on",
+   "fieldtype": "Datetime",
+   "label": "Prepared On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reviewed_by",
+   "fieldtype": "Link",
+   "label": "Reviewed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reviewed_on",
+   "fieldtype": "Datetime",
+   "label": "Reviewed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "submitted_by_user",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submitted_on_datetime",
+   "fieldtype": "Datetime",
+   "label": "Submitted On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Patient",
+   "link_doctype": "Patient",
+   "link_fieldname": "name"
+  },
+  {
+   "group": "Admission",
+   "link_doctype": "Inpatient Record",
+   "link_fieldname": "name"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "TPA Claim Pack",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "TPA Desk User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,insurance_payor,status,submission_reference",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

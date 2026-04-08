@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "autoname": "field:template_name",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_name",
+  "specialty",
+  "target_role",
+  "column_break_1",
+  "version",
+  "is_active",
+  "description",
+  "section_break_fields",
+  "form_fields",
+  "section_break_scored",
+  "scored_assessments"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "specialty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Specialty",
+   "options": "Medical Department"
+  },
+  {
+   "default": "Both",
+   "fieldname": "target_role",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Target Role",
+   "options": "Nursing User\nPhysician\nBoth"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "version",
+   "fieldtype": "Int",
+   "label": "Version"
+  },
+  {
+   "default": 1,
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "section_break_fields",
+   "fieldtype": "Section Break",
+   "label": "Form Fields"
+  },
+  {
+   "fieldname": "form_fields",
+   "fieldtype": "Table",
+   "label": "Form Fields",
+   "options": "IPD Intake Template Field"
+  },
+  {
+   "fieldname": "section_break_scored",
+   "fieldtype": "Section Break",
+   "label": "Scored Clinical Assessments"
+  },
+  {
+   "description": "Standard Patient Assessment Templates to include (e.g. GCS, Pain Scale)",
+   "fieldname": "scored_assessments",
+   "fieldtype": "Table",
+   "label": "Scored Assessments",
+   "options": "IPD Intake Scored Assessment"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Intake Assessment Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Nursing User"
+  },
+  {
+   "read": 1,
+   "role": "Physician"
+  },
+  {
+   "read": 1,
+   "role": "IPD Admission Officer"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

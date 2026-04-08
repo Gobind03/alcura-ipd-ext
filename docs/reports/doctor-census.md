@@ -1,0 +1,57 @@
+# Report: Doctor Census
+
+## Purpose
+
+Provides a practitioner-centric view of all currently admitted patients, designed for daily ward round preparation. Shows key metrics at a glance: location, length of stay, active problems, last progress note, vitals currency, allergy alerts, and overdue charts.
+
+## Type
+
+Script Report (Query Report)
+
+## Reference DocType
+
+Inpatient Record
+
+## Filters
+
+| Filter | Type | Required | Default | Notes |
+|--------|------|----------|---------|-------|
+| Practitioner | Link → Healthcare Practitioner | Yes | — | Filter by primary practitioner |
+| Company | Link → Company | No | User default | — |
+| Ward | Link → Hospital Ward | No | — | Filter by current ward |
+| Department | Link → Medical Department | No | — | Filter by medical department |
+
+## Columns
+
+| Column | Type | Width | Notes |
+|--------|------|-------|-------|
+| Inpatient Record | Link | 140 | Links to the IR form |
+| Patient | Link | 120 | Links to the Patient form |
+| Patient Name | Data | 160 | — |
+| Ward | Data | 100 | Current ward from IR custom fields |
+| Room | Data | 80 | Current room |
+| Bed | Data | 80 | Current bed |
+| Admitted | Date | 100 | Admission (scheduled) date |
+| Days | Int | 60 | Computed: today - admission_date + 1; highlighted red when > 7 |
+| Problems | Int | 80 | Active problem count; orange pill when > 0 |
+| Last Note | Date | 100 | Date of last progress note |
+| Last Vitals | Datetime | 140 | Timestamp of last vitals chart entry |
+| Allergy | Check | 70 | Red "ALLERGY" pill when true |
+| Overdue | Int | 80 | Count of overdue bedside charts; red pill when > 0 |
+| Department | Data | 120 | Medical department |
+
+## Interactive Features
+
+- "Start Round Note" button in the page header — creates a Progress Note encounter for the selected patient row and navigates to the form
+- Row selection via standard Frappe report checkboxes
+
+## Permissions
+
+| Role | Access |
+|------|--------|
+| Physician | Yes |
+| Healthcare Administrator | Yes |
+
+## Data Source
+
+Single query against `tabInpatient Record` filtered by `primary_practitioner` and `status = "Admitted"`, reading custom fields for location, allergies, problem counts, and charting status. Days admitted is computed client-side from `scheduled_date`.

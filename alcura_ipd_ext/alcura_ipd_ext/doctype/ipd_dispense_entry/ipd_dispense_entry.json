@@ -1,0 +1,362 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "clinical_order",
+  "patient",
+  "patient_name",
+  "inpatient_record",
+  "column_break_header",
+  "status",
+  "dispensed_at",
+  "dispensed_by",
+  "company",
+  "section_break_medication",
+  "medication_item",
+  "medication_name",
+  "dose",
+  "dose_uom",
+  "column_break_med_1",
+  "ordered_qty",
+  "dispensed_qty",
+  "dispense_type",
+  "section_break_stock",
+  "batch_no",
+  "expiry_date",
+  "column_break_stock_1",
+  "warehouse",
+  "section_break_substitution",
+  "is_substitution",
+  "original_item",
+  "original_item_name",
+  "substitution_reason",
+  "column_break_subst_1",
+  "substitution_approved_by",
+  "substitution_approved_at",
+  "section_break_verification",
+  "verified_by",
+  "verified_at",
+  "section_break_location",
+  "ward",
+  "bed",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "DISP-.#####",
+   "reqd": 1,
+   "default": "DISP-.#####"
+  },
+  {
+   "fieldname": "clinical_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Clinical Order",
+   "options": "IPD Clinical Order",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "fetch_from": "patient.patient_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Dispensed\nReturned",
+   "default": "Dispensed",
+   "search_index": 1
+  },
+  {
+   "fieldname": "dispensed_at",
+   "fieldtype": "Datetime",
+   "label": "Dispensed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dispensed_by",
+   "fieldtype": "Link",
+   "label": "Dispensed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "fetch_from": "clinical_order.company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_medication",
+   "fieldtype": "Section Break",
+   "label": "Medication Details"
+  },
+  {
+   "fieldname": "medication_item",
+   "fieldtype": "Link",
+   "label": "Medication Item",
+   "options": "Item",
+   "search_index": 1
+  },
+  {
+   "fieldname": "medication_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Medication Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dose",
+   "fieldtype": "Data",
+   "label": "Dose"
+  },
+  {
+   "fieldname": "dose_uom",
+   "fieldtype": "Data",
+   "label": "Dose UOM"
+  },
+  {
+   "fieldname": "column_break_med_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ordered_qty",
+   "fieldtype": "Float",
+   "label": "Ordered Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dispensed_qty",
+   "fieldtype": "Float",
+   "label": "Dispensed Qty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dispense_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Dispense Type",
+   "options": "\nFull\nPartial",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_stock",
+   "fieldtype": "Section Break",
+   "label": "Stock Details"
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Data",
+   "label": "Batch No"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  },
+  {
+   "fieldname": "column_break_stock_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "section_break_substitution",
+   "fieldtype": "Section Break",
+   "label": "Substitution Details",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "is_substitution",
+   "fieldtype": "Check",
+   "label": "Is Substitution"
+  },
+  {
+   "fieldname": "original_item",
+   "fieldtype": "Link",
+   "label": "Original Prescribed Item",
+   "options": "Item",
+   "depends_on": "is_substitution"
+  },
+  {
+   "fieldname": "original_item_name",
+   "fieldtype": "Data",
+   "label": "Original Item Name",
+   "fetch_from": "original_item.item_name",
+   "read_only": 1,
+   "depends_on": "is_substitution"
+  },
+  {
+   "fieldname": "substitution_reason",
+   "fieldtype": "Small Text",
+   "label": "Substitution Reason",
+   "depends_on": "is_substitution",
+   "mandatory_depends_on": "is_substitution"
+  },
+  {
+   "fieldname": "column_break_subst_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "substitution_approved_by",
+   "fieldtype": "Link",
+   "label": "Substitution Approved By",
+   "options": "User",
+   "read_only": 1,
+   "depends_on": "is_substitution"
+  },
+  {
+   "fieldname": "substitution_approved_at",
+   "fieldtype": "Datetime",
+   "label": "Substitution Approved At",
+   "read_only": 1,
+   "depends_on": "is_substitution"
+  },
+  {
+   "fieldname": "section_break_verification",
+   "fieldtype": "Section Break",
+   "label": "Verification",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "verified_by",
+   "fieldtype": "Link",
+   "label": "Verified By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verified_at",
+   "fieldtype": "Datetime",
+   "label": "Verified At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_location",
+   "fieldtype": "Section Break",
+   "label": "Location"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "search_index": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Dispense Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Pharmacy User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,patient_name,medication_name,clinical_order,status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "title_field": "medication_name"
+}

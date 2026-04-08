@@ -1,0 +1,9 @@
+/*
+ * Alcura IPD Extensions – Desk styles
+ *
+ * Loaded on every Desk page when `app_include_css` is enabled in hooks.py.
+ * Prefer scoped selectors to avoid clashes with core Frappe styles.
+ */
+
+/* Example: scope all custom styles under a data attribute or class */
+/* [data-page-container="alcura-ipd"] { } */

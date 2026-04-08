@@ -1,0 +1,235 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "room_identity_section",
+  "room_number",
+  "room_name",
+  "column_break_identity",
+  "hospital_ward",
+  "company",
+  "classification_section",
+  "service_unit_type",
+  "column_break_classification",
+  "floor",
+  "wing",
+  "is_ac",
+  "capacity_section",
+  "total_beds",
+  "occupied_beds",
+  "column_break_capacity",
+  "available_beds",
+  "healthcare_linkage_section",
+  "healthcare_service_unit",
+  "status_section",
+  "is_active",
+  "notes_section",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "room_identity_section",
+   "fieldtype": "Section Break",
+   "label": "Room Identity"
+  },
+  {
+   "bold": 1,
+   "fieldname": "room_number",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Room Number",
+   "no_copy": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "room_name",
+   "fieldtype": "Data",
+   "label": "Room Name"
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "hospital_ward",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Hospital Ward",
+   "options": "Hospital Ward",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": ":Company",
+   "fetch_from": "hospital_ward.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "classification_section",
+   "fieldtype": "Section Break",
+   "label": "Classification"
+  },
+  {
+   "bold": 1,
+   "fieldname": "service_unit_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Room Type",
+   "options": "Healthcare Service Unit Type",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_classification",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "floor",
+   "fieldtype": "Data",
+   "label": "Floor"
+  },
+  {
+   "fieldname": "wing",
+   "fieldtype": "Data",
+   "label": "Wing"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_ac",
+   "fieldtype": "Check",
+   "label": "Air Conditioned"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "capacity_section",
+   "fieldtype": "Section Break",
+   "label": "Capacity"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_beds",
+   "fieldtype": "Int",
+   "label": "Total Beds",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "occupied_beds",
+   "fieldtype": "Int",
+   "label": "Occupied Beds",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_capacity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "available_beds",
+   "fieldtype": "Int",
+   "label": "Available Beds",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "healthcare_linkage_section",
+   "fieldtype": "Section Break",
+   "label": "Healthcare Linkage"
+  },
+  {
+   "description": "Auto-created HSU group node representing this room in the facility tree.",
+   "fieldname": "healthcare_service_unit",
+   "fieldtype": "Link",
+   "label": "Healthcare Service Unit",
+   "options": "Healthcare Service Unit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "fieldname": "notes_section",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "link_doctype": "Hospital Bed",
+   "link_fieldname": "hospital_room"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Hospital Room",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  }
+ ],
+ "search_fields": "room_number,room_name,hospital_ward,service_unit_type",
+ "show_title_field_in_link": 1,
+ "sort_field": "room_number",
+ "sort_order": "ASC",
+ "title_field": "room_name",
+ "track_changes": 1
+}

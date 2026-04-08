@@ -1,0 +1,662 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ipd_desk_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Desk</b></span>\",\"col\":12}},{\"id\":\"shortcut_live_bed_board\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Live Bed Board\",\"col\":3}},{\"id\":\"shortcut_hospital_bed\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hospital Bed\",\"col\":3}},{\"id\":\"shortcut_bed_reservation\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Reservation\",\"col\":3}},{\"id\":\"shortcut_inpatient_record\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inpatient Record\",\"col\":3}},{\"id\":\"shortcut_clinical_order\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Clinical Order\",\"col\":3}},{\"id\":\"shortcut_pharmacy_queue\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pharmacy Queue\",\"col\":3}},{\"id\":\"shortcut_lab_queue\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Lab Queue\",\"col\":3}},{\"id\":\"shortcut_nurse_station\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Nurse Station Queue\",\"col\":3}},{\"id\":\"shortcut_bed_movement_log\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bed Movement Log\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_eligibility_check\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"shortcut_intake_assessment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Intake Assessment\",\"col\":3}},{\"id\":\"shortcut_overdue_charts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Overdue Charts\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "creation": "2026-04-08 00:00:00.000000",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "bed",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "IPD Desk",
+ "links": [
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Operations",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hospital Bed",
+   "link_count": 0,
+   "link_to": "Hospital Bed",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bed Reservation",
+   "link_count": 0,
+   "link_to": "Bed Reservation",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Inpatient Record",
+   "link_count": 0,
+   "link_to": "Inpatient Record",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bed Movement Log",
+   "link_count": 0,
+   "link_to": "Bed Movement Log",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Patient Payer Profile",
+   "link_count": 0,
+   "link_to": "Patient Payer Profile",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payer Eligibility Check",
+   "link_count": 0,
+   "link_to": "Payer Eligibility Check",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Admission Checklist",
+   "link_count": 0,
+   "link_to": "Admission Checklist",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Bed Policy",
+   "link_count": 0,
+   "link_to": "IPD Bed Policy",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Intake Assessment",
+   "link_count": 0,
+   "link_to": "IPD Intake Assessment",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Intake Assessment Template",
+   "link_count": 0,
+   "link_to": "IPD Intake Assessment Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Problem List Item",
+   "link_count": 0,
+   "link_to": "IPD Problem List Item",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Clinical Orders",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Clinical Order",
+   "link_count": 0,
+   "link_to": "IPD Clinical Order",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Order SLA Config",
+   "link_count": 0,
+   "link_to": "IPD Order SLA Config",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Pharmacy Queue",
+   "link_count": 0,
+   "link_to": "pharmacy-queue",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lab Queue",
+   "link_count": 0,
+   "link_to": "lab-queue",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Nurse Station Queue",
+   "link_count": 0,
+   "link_to": "nurse-station-queue",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "MAR Board",
+   "link_count": 0,
+   "link_to": "mar-board",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Dispense Entry",
+   "link_count": 0,
+   "link_to": "IPD Dispense Entry",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Lab Sample",
+   "link_count": 0,
+   "link_to": "IPD Lab Sample",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "ICU Monitoring",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Active Protocol Bundles",
+   "link_count": 0,
+   "link_to": "Active Protocol Bundle",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Device Feed Validation",
+   "link_count": 0,
+   "link_to": "Device Observation Feed",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Protocol Compliance Report",
+   "link_count": 0,
+   "link_to": "Protocol Compliance Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bedside Charts",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Bedside Chart",
+   "link_count": 0,
+   "link_to": "IPD Bedside Chart",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Chart Entry",
+   "link_count": 0,
+   "link_to": "IPD Chart Entry",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD IO Entry",
+   "link_count": 0,
+   "link_to": "IPD IO Entry",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Nursing Note",
+   "link_count": 0,
+   "link_to": "IPD Nursing Note",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD MAR Entry",
+   "link_count": 0,
+   "link_to": "IPD MAR Entry",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD Chart Template",
+   "link_count": 0,
+   "link_to": "IPD Chart Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Live Bed Board",
+   "link_count": 0,
+   "link_to": "Live Bed Board",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Payer Profile Expiry",
+   "link_count": 0,
+   "link_to": "Payer Profile Expiry",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Payer Eligibility Check Summary",
+   "link_count": 0,
+   "link_to": "Payer Eligibility Check Summary",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "IPD Intake Assessment Status",
+   "link_count": 0,
+   "link_to": "IPD Intake Assessment Status",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Nursing Risk Summary",
+   "link_count": 0,
+   "link_to": "Nursing Risk Summary",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "IPD Consultation Notes",
+   "link_count": 0,
+   "link_to": "IPD Consultation Notes",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Doctor Census",
+   "link_count": 0,
+   "link_to": "Doctor Census",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Vitals Trend",
+   "link_count": 0,
+   "link_to": "Vitals Trend",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "IPD Fluid Balance",
+   "link_count": 0,
+   "link_to": "IPD Fluid Balance",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Overdue Charts",
+   "link_count": 0,
+   "link_to": "Overdue Charts",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "MAR Summary",
+   "link_count": 0,
+   "link_to": "MAR Summary",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Order TAT Report",
+   "link_count": 0,
+   "link_to": "Order TAT Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "SLA Breach Report",
+   "link_count": 0,
+   "link_to": "SLA Breach Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Desk",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "restrict_to_domain": "Healthcare",
+ "roles": [],
+ "sequence_id": 20.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Live Bed Board",
+   "link_to": "Live Bed Board",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Hospital Bed",
+   "link_to": "Hospital Bed",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Bed Reservation",
+   "link_to": "Bed Reservation",
+   "stats_filter": "{\"status\":\"Active\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Inpatient Record",
+   "link_to": "Inpatient Record",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Bed Movement Log",
+   "link_to": "Bed Movement Log",
+   "stats_filter": "",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Patient Payer Profile",
+   "link_to": "Patient Payer Profile",
+   "stats_filter": "{\"is_active\":1}",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Payer Eligibility Check",
+   "link_to": "Payer Eligibility Check",
+   "stats_filter": "{\"verification_status\":\"Pending\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Pink",
+   "doc_view": "List",
+   "label": "IPD Intake Assessment",
+   "link_to": "IPD Intake Assessment",
+   "stats_filter": "{\"status\":[\"in\",[\"Draft\",\"In Progress\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Red",
+   "doc_view": "",
+   "label": "Overdue Charts",
+   "link_to": "Overdue Charts",
+   "stats_filter": "",
+   "type": "Report"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "IPD Clinical Order",
+   "link_to": "IPD Clinical Order",
+   "stats_filter": "{\"status\":[\"in\",[\"Ordered\",\"Acknowledged\",\"In Progress\"]]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "",
+   "label": "Pharmacy Queue",
+   "link_to": "pharmacy-queue",
+   "stats_filter": "",
+   "type": "Page"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "",
+   "label": "Lab Queue",
+   "link_to": "lab-queue",
+   "stats_filter": "",
+   "type": "Page"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "",
+   "label": "Nurse Station",
+   "link_to": "nurse-station-queue",
+   "stats_filter": "",
+   "type": "Page"
+  },
+  {
+   "color": "Pink",
+   "doc_view": "",
+   "label": "MAR Board",
+   "link_to": "mar-board",
+   "stats_filter": "",
+   "type": "Page"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "IPD Dispense Entry",
+   "link_to": "IPD Dispense Entry",
+   "stats_filter": "{\"status\":\"Dispensed\"}",
+   "type": "DocType"
+  },
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "IPD Lab Sample",
+   "link_to": "IPD Lab Sample",
+   "stats_filter": "{\"status\":[\"in\",[\"Pending\",\"Collected\",\"In Transit\"]]}",
+   "type": "DocType"
+  }
+ ],
+ "title": "IPD Desk"
+}

@@ -1,0 +1,366 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "identity_section",
+  "patient",
+  "patient_name",
+  "patient_payer_profile",
+  "column_break_identity",
+  "payer_type",
+  "inpatient_record",
+  "company",
+  "verification_section",
+  "verification_status",
+  "column_break_verification",
+  "verified_by",
+  "verification_datetime",
+  "coverage_section",
+  "approved_amount",
+  "approved_room_category",
+  "approved_duration_days",
+  "column_break_coverage",
+  "exclusions",
+  "conditions",
+  "reference_section",
+  "reference_number",
+  "column_break_reference",
+  "valid_from",
+  "valid_to",
+  "remarks_section",
+  "remarks",
+  "audit_section",
+  "submitted_by",
+  "submitted_on",
+  "column_break_audit",
+  "last_status_change_by",
+  "last_status_change_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "PEC-.YYYY.-.#####",
+   "print_hide": 1,
+   "report_hide": 1,
+   "default": "PEC-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Patient & Payer"
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient_payer_profile",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Payer Profile",
+   "options": "Patient Payer Profile",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "patient_payer_profile.payer_type",
+   "fieldname": "payer_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Payer Type",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "default": ":Company",
+   "reqd": 1,
+   "search_index": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "verification_section",
+   "fieldtype": "Section Break",
+   "label": "Verification"
+  },
+  {
+   "bold": 1,
+   "default": "Pending",
+   "fieldname": "verification_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Verification Status",
+   "options": "Pending\nVerified\nConditional\nRejected\nExpired",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_verification",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "verified_by",
+   "fieldtype": "Link",
+   "label": "Verified By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "verification_datetime",
+   "fieldtype": "Datetime",
+   "label": "Verification Date/Time",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:['Verified','Conditional'].includes(doc.verification_status)",
+   "fieldname": "coverage_section",
+   "fieldtype": "Section Break",
+   "label": "Approved Coverage"
+  },
+  {
+   "fieldname": "approved_amount",
+   "fieldtype": "Currency",
+   "label": "Approved Amount"
+  },
+  {
+   "fieldname": "approved_room_category",
+   "fieldtype": "Select",
+   "label": "Approved Room Category",
+   "options": "\nGeneral\nTwin Sharing\nSemi-Private\nPrivate\nDeluxe\nSuite\nICU\nCICU\nMICU\nNICU\nPICU\nSICU\nHDU\nBurns\nIsolation\nOther"
+  },
+  {
+   "fieldname": "approved_duration_days",
+   "fieldtype": "Int",
+   "label": "Approved Duration (Days)"
+  },
+  {
+   "fieldname": "column_break_coverage",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exclusions",
+   "fieldtype": "Small Text",
+   "label": "Exclusions",
+   "description": "Treatments, procedures, or items excluded from coverage"
+  },
+  {
+   "fieldname": "conditions",
+   "fieldtype": "Small Text",
+   "label": "Conditions",
+   "description": "Conditions attached to the approval (e.g. co-pay, sub-limits)"
+  },
+  {
+   "fieldname": "reference_section",
+   "fieldtype": "Section Break",
+   "label": "Reference & Validity"
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Pre-Auth / Reference Number",
+   "description": "TPA pre-authorization or reference number"
+  },
+  {
+   "fieldname": "column_break_reference",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Valid To"
+  },
+  {
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "label": "Submitted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_status_change_by",
+   "fieldtype": "Link",
+   "label": "Last Status Change By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_status_change_on",
+   "fieldtype": "Datetime",
+   "label": "Last Status Change On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Patient",
+   "link_doctype": "Patient",
+   "link_fieldname": "name"
+  },
+  {
+   "group": "Payer Profile",
+   "link_doctype": "Patient Payer Profile",
+   "link_fieldname": "name"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Payer Eligibility Check",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "TPA Desk User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Receptionist",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,payer_type,reference_number,verification_status",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

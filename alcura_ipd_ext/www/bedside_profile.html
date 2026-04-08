@@ -1,0 +1,65 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ title }} - {{ patient_name }}{% endblock %}
+
+{% block page_content %}
+<div class="container" style="max-width: 600px; margin: 20px auto;">
+	<div class="card shadow-sm">
+		<div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+			<h5 class="mb-0">{{ _("Bedside Profile") }}</h5>
+			<span class="badge badge-light text-dark">{{ status }}</span>
+		</div>
+		<div class="card-body">
+			<h4 class="mb-3">{{ patient_name }}</h4>
+
+			{% if allergy_html %}
+			<div class="alert alert-danger py-2 mb-3" style="font-weight: bold;">
+				!! {{ _("ALLERGY ALERT") }} !!
+			</div>
+			{% endif %}
+
+			<table class="table table-sm table-borderless mb-0">
+				<tbody>
+					<tr>
+						<td class="text-muted" style="width: 40%;">{{ _("IPD Number") }}</td>
+						<td><strong>{{ ir_name }}</strong></td>
+					</tr>
+					{% if sex %}
+					<tr>
+						<td class="text-muted">{{ _("Sex") }}</td>
+						<td>{{ sex }}</td>
+					</tr>
+					{% endif %}
+					<tr>
+						<td class="text-muted">{{ _("Consultant") }}</td>
+						<td>{{ practitioner }}</td>
+					</tr>
+					{% if department %}
+					<tr>
+						<td class="text-muted">{{ _("Department") }}</td>
+						<td>{{ department }}</td>
+					</tr>
+					{% endif %}
+					<tr>
+						<td class="text-muted">{{ _("Ward") }}</td>
+						<td>{{ ward_name }}</td>
+					</tr>
+					<tr>
+						<td class="text-muted">{{ _("Bed") }}</td>
+						<td><strong>{{ bed_label }}</strong></td>
+					</tr>
+					{% if admission_date %}
+					<tr>
+						<td class="text-muted">{{ _("Admitted") }}</td>
+						<td>{{ admission_date }}</td>
+					</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+		<div class="card-footer text-muted text-center" style="font-size: 11px;">
+			{{ _("This page contains limited patient information for bedside identification.") }}
+		</div>
+	</div>
+</div>
+{% endblock %}

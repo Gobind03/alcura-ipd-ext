@@ -1,0 +1,236 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "bedside_chart",
+  "patient",
+  "inpatient_record",
+  "column_break_entry",
+  "chart_type",
+  "entry_datetime",
+  "recorded_by",
+  "recorded_by_name",
+  "section_break_correction",
+  "status",
+  "is_correction",
+  "corrects_entry",
+  "column_break_correction",
+  "correction_reason",
+  "section_break_observations",
+  "observations",
+  "section_break_notes",
+  "notes",
+  "section_break_device",
+  "is_device_generated",
+  "device_feed"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "CE-.#####",
+   "reqd": 1,
+   "default": "CE-.#####"
+  },
+  {
+   "fieldname": "bedside_chart",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Bedside Chart",
+   "options": "IPD Bedside Chart",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_entry",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "chart_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Chart Type",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "entry_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Entry Date/Time",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "recorded_by.full_name",
+   "fieldname": "recorded_by_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Recorded By Name",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:!doc.is_correction",
+   "fieldname": "section_break_correction",
+   "fieldtype": "Section Break",
+   "label": "Correction"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nCorrected",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": 0,
+   "fieldname": "is_correction",
+   "fieldtype": "Check",
+   "label": "Is Correction"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "corrects_entry",
+   "fieldtype": "Link",
+   "label": "Corrects Entry",
+   "options": "IPD Chart Entry"
+  },
+  {
+   "fieldname": "column_break_correction",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "correction_reason",
+   "fieldtype": "Small Text",
+   "label": "Correction Reason"
+  },
+  {
+   "fieldname": "section_break_observations",
+   "fieldtype": "Section Break",
+   "label": "Observations"
+  },
+  {
+   "fieldname": "observations",
+   "fieldtype": "Table",
+   "label": "Observations",
+   "options": "IPD Chart Observation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "eval:!doc.is_device_generated",
+   "fieldname": "section_break_device",
+   "fieldtype": "Section Break",
+   "label": "Device Integration"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_device_generated",
+   "fieldtype": "Check",
+   "label": "Device Generated",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.is_device_generated",
+   "fieldname": "device_feed",
+   "fieldtype": "Link",
+   "label": "Device Feed",
+   "options": "Device Observation Feed",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Chart Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,chart_type,entry_datetime",
+ "sort_field": "entry_datetime",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,697 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "patient",
+  "patient_name",
+  "inpatient_record",
+  "company",
+  "column_break_header",
+  "order_type",
+  "urgency",
+  "status",
+  "is_stat",
+  "section_break_ordering",
+  "ordering_practitioner",
+  "ordering_practitioner_name",
+  "ordering_department",
+  "column_break_ordering_1",
+  "source_encounter",
+  "target_department",
+  "section_break_location",
+  "ward",
+  "room",
+  "bed",
+  "section_break_medication",
+  "medication_item",
+  "medication_name",
+  "dose",
+  "dose_uom",
+  "column_break_med_1",
+  "route",
+  "frequency",
+  "is_prn",
+  "prn_reason",
+  "section_break_med_schedule",
+  "start_datetime",
+  "end_datetime",
+  "duration_days",
+  "column_break_med_schedule_1",
+  "indication",
+  "ordered_qty",
+  "schedule_instructions",
+  "section_break_lab",
+  "lab_test_template",
+  "lab_test_name",
+  "sample_type",
+  "column_break_lab_1",
+  "is_fasting_required",
+  "collection_instructions",
+  "linked_lab_test",
+  "section_break_procedure",
+  "procedure_template",
+  "procedure_name",
+  "body_site",
+  "column_break_proc_1",
+  "is_bedside",
+  "prep_instructions",
+  "linked_clinical_procedure",
+  "section_break_dispense",
+  "dispense_status",
+  "total_dispensed_qty",
+  "column_break_dispense_1",
+  "substitution_status",
+  "section_break_notes",
+  "clinical_notes",
+  "column_break_notes_1",
+  "cancellation_reason",
+  "hold_reason",
+  "section_break_sla",
+  "ordered_at",
+  "ordered_by",
+  "acknowledged_at",
+  "acknowledged_by",
+  "column_break_sla_1",
+  "completed_at",
+  "completed_by",
+  "cancelled_at",
+  "cancelled_by",
+  "section_break_sla_tracking",
+  "current_sla_target_at",
+  "is_sla_breached",
+  "sla_breach_count",
+  "section_break_milestones",
+  "sla_milestones"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "CO-.YYYY.-.#####",
+   "reqd": 1,
+   "default": "CO-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "fetch_from": "patient.patient_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "order_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Order Type",
+   "options": "\nMedication\nLab Test\nRadiology\nProcedure",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Routine",
+   "fieldname": "urgency",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Urgency",
+   "options": "Routine\nUrgent\nSTAT\nEmergency",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nOrdered\nAcknowledged\nIn Progress\nCompleted\nCancelled\nOn Hold",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "is_stat",
+   "fieldtype": "Check",
+   "label": "STAT"
+  },
+  {
+   "fieldname": "section_break_ordering",
+   "fieldtype": "Section Break",
+   "label": "Ordering Details"
+  },
+  {
+   "fieldname": "ordering_practitioner",
+   "fieldtype": "Link",
+   "label": "Ordering Practitioner",
+   "options": "Healthcare Practitioner",
+   "search_index": 1
+  },
+  {
+   "fieldname": "ordering_practitioner_name",
+   "fieldtype": "Data",
+   "label": "Practitioner Name",
+   "fetch_from": "ordering_practitioner.practitioner_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ordering_department",
+   "fieldtype": "Link",
+   "label": "Ordering Department",
+   "options": "Medical Department"
+  },
+  {
+   "fieldname": "column_break_ordering_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_encounter",
+   "fieldtype": "Link",
+   "label": "Source Encounter",
+   "options": "Patient Encounter"
+  },
+  {
+   "fieldname": "target_department",
+   "fieldtype": "Link",
+   "label": "Target Department",
+   "options": "Medical Department",
+   "search_index": 1
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.ward || doc.room || doc.bed",
+   "fieldname": "section_break_location",
+   "fieldtype": "Section Break",
+   "label": "Patient Location"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Hospital Room",
+   "read_only": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "section_break_medication",
+   "fieldtype": "Section Break",
+   "label": "Medication Details"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "medication_item",
+   "fieldtype": "Link",
+   "label": "Medication Item",
+   "options": "Item"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "medication_name",
+   "fieldtype": "Data",
+   "label": "Medication Name",
+   "mandatory_depends_on": "eval:doc.order_type === 'Medication'"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "dose",
+   "fieldtype": "Data",
+   "label": "Dose"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "dose_uom",
+   "fieldtype": "Data",
+   "label": "Dose UOM"
+  },
+  {
+   "fieldname": "column_break_med_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "route",
+   "fieldtype": "Select",
+   "label": "Route",
+   "options": "\nOral\nIV\nIM\nSC\nSL\nTopical\nInhaled\nRectal\nPR\nOther"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "frequency",
+   "fieldtype": "Select",
+   "label": "Frequency",
+   "options": "\nOnce\nOD\nBD\nTDS\nQID\nQ4H\nQ6H\nQ8H\nQ12H\nPRN\nSTAT\nContinuous"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "is_prn",
+   "fieldtype": "Check",
+   "label": "PRN (As Needed)"
+  },
+  {
+   "depends_on": "eval:doc.is_prn",
+   "fieldname": "prn_reason",
+   "fieldtype": "Small Text",
+   "label": "PRN Reason"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "section_break_med_schedule",
+   "fieldtype": "Section Break",
+   "label": "Schedule"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "start_datetime",
+   "fieldtype": "Datetime",
+   "label": "Start Date/Time"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "end_datetime",
+   "fieldtype": "Datetime",
+   "label": "End Date/Time"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "duration_days",
+   "fieldtype": "Int",
+   "label": "Duration (Days)"
+  },
+  {
+   "fieldname": "column_break_med_schedule_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "indication",
+   "fieldtype": "Small Text",
+   "label": "Indication"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "fieldname": "ordered_qty",
+   "fieldtype": "Float",
+   "label": "Ordered Qty",
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "description": "Total quantity to dispense"
+  },
+  {
+   "fieldname": "schedule_instructions",
+   "fieldtype": "Small Text",
+   "label": "Schedule Instructions"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "section_break_lab",
+   "fieldtype": "Section Break",
+   "label": "Lab Test Details"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "lab_test_template",
+   "fieldtype": "Link",
+   "label": "Lab Test Template",
+   "options": "Lab Test Template"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "lab_test_name",
+   "fieldtype": "Data",
+   "label": "Lab Test Name",
+   "mandatory_depends_on": "eval:doc.order_type === 'Lab Test'"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "sample_type",
+   "fieldtype": "Data",
+   "label": "Sample Type"
+  },
+  {
+   "fieldname": "column_break_lab_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "is_fasting_required",
+   "fieldtype": "Check",
+   "label": "Fasting Required"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "collection_instructions",
+   "fieldtype": "Small Text",
+   "label": "Collection Instructions"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Lab Test'",
+   "fieldname": "linked_lab_test",
+   "fieldtype": "Link",
+   "label": "Linked Lab Test",
+   "options": "Lab Test",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "section_break_procedure",
+   "fieldtype": "Section Break",
+   "label": "Radiology / Procedure Details"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "procedure_template",
+   "fieldtype": "Link",
+   "label": "Procedure Template",
+   "options": "Clinical Procedure Template"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "procedure_name",
+   "fieldtype": "Data",
+   "label": "Procedure / Investigation Name",
+   "mandatory_depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "body_site",
+   "fieldtype": "Data",
+   "label": "Body Site"
+  },
+  {
+   "fieldname": "column_break_proc_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "is_bedside",
+   "fieldtype": "Check",
+   "label": "Bedside Execution"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "prep_instructions",
+   "fieldtype": "Small Text",
+   "label": "Prep Instructions"
+  },
+  {
+   "depends_on": "eval:doc.order_type === 'Radiology' || doc.order_type === 'Procedure'",
+   "fieldname": "linked_clinical_procedure",
+   "fieldtype": "Link",
+   "label": "Linked Clinical Procedure",
+   "options": "Clinical Procedure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_dispense",
+   "fieldtype": "Section Break",
+   "label": "Dispense Status",
+   "depends_on": "eval:doc.order_type === 'Medication'",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "dispense_status",
+   "fieldtype": "Select",
+   "label": "Dispense Status",
+   "options": "\nPending\nPartially Dispensed\nFully Dispensed",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "depends_on": "eval:doc.order_type === 'Medication'"
+  },
+  {
+   "fieldname": "total_dispensed_qty",
+   "fieldtype": "Float",
+   "label": "Total Dispensed Qty",
+   "read_only": 1,
+   "depends_on": "eval:doc.order_type === 'Medication'"
+  },
+  {
+   "fieldname": "column_break_dispense_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "substitution_status",
+   "fieldtype": "Select",
+   "label": "Substitution Status",
+   "options": "\nNone\nRequested\nApproved\nRejected",
+   "read_only": 1,
+   "depends_on": "eval:doc.order_type === 'Medication'"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "clinical_notes",
+   "fieldtype": "Small Text",
+   "label": "Clinical Notes"
+  },
+  {
+   "fieldname": "column_break_notes_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.status === 'Cancelled'",
+   "fieldname": "cancellation_reason",
+   "fieldtype": "Small Text",
+   "label": "Cancellation Reason"
+  },
+  {
+   "depends_on": "eval:doc.status === 'On Hold'",
+   "fieldname": "hold_reason",
+   "fieldtype": "Small Text",
+   "label": "Hold Reason"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_sla",
+   "fieldtype": "Section Break",
+   "label": "Order Lifecycle"
+  },
+  {
+   "fieldname": "ordered_at",
+   "fieldtype": "Datetime",
+   "label": "Ordered At",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "ordered_by",
+   "fieldtype": "Link",
+   "label": "Ordered By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "acknowledged_at",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged At",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "acknowledged_by",
+   "fieldtype": "Link",
+   "label": "Acknowledged By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_sla_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "completed_at",
+   "fieldtype": "Datetime",
+   "label": "Completed At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "completed_by",
+   "fieldtype": "Link",
+   "label": "Completed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_at",
+   "fieldtype": "Datetime",
+   "label": "Cancelled At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cancelled_by",
+   "fieldtype": "Link",
+   "label": "Cancelled By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_sla_tracking",
+   "fieldtype": "Section Break",
+   "label": "SLA Tracking"
+  },
+  {
+   "fieldname": "current_sla_target_at",
+   "fieldtype": "Datetime",
+   "label": "Current SLA Target",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_sla_breached",
+   "fieldtype": "Check",
+   "label": "SLA Breached",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "sla_breach_count",
+   "fieldtype": "Int",
+   "label": "SLA Breach Count",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_milestones",
+   "fieldtype": "Section Break",
+   "label": "SLA Milestones"
+  },
+  {
+   "fieldname": "sla_milestones",
+   "fieldtype": "Table",
+   "label": "Milestones",
+   "options": "IPD Order SLA Milestone"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Related",
+   "link_doctype": "IPD MAR Entry",
+   "link_fieldname": "clinical_order"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Clinical Order",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Pharmacy User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Laboratory User",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,patient_name,order_type,status,urgency,ordering_practitioner_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "title_field": "patient_name"
+}

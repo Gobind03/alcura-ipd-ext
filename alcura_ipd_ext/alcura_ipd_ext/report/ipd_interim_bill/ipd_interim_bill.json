@@ -1,0 +1,25 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2026-04-08 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "is_standard": "Yes",
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Interim Bill",
+ "owner": "Administrator",
+ "ref_doctype": "Inpatient Record",
+ "report_name": "IPD Interim Bill",
+ "report_type": "Script Report",
+ "roles": [
+  {"role": "Healthcare Administrator"},
+  {"role": "TPA Desk User"},
+  {"role": "Accounts User"},
+  {"role": "Physician"},
+  {"role": "Nursing User"}
+ ]
+}

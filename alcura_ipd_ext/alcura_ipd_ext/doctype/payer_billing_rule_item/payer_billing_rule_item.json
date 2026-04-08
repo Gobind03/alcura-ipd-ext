@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "rule_type",
+  "applies_to",
+  "column_break_1",
+  "item_code",
+  "item_group",
+  "charge_category",
+  "section_break_amounts",
+  "co_pay_percent",
+  "column_break_amounts",
+  "sub_limit_amount",
+  "cap_amount",
+  "section_break_desc",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "rule_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Rule Type",
+   "options": "Non-Payable\nCo-Pay Override\nSub-Limit\nPackage Inclusion\nExcluded Consumable\nRoom Rent Cap",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applies_to",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Applies To",
+   "options": "Item\nItem Group\nCharge Category",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.applies_to === 'Item'",
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "mandatory_depends_on": "eval:doc.applies_to === 'Item'",
+   "options": "Item"
+  },
+  {
+   "depends_on": "eval:doc.applies_to === 'Item Group'",
+   "fieldname": "item_group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Group",
+   "mandatory_depends_on": "eval:doc.applies_to === 'Item Group'",
+   "options": "Item Group"
+  },
+  {
+   "depends_on": "eval:doc.applies_to === 'Charge Category'",
+   "fieldname": "charge_category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Charge Category",
+   "mandatory_depends_on": "eval:doc.applies_to === 'Charge Category'",
+   "options": "\nRoom Rent\nNursing\nConsumable\nPharmacy\nInvestigation\nProcedure\nConsultation\nOther"
+  },
+  {
+   "fieldname": "section_break_amounts",
+   "fieldtype": "Section Break",
+   "label": "Amounts"
+  },
+  {
+   "depends_on": "eval:doc.rule_type === 'Co-Pay Override'",
+   "fieldname": "co_pay_percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Co-Pay %"
+  },
+  {
+   "fieldname": "column_break_amounts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.rule_type === 'Sub-Limit'",
+   "fieldname": "sub_limit_amount",
+   "fieldtype": "Currency",
+   "label": "Sub-Limit Amount"
+  },
+  {
+   "depends_on": "eval:doc.rule_type === 'Room Rent Cap'",
+   "fieldname": "cap_amount",
+   "fieldtype": "Currency",
+   "label": "Cap Amount"
+  },
+  {
+   "fieldname": "section_break_desc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Payer Billing Rule Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 0
+}

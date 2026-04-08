@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "autoname": "field:bundle_name",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "bundle_name",
+  "bundle_code",
+  "category",
+  "column_break_meta",
+  "is_active",
+  "duration_hours",
+  "compliance_target_pct",
+  "section_break_desc",
+  "description",
+  "activation_triggers",
+  "section_break_steps",
+  "steps"
+ ],
+ "fields": [
+  {
+   "fieldname": "bundle_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bundle Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "bundle_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bundle Code",
+   "unique": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Category",
+   "options": "\nSepsis\nPost-Op\nCardiac\nStroke\nDKA\nVentilator\nBurns\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Active"
+  },
+  {
+   "default": "0",
+   "description": "0 = indefinite duration.",
+   "fieldname": "duration_hours",
+   "fieldtype": "Int",
+   "label": "Duration (hours)"
+  },
+  {
+   "default": "100",
+   "fieldname": "compliance_target_pct",
+   "fieldtype": "Percent",
+   "label": "Compliance Target %"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_desc",
+   "fieldtype": "Section Break",
+   "label": "Description & Triggers"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "description": "When should this bundle be activated (diagnosis, ward admission, etc.).",
+   "fieldname": "activation_triggers",
+   "fieldtype": "Small Text",
+   "label": "Activation Triggers"
+  },
+  {
+   "fieldname": "section_break_steps",
+   "fieldtype": "Section Break",
+   "label": "Protocol Steps"
+  },
+  {
+   "fieldname": "steps",
+   "fieldtype": "Table",
+   "label": "Steps",
+   "options": "Protocol Bundle Step",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "Monitoring Protocol Bundle",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "ICU Administrator",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Physician"
+  },
+  {
+   "read": 1,
+   "role": "Nursing User"
+  }
+ ],
+ "search_fields": "bundle_name,bundle_code,category",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

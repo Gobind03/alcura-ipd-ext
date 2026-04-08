@@ -1,0 +1,505 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "identity_section",
+  "patient",
+  "patient_name",
+  "inpatient_record",
+  "column_break_identity",
+  "patient_payer_profile",
+  "payer_type",
+  "insurance_payor",
+  "company",
+  "clinical_section",
+  "primary_diagnosis",
+  "secondary_diagnosis",
+  "column_break_clinical_1",
+  "treating_practitioner",
+  "treating_practitioner_name",
+  "treating_department",
+  "procedure_section",
+  "procedure_name",
+  "column_break_procedure",
+  "admission_type",
+  "financial_section",
+  "estimated_cost",
+  "requested_amount",
+  "column_break_financial",
+  "approved_amount",
+  "room_type_requested",
+  "room_category",
+  "column_break_financial_2",
+  "expected_los_days",
+  "status_section",
+  "status",
+  "preauth_reference_number",
+  "column_break_status",
+  "valid_from",
+  "valid_to",
+  "responses_section",
+  "responses",
+  "remarks_section",
+  "remarks",
+  "audit_section",
+  "submitted_by",
+  "submitted_on",
+  "column_break_audit_1",
+  "approved_by",
+  "approved_on",
+  "column_break_audit_2",
+  "rejected_by",
+  "rejected_on",
+  "column_break_audit_3",
+  "closed_by",
+  "closed_on",
+  "column_break_audit_4",
+  "last_status_change_by",
+  "last_status_change_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "PAR-.YYYY.-.#####",
+   "print_hide": 1,
+   "report_hide": 1,
+   "default": "PAR-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "identity_section",
+   "fieldtype": "Section Break",
+   "label": "Patient & Payer"
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient.patient_name",
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Patient Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "patient_payer_profile",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient Payer Profile",
+   "options": "Patient Payer Profile",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient_payer_profile.payer_type",
+   "fieldname": "payer_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Payer Type",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "patient_payer_profile.insurance_payor",
+   "fieldname": "insurance_payor",
+   "fieldtype": "Link",
+   "label": "Insurance Payor",
+   "options": "Insurance Payor",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "clinical_section",
+   "fieldtype": "Section Break",
+   "label": "Clinical Details"
+  },
+  {
+   "fieldname": "primary_diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Primary Diagnosis",
+   "reqd": 1
+  },
+  {
+   "fieldname": "secondary_diagnosis",
+   "fieldtype": "Small Text",
+   "label": "Secondary Diagnosis"
+  },
+  {
+   "fieldname": "column_break_clinical_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "treating_practitioner",
+   "fieldtype": "Link",
+   "label": "Treating Practitioner",
+   "options": "Healthcare Practitioner",
+   "search_index": 1
+  },
+  {
+   "fetch_from": "treating_practitioner.practitioner_name",
+   "fieldname": "treating_practitioner_name",
+   "fieldtype": "Data",
+   "label": "Practitioner Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "treating_department",
+   "fieldtype": "Link",
+   "label": "Treating Department",
+   "options": "Medical Department"
+  },
+  {
+   "fieldname": "procedure_section",
+   "fieldtype": "Section Break",
+   "label": "Procedure Details",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "procedure_name",
+   "fieldtype": "Data",
+   "label": "Procedure Name"
+  },
+  {
+   "fieldname": "column_break_procedure",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Planned",
+   "fieldname": "admission_type",
+   "fieldtype": "Select",
+   "label": "Admission Type",
+   "options": "Planned\nEmergency"
+  },
+  {
+   "fieldname": "financial_section",
+   "fieldtype": "Section Break",
+   "label": "Financial Details"
+  },
+  {
+   "fieldname": "estimated_cost",
+   "fieldtype": "Currency",
+   "label": "Estimated Cost"
+  },
+  {
+   "bold": 1,
+   "fieldname": "requested_amount",
+   "fieldtype": "Currency",
+   "label": "Requested Amount",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_financial",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "approved_amount",
+   "fieldtype": "Currency",
+   "label": "Approved Amount",
+   "depends_on": "eval:['Approved','Partially Approved','Closed'].includes(doc.status)"
+  },
+  {
+   "fieldname": "room_type_requested",
+   "fieldtype": "Link",
+   "label": "Room Type Requested",
+   "options": "Healthcare Service Unit Type"
+  },
+  {
+   "fetch_from": "room_type_requested.ipd_room_category",
+   "fieldname": "room_category",
+   "fieldtype": "Data",
+   "label": "Room Category",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_financial_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expected_los_days",
+   "fieldtype": "Int",
+   "label": "Expected LOS (Days)"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "bold": 1,
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted\nQuery Raised\nResubmitted\nApproved\nPartially Approved\nRejected\nClosed",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "preauth_reference_number",
+   "fieldtype": "Data",
+   "label": "Pre-Auth Reference Number",
+   "in_list_view": 1,
+   "description": "Reference number from TPA/insurer"
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_to",
+   "fieldtype": "Date",
+   "label": "Valid To"
+  },
+  {
+   "fieldname": "responses_section",
+   "fieldtype": "Section Break",
+   "label": "Communication Trail"
+  },
+  {
+   "fieldname": "responses",
+   "fieldtype": "Table",
+   "label": "Responses",
+   "options": "TPA Preauth Response"
+  },
+  {
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Text Editor",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit Trail",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "submitted_by",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submitted_on",
+   "fieldtype": "Datetime",
+   "label": "Submitted On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "approved_by",
+   "fieldtype": "Link",
+   "label": "Approved By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "approved_on",
+   "fieldtype": "Datetime",
+   "label": "Approved On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "rejected_by",
+   "fieldtype": "Link",
+   "label": "Rejected By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rejected_on",
+   "fieldtype": "Datetime",
+   "label": "Rejected On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "closed_by",
+   "fieldtype": "Link",
+   "label": "Closed By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "closed_on",
+   "fieldtype": "Datetime",
+   "label": "Closed On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_audit_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_status_change_by",
+   "fieldtype": "Link",
+   "label": "Last Status Change By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_status_change_on",
+   "fieldtype": "Datetime",
+   "label": "Last Status Change On",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [
+  {
+   "group": "Patient",
+   "link_doctype": "Patient",
+   "link_fieldname": "name"
+  },
+  {
+   "group": "Payer Profile",
+   "link_doctype": "Patient Payer Profile",
+   "link_fieldname": "name"
+  },
+  {
+   "group": "Admission",
+   "link_doctype": "Inpatient Record",
+   "link_fieldname": "name"
+  }
+ ],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "TPA Preauth Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "TPA Desk User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "share": 0
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 0
+  }
+ ],
+ "search_fields": "patient_name,payer_type,status,preauth_reference_number,treating_practitioner_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "patient_name",
+ "track_changes": 1
+}

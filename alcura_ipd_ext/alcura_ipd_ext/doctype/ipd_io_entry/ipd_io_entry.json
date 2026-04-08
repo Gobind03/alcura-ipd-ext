@@ -1,0 +1,237 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "patient",
+  "inpatient_record",
+  "entry_datetime",
+  "column_break_io",
+  "io_type",
+  "fluid_category",
+  "fluid_name",
+  "section_break_detail",
+  "route",
+  "volume_ml",
+  "column_break_location",
+  "ward",
+  "bed",
+  "section_break_audit",
+  "recorded_by",
+  "status",
+  "column_break_correction",
+  "is_correction",
+  "corrects_entry",
+  "correction_reason",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "IO-.#####",
+   "reqd": 1,
+   "default": "IO-.#####"
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "entry_datetime",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Entry Date/Time",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_io",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "io_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "I/O Type",
+   "options": "Intake\nOutput",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "fluid_category",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Fluid Category",
+   "options": "IV Fluid\nOral\nBlood Products\nTPN\nUrine\nDrain\nVomit\nStool\nBlood Loss\nNG Aspirate\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fluid_name",
+   "fieldtype": "Data",
+   "label": "Fluid Name",
+   "description": "Specific fluid name (e.g. NS 0.9%, Ringer Lactate)"
+  },
+  {
+   "fieldname": "section_break_detail",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Select",
+   "label": "Route",
+   "options": "\nIV\nOral\nNG Tube\nCatheter\nDrain\nStoma\nOther"
+  },
+  {
+   "fieldname": "volume_ml",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Volume (mL)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_location",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_audit",
+   "fieldtype": "Section Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "recorded_by",
+   "fieldtype": "Link",
+   "label": "Recorded By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nCorrected",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_correction",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": 0,
+   "fieldname": "is_correction",
+   "fieldtype": "Check",
+   "label": "Is Correction"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "corrects_entry",
+   "fieldtype": "Link",
+   "label": "Corrects Entry",
+   "options": "IPD IO Entry"
+  },
+  {
+   "depends_on": "eval:doc.is_correction",
+   "fieldname": "correction_reason",
+   "fieldtype": "Small Text",
+   "label": "Correction Reason"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD IO Entry",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician"
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,io_type,fluid_category,entry_datetime",
+ "sort_field": "entry_datetime",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

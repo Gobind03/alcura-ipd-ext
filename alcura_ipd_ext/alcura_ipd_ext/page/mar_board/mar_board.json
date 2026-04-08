@@ -1,0 +1,20 @@
+{
+ "content": null,
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "Page",
+ "icon": "healthcare",
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "mar-board",
+ "owner": "Administrator",
+ "page_name": "mar-board",
+ "roles": [
+  {"role": "Nursing User"},
+  {"role": "Physician"},
+  {"role": "Healthcare Administrator"}
+ ],
+ "standard": "Yes",
+ "system_page": 0,
+ "title": "MAR Board"
+}

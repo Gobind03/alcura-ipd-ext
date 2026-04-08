@@ -1,0 +1,17 @@
+include MANIFEST.in
+include requirements.txt
+include *.md
+include *.py
+include *.txt
+recursive-include alcura_ipd_ext *.css
+recursive-include alcura_ipd_ext *.csv
+recursive-include alcura_ipd_ext *.html
+recursive-include alcura_ipd_ext *.ico
+recursive-include alcura_ipd_ext *.js
+recursive-include alcura_ipd_ext *.json
+recursive-include alcura_ipd_ext *.md
+recursive-include alcura_ipd_ext *.png
+recursive-include alcura_ipd_ext *.py
+recursive-include alcura_ipd_ext *.svg
+recursive-include alcura_ipd_ext *.txt
+recursive-exclude alcura_ipd_ext *.pyc

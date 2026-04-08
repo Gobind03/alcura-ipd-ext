@@ -1,0 +1,393 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-08 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "clinical_order",
+  "patient",
+  "patient_name",
+  "inpatient_record",
+  "column_break_header",
+  "status",
+  "lab_test_name",
+  "sample_type",
+  "barcode",
+  "is_fasting_sample",
+  "section_break_collection",
+  "collection_status",
+  "collected_by",
+  "collected_at",
+  "column_break_collection_1",
+  "collection_site",
+  "collection_notes",
+  "section_break_handoff",
+  "handed_off_by",
+  "handed_off_at",
+  "column_break_handoff_1",
+  "transport_mode",
+  "section_break_receipt",
+  "received_by",
+  "received_at",
+  "column_break_receipt_1",
+  "sample_condition",
+  "section_break_recollection",
+  "recollection_reason",
+  "recollection_requested_by",
+  "recollection_requested_at",
+  "column_break_recollection_1",
+  "parent_sample",
+  "section_break_linkage",
+  "linked_lab_test",
+  "ward",
+  "column_break_linkage_1",
+  "bed",
+  "company",
+  "section_break_critical",
+  "is_critical_result",
+  "critical_result_acknowledged_by",
+  "column_break_critical_1",
+  "critical_result_acknowledged_at",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "SAMP-.#####",
+   "reqd": 1,
+   "default": "SAMP-.#####"
+  },
+  {
+   "fieldname": "clinical_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Clinical Order",
+   "options": "IPD Clinical Order",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Patient",
+   "options": "Patient",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "patient_name",
+   "fieldtype": "Data",
+   "label": "Patient Name",
+   "fetch_from": "patient.patient_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inpatient_record",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Inpatient Record",
+   "options": "Inpatient Record",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nCollected\nIn Transit\nReceived\nProcessing\nCompleted\nRejected",
+   "default": "Pending",
+   "search_index": 1
+  },
+  {
+   "fieldname": "lab_test_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lab Test Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sample_type",
+   "fieldtype": "Data",
+   "label": "Sample Type"
+  },
+  {
+   "fieldname": "barcode",
+   "fieldtype": "Data",
+   "label": "Barcode",
+   "unique": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "is_fasting_sample",
+   "fieldtype": "Check",
+   "label": "Fasting Sample"
+  },
+  {
+   "fieldname": "section_break_collection",
+   "fieldtype": "Section Break",
+   "label": "Collection"
+  },
+  {
+   "fieldname": "collection_status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Collection Status",
+   "options": "Pending\nCollected\nRecollection Needed\nRecollected",
+   "default": "Pending",
+   "search_index": 1
+  },
+  {
+   "fieldname": "collected_by",
+   "fieldtype": "Link",
+   "label": "Collected By",
+   "options": "User"
+  },
+  {
+   "fieldname": "collected_at",
+   "fieldtype": "Datetime",
+   "label": "Collected At"
+  },
+  {
+   "fieldname": "column_break_collection_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "collection_site",
+   "fieldtype": "Data",
+   "label": "Collection Site"
+  },
+  {
+   "fieldname": "collection_notes",
+   "fieldtype": "Small Text",
+   "label": "Collection Notes"
+  },
+  {
+   "fieldname": "section_break_handoff",
+   "fieldtype": "Section Break",
+   "label": "Handoff / Transport"
+  },
+  {
+   "fieldname": "handed_off_by",
+   "fieldtype": "Link",
+   "label": "Handed Off By",
+   "options": "User"
+  },
+  {
+   "fieldname": "handed_off_at",
+   "fieldtype": "Datetime",
+   "label": "Handed Off At"
+  },
+  {
+   "fieldname": "column_break_handoff_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "transport_mode",
+   "fieldtype": "Select",
+   "label": "Transport Mode",
+   "options": "\nManual\nPneumatic Tube\nRunner"
+  },
+  {
+   "fieldname": "section_break_receipt",
+   "fieldtype": "Section Break",
+   "label": "Lab Receipt"
+  },
+  {
+   "fieldname": "received_by",
+   "fieldtype": "Link",
+   "label": "Received By",
+   "options": "User"
+  },
+  {
+   "fieldname": "received_at",
+   "fieldtype": "Datetime",
+   "label": "Received At"
+  },
+  {
+   "fieldname": "column_break_receipt_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sample_condition",
+   "fieldtype": "Select",
+   "label": "Sample Condition",
+   "options": "\nAcceptable\nHemolyzed\nClotted\nInsufficient\nContaminated"
+  },
+  {
+   "fieldname": "section_break_recollection",
+   "fieldtype": "Section Break",
+   "label": "Recollection",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "recollection_reason",
+   "fieldtype": "Small Text",
+   "label": "Recollection Reason"
+  },
+  {
+   "fieldname": "recollection_requested_by",
+   "fieldtype": "Link",
+   "label": "Recollection Requested By",
+   "options": "User"
+  },
+  {
+   "fieldname": "recollection_requested_at",
+   "fieldtype": "Datetime",
+   "label": "Recollection Requested At"
+  },
+  {
+   "fieldname": "column_break_recollection_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "parent_sample",
+   "fieldtype": "Link",
+   "label": "Parent Sample",
+   "options": "IPD Lab Sample"
+  },
+  {
+   "fieldname": "section_break_linkage",
+   "fieldtype": "Section Break",
+   "label": "Linkage"
+  },
+  {
+   "fieldname": "linked_lab_test",
+   "fieldtype": "Link",
+   "label": "Linked Lab Test",
+   "options": "Lab Test"
+  },
+  {
+   "fieldname": "ward",
+   "fieldtype": "Link",
+   "label": "Ward",
+   "options": "Hospital Ward",
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_linkage_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "bed",
+   "fieldtype": "Link",
+   "label": "Bed",
+   "options": "Hospital Bed"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "fetch_from": "clinical_order.company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_critical",
+   "fieldtype": "Section Break",
+   "label": "Critical Result",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "is_critical_result",
+   "fieldtype": "Check",
+   "label": "Critical Result"
+  },
+  {
+   "fieldname": "critical_result_acknowledged_by",
+   "fieldtype": "Link",
+   "label": "Acknowledged By",
+   "options": "User",
+   "depends_on": "is_critical_result"
+  },
+  {
+   "fieldname": "column_break_critical_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "critical_result_acknowledged_at",
+   "fieldtype": "Datetime",
+   "label": "Acknowledged At",
+   "depends_on": "is_critical_result"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-04-08 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Alcura IPD Extensions",
+ "name": "IPD Lab Sample",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Laboratory User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Nursing User",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Physician"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Healthcare Administrator",
+   "write": 1
+  }
+ ],
+ "search_fields": "patient,patient_name,lab_test_name,clinical_order,status,barcode",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "title_field": "lab_test_name"
+}
