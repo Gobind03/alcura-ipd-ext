@@ -260,8 +260,10 @@ def _safe_insert(doc_dict: dict, ignore_links: bool = False) -> str | None:
 	try:
 		doc = frappe.get_doc(doc_dict)
 		doc.flags.ignore_permissions = True
+		doc.flags.ignore_validate = True
+		doc.flags.ignore_mandatory = True
 		doc.flags.ignore_links = ignore_links
-		doc.insert()
+		doc.insert(ignore_if_duplicate=True)
 		_track(doc.doctype, doc.name)
 		return doc.name
 	except Exception as e:
@@ -350,6 +352,32 @@ def _create_hsu_types() -> dict[int, str]:
 			)
 
 	frappe.db.commit()
+
+	if not mapping:
+		existing = frappe.get_all(
+			"Healthcare Service Unit Type",
+			filters={"inpatient_occupancy": 1},
+			pluck="name",
+			limit_page_length=0,
+		)
+		if existing:
+			for idx in range(len(HSU_TYPES)):
+				mapping[idx] = existing[idx % len(existing)]
+		else:
+			fallback_name = "General Ward"
+			if not frappe.db.exists("Healthcare Service Unit Type", fallback_name):
+				frappe.db.sql(
+					"""INSERT INTO `tabHealthcare Service Unit Type`
+					   (name, healthcare_service_unit_type, inpatient_occupancy,
+					    creation, modified, modified_by, owner)
+					   VALUES (%s, %s, 1, NOW(), NOW(), %s, %s)""",
+					(fallback_name, fallback_name, frappe.session.user, frappe.session.user),
+				)
+				frappe.db.commit()
+				_track("Healthcare Service Unit Type", fallback_name)
+			for idx in range(len(HSU_TYPES)):
+				mapping[idx] = fallback_name
+
 	return mapping
 
 
@@ -480,6 +508,7 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 					"room_number": room_num,
 					"room_name": f"{ward_name} - Room {room_num}",
 					"hospital_ward": ward_full,
+					"company": company,
 					"service_unit_type": hsu_type_name,
 					"is_active": 1,
 				})
@@ -494,6 +523,9 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 						"bed_number": bed_num,
 						"bed_label": f"{ward_code}-{room_num}-{bed_num}",
 						"hospital_room": room_full,
+						"hospital_ward": ward_full,
+						"company": company,
+						"service_unit_type": hsu_type_name,
 						"is_active": 1,
 					})
 				if frappe.db.exists("Hospital Bed", bed_full):

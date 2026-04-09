@@ -38,6 +38,8 @@ def create_hsu_group_for_room(
 		}
 	)
 	hsu.flags.ignore_permissions = True
+	hsu.flags.ignore_mandatory = True
+	hsu.flags.ignore_validate = True
 	hsu.insert()
 	return hsu.name
 
@@ -59,6 +61,13 @@ def create_hsu_leaf_for_bed(
 	if frappe.db.exists("Healthcare Service Unit", hsu_name):
 		return hsu_name
 
+	if not service_unit_type:
+		service_unit_type = frappe.db.get_value(
+			"Healthcare Service Unit Type",
+			{"inpatient_occupancy": 1},
+			"name",
+		)
+
 	hsu = frappe.get_doc(
 		{
 			"doctype": "Healthcare Service Unit",
@@ -70,6 +79,8 @@ def create_hsu_leaf_for_bed(
 		}
 	)
 	hsu.flags.ignore_permissions = True
+	hsu.flags.ignore_mandatory = True
+	hsu.flags.ignore_validate = True
 	hsu.insert()
 	return hsu.name
 
