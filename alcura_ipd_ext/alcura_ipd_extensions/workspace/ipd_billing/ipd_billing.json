@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"ipd_billing_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Billing</b></span>\",\"col\":12}},{\"id\":\"shortcut_interim_bill\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Interim Bill\",\"col\":3}},{\"id\":\"shortcut_room_tariff\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Tariff Mapping\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_billing_rules\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Billing Rule Set\",\"col\":3}},{\"id\":\"shortcut_discharge_checklist\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Discharge Billing Checklist\",\"col\":3}},{\"id\":\"shortcut_eligibility\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "content": "[{\"id\":\"ipd_billing_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>IPD Billing</b></span>\",\"col\":12}},{\"id\":\"shortcut_interim_bill\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD Interim Bill\",\"col\":3}},{\"id\":\"shortcut_room_tariff\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Tariff Mapping\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_billing_rules\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Billing Rule Set\",\"col\":3}},{\"id\":\"shortcut_discharge_checklist\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Discharge Billing Checklist\",\"col\":3}},{\"id\":\"shortcut_eligibility\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"shortcut_user_manual\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD User Manual\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
  "creation": "2026-04-08 00:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -109,6 +109,28 @@
    "link_type": "Report",
    "onboard": 1,
    "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Help",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD User Manual",
+   "link_count": 0,
+   "link_to": "ipd-user-manual",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
   }
  ],
  "modified": "2026-04-08 00:00:00.000000",
@@ -156,6 +178,11 @@
    "label": "Payer Eligibility Check",
    "link_to": "Payer Eligibility Check",
    "type": "DocType"
+  }
+  {
+   "label": "IPD User Manual",
+   "link_to": "ipd-user-manual",
+   "type": "Page"
   }
  ],
  "title": "IPD Billing"

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"tpa_desk_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>TPA Desk</b></span>\",\"col\":12}},{\"id\":\"shortcut_preauth\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Preauth Request\",\"col\":3}},{\"id\":\"shortcut_claim_pack\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Claim Pack\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_eligibility\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"shortcut_billing_rules\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Billing Rule Set\",\"col\":3}},{\"id\":\"shortcut_discharge_checklist\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Discharge Billing Checklist\",\"col\":3}},{\"id\":\"shortcut_preauth_report\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Preauth Status\",\"col\":3}},{\"id\":\"shortcut_claim_report\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Claim Pack Status\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
+ "content": "[{\"id\":\"tpa_desk_header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>TPA Desk</b></span>\",\"col\":12}},{\"id\":\"shortcut_preauth\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Preauth Request\",\"col\":3}},{\"id\":\"shortcut_claim_pack\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Claim Pack\",\"col\":3}},{\"id\":\"shortcut_payer_profile\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Patient Payer Profile\",\"col\":3}},{\"id\":\"shortcut_eligibility\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Eligibility Check\",\"col\":3}},{\"id\":\"shortcut_billing_rules\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Payer Billing Rule Set\",\"col\":3}},{\"id\":\"shortcut_discharge_checklist\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Discharge Billing Checklist\",\"col\":3}},{\"id\":\"shortcut_preauth_report\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Preauth Status\",\"col\":3}},{\"id\":\"shortcut_claim_report\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TPA Claim Pack Status\",\"col\":3}},{\"id\":\"shortcut_user_manual\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"IPD User Manual\",\"col\":3}},{\"id\":\"spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}}]",
  "creation": "2026-04-08 00:00:00.000000",
  "custom_blocks": [],
  "doctype": "Workspace",
@@ -153,6 +153,28 @@
    "link_type": "Report",
    "onboard": 1,
    "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Help",
+   "link_count": 0,
+   "link_to": "",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "IPD User Manual",
+   "link_count": 0,
+   "link_to": "ipd-user-manual",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
   }
  ],
  "modified": "2026-04-08 00:00:00.000000",
@@ -209,6 +231,11 @@
    "label": "TPA Claim Pack Status",
    "link_to": "TPA Claim Pack Status",
    "type": "Report"
+  }
+  {
+   "label": "IPD User Manual",
+   "link_to": "ipd-user-manual",
+   "type": "Page"
   }
  ],
  "title": "TPA Desk"
