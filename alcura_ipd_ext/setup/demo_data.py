@@ -633,17 +633,13 @@ def _create_patients_and_admissions(
 			ip_records.append(None)
 			continue
 
-		existing_ir = frappe.db.get_value(
-			"Inpatient Record", {"patient": patient_name}, "name",
-		)
-		if existing_ir:
-			frappe.db.set_value(
-				"Inpatient Record", existing_ir, "status", "Admitted",
-				update_modified=False,
-			)
-			ip_records.append(existing_ir)
-			_track("Inpatient Record", existing_ir)
-			continue
+		# Remove any existing IRs for this patient to avoid uniqueness errors
+		old_irs = frappe.get_all("Inpatient Record", {"patient": patient_name}, pluck="name")
+		for old_ir in old_irs:
+			frappe.db.sql("DELETE FROM `tabInpatient Occupancy` WHERE parent=%s", old_ir)
+			frappe.db.sql("DELETE FROM `tabInpatient Record` WHERE name=%s", old_ir)
+		if old_irs:
+			frappe.db.commit()
 
 		bed_key = (w_idx, r_idx, b_idx)
 		bed_name = beds.get(bed_key)
