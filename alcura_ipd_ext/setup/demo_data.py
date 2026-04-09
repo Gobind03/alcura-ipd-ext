@@ -112,60 +112,60 @@ PAYER_COMPANIES = [
 # status: "active" or "discharged"
 PATIENT_SCENARIOS = [
 	# ── ICU patients ────────────────────────────────────────────
-	("Rajan", "Mehta", "Male", 65, "B+", 0, 0, 0,
+	("Rajan", "Mehta", "Male", 65, "B Positive", 0, 0, 0,
 	 "Acute Myocardial Infarction", 0, 5, "Insurance", "Emergency", 10, "active"),
-	("Lakshmi", "Devi", "Female", 72, "O+", 0, 0, 1,
+	("Lakshmi", "Devi", "Female", 72, "O Positive", 0, 0, 1,
 	 "Severe Sepsis", 6, 3, "Cash", "Emergency", 7, "active"),
-	("Mohammad", "Rafi", "Male", 58, "A+", 0, 0, 2,
+	("Mohammad", "Rafi", "Male", 58, "A Positive", 0, 0, 2,
 	 "Post-CABG Recovery", 0, 2, "Insurance", "Emergency", 14, "active"),
-	("Anita", "Sharma", "Female", 45, "AB+", 0, 1, 0,
+	("Anita", "Sharma", "Female", 45, "AB Positive", 0, 1, 0,
 	 "Status Epilepticus", 4, 1, "Corporate", "Emergency", 5, "active"),
 	# ── HDU patients ────────────────────────────────────────────
-	("Suresh", "Kumar", "Male", 60, "B-", 1, 0, 0,
+	("Suresh", "Kumar", "Male", 60, "B Negative", 1, 0, 0,
 	 "COPD Exacerbation", 5, 7, "Insurance", "Urgent", 10, "active"),
-	("Geeta", "Rani", "Female", 55, "O+", 1, 0, 1,
+	("Geeta", "Rani", "Female", 55, "O Positive", 1, 0, 1,
 	 "Diabetic Ketoacidosis", 6, 2, "Cash", "Emergency", 5, "active"),
-	("Vijay", "Patil", "Male", 48, "A-", 1, 0, 2,
+	("Vijay", "Patil", "Male", 48, "A Negative", 1, 0, 2,
 	 "Post-Appendectomy Monitoring", 3, 3, "Insurance", "Routine", 4, "active"),
 	# ── General Ward patients ───────────────────────────────────
-	("Priya", "Menon", "Female", 35, "O+", 2, 0, 0,
+	("Priya", "Menon", "Female", 35, "O Positive", 2, 0, 0,
 	 "Post-Partum Hemorrhage", 1, 4, "Insurance", "Urgent", 5, "active"),
-	("Ramesh", "Yadav", "Male", 68, "B+", 2, 0, 1,
+	("Ramesh", "Yadav", "Male", 68, "B Positive", 2, 0, 1,
 	 "Community-Acquired Pneumonia", 5, 6, "Cash", "Routine", 7, "active"),
-	("Sita", "Kumari", "Female", 42, "A+", 2, 0, 2,
+	("Sita", "Kumari", "Female", 42, "A Positive", 2, 0, 2,
 	 "Cholecystectomy Recovery", 3, 3, "Cash", "Routine", 4, "active"),
-	("Anil", "Joshi", "Male", 55, "O-", 2, 1, 0,
+	("Anil", "Joshi", "Male", 55, "O Negative", 2, 1, 0,
 	 "Acute Pancreatitis", 1, 5, "Corporate", "Urgent", 8, "active"),
-	("Fatima", "Begum", "Female", 62, "AB+", 2, 1, 1,
+	("Fatima", "Begum", "Female", 62, "AB Positive", 2, 1, 1,
 	 "Urinary Tract Infection", 6, 2, "Cash", "Routine", 3, "active"),
-	("Dinesh", "Gupta", "Male", 70, "A+", 2, 1, 2,
+	("Dinesh", "Gupta", "Male", 70, "A Positive", 2, 1, 2,
 	 "Hip Fracture - Pre-Op", 2, 8, "Insurance", "Urgent", 12, "active"),
-	("Kavya", "Nair", "Female", 28, "B+", 2, 2, 0,
+	("Kavya", "Nair", "Female", 28, "B Positive", 2, 2, 0,
 	 "Dengue Hemorrhagic Fever", 1, 4, "Cash", "Urgent", 5, "active"),
-	("Bharat", "Singh", "Male", 50, "O+", 2, 2, 1,
+	("Bharat", "Singh", "Male", 50, "O Positive", 2, 2, 1,
 	 "Severe Cellulitis", 3, 3, "Corporate", "Routine", 5, "active"),
 	# ── Private Ward patients ───────────────────────────────────
-	("Vikram", "Malhotra", "Male", 45, "A+", 3, 0, 0,
+	("Vikram", "Malhotra", "Male", 45, "A Positive", 3, 0, 0,
 	 "Total Knee Replacement - Post-Op", 2, 4, "Insurance", "Routine", 7, "active"),
-	("Rekha", "Jain", "Female", 52, "B-", 3, 1, 0,
+	("Rekha", "Jain", "Female", 52, "B Negative", 3, 1, 0,
 	 "Laparoscopic Hysterectomy", 3, 2, "Insurance", "Routine", 4, "active"),
-	("Ashok", "Bansal", "Male", 60, "O+", 3, 2, 0,
+	("Ashok", "Bansal", "Male", 60, "O Positive", 3, 2, 0,
 	 "Post-Coronary Angioplasty", 0, 3, "Corporate", "Urgent", 5, "active"),
 	# ── Semi-Private patients ───────────────────────────────────
-	("Meena", "Patel", "Female", 38, "A+", 4, 0, 0,
+	("Meena", "Patel", "Female", 38, "A Positive", 4, 0, 0,
 	 "Cesarean Section Recovery", 1, 3, "Insurance", "Routine", 5, "active"),
-	("Rajiv", "Saxena", "Male", 65, "O-", 4, 1, 0,
+	("Rajiv", "Saxena", "Male", 65, "O Negative", 4, 1, 0,
 	 "Acute Ischemic Stroke", 4, 10, "Cash", "Emergency", 14, "active"),
-	("Pooja", "Tiwari", "Female", 30, "B+", 4, 2, 0,
+	("Pooja", "Tiwari", "Female", 30, "B Positive", 4, 2, 0,
 	 "Acute Appendicitis - Post-Op", 3, 2, "Cash", "Urgent", 3, "active"),
 	# ── Discharged patients ─────────────────────────────────────
-	("Harish", "Chandra", "Male", 75, "A-", 2, 2, 2,
+	("Harish", "Chandra", "Male", 75, "A Negative", 2, 2, 2,
 	 "Community-Acquired Pneumonia", 5, 9, "Insurance", "Routine", 7, "discharged"),
-	("Deepa", "Krishnan", "Female", 40, "O+", 3, 3, 0,
+	("Deepa", "Krishnan", "Female", 40, "O Positive", 3, 3, 0,
 	 "Laparoscopic Cholecystectomy", 3, 4, "Insurance", "Routine", 3, "discharged"),
-	("Sanjeev", "Kapoor", "Male", 55, "B+", 2, 2, 3,
+	("Sanjeev", "Kapoor", "Male", 55, "B Positive", 2, 2, 3,
 	 "Congestive Heart Failure", 0, 12, "Corporate", "Urgent", 10, "discharged"),
-	("Nandini", "Rao", "Female", 32, "AB-", 4, 0, 1,
+	("Nandini", "Rao", "Female", 32, "AB Negative", 4, 0, 1,
 	 "Post-Partum Complications", 1, 5, "Cash", "Urgent", 5, "discharged"),
 ]
 
@@ -437,6 +437,14 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 	beds_lookup = {}
 
 	for w_idx, (ward_code, ward_name, classification, hsu_idx, rooms) in enumerate(WARD_LAYOUT):
+		hsu_type_name = hsu_types.get(hsu_idx)
+		if not hsu_type_name:
+			frappe.log_error(
+				f"Demo data: HSU Type index {hsu_idx} not found, skipping ward {ward_code}",
+				"Demo Data Generation",
+			)
+			continue
+
 		ward_hsu_name = f"{root_hsu} - {ward_name}"
 		if not frappe.db.exists("Healthcare Service Unit", ward_hsu_name):
 			_safe_insert({
@@ -459,7 +467,8 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 				"is_active": 1,
 			})
 
-		hsu_type_name = hsu_types.get(hsu_idx)
+		frappe.db.commit()
+
 		for r_idx, (room_num, num_beds) in enumerate(rooms):
 			room_full = f"{ward_full}-{room_num}"
 			if not frappe.db.exists("Hospital Room", room_full):
@@ -471,6 +480,7 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 					"service_unit_type": hsu_type_name,
 					"is_active": 1,
 				})
+				frappe.db.commit()
 
 			for b_idx in range(num_beds):
 				bed_num = f"B{b_idx + 1}"
@@ -485,7 +495,8 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 					})
 				beds_lookup[(w_idx, r_idx, b_idx)] = bed_full
 
-	frappe.db.commit()
+		frappe.db.commit()
+
 	return beds_lookup
 
 
@@ -526,10 +537,9 @@ def _create_patients_and_admissions(
 				"dob": dob,
 				"blood_group": blood,
 				"status": "Active",
-				"custom_aadhaar_number": f"{_RNG.randint(100000000000, 999999999999)}",
 				"custom_mr_number": f"MR-DEMO-{sc_idx + 1:04d}",
 				"custom_emergency_contact_name": f"{_RNG.choice(['Spouse', 'Parent', 'Sibling'])} of {first}",
-				"custom_emergency_contact_phone": f"+91 {_RNG.randint(7000000000, 9999999999)}",
+				"custom_emergency_contact_phone": f"+91{_RNG.randint(7000000000, 9999999999)}",
 				"custom_consent_collected": 1,
 				"custom_consent_datetime": _ts(days_ago=days_admitted),
 			})
