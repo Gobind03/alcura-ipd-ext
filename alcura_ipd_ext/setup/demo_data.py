@@ -326,18 +326,28 @@ def _create_practitioners(company: str) -> dict[int, str]:
 def _create_hsu_types() -> dict[int, str]:
 	"""Ensure Healthcare Service Unit Types exist with IPD classification."""
 	mapping = {}
+	meta = frappe.get_meta("Healthcare Service Unit Type")
+	table_cols = set(frappe.db.get_table_columns("Healthcare Service Unit Type"))
+
 	for idx, (type_name, category, occ_class, intensity) in enumerate(HSU_TYPES):
 		if frappe.db.exists("Healthcare Service Unit Type", type_name):
 			mapping[idx] = type_name
 			continue
-		doc = frappe.get_doc({
-			"doctype": "Healthcare Service Unit Type",
+
+		doc_data = {"doctype": "Healthcare Service Unit Type"}
+		optional_fields = {
 			"healthcare_service_unit_type": type_name,
 			"inpatient_occupancy": 1,
 			"ipd_room_category": category,
 			"occupancy_class": occ_class,
 			"nursing_intensity": intensity,
-		})
+		}
+		for fn, val in optional_fields.items():
+			if meta.has_field(fn):
+				doc_data[fn] = val
+
+		doc = frappe.get_doc(doc_data)
+		doc.name = type_name
 		doc.flags.ignore_validate = True
 		doc.flags.ignore_permissions = True
 		doc.flags.ignore_mandatory = True
@@ -345,40 +355,52 @@ def _create_hsu_types() -> dict[int, str]:
 			doc.insert(ignore_if_duplicate=True)
 			_track(doc.doctype, doc.name)
 			mapping[idx] = doc.name
-		except Exception as e:
-			frappe.log_error(
-				f"Demo data: failed to create HSU Type {type_name}: {e}",
-				"Demo Data Generation",
-			)
+		except Exception:
+			try:
+				_hsu_type_sql_insert(type_name, table_cols)
+				mapping[idx] = type_name
+				_track("Healthcare Service Unit Type", type_name)
+			except Exception as e2:
+				frappe.log_error(
+					f"Demo data: failed to create HSU Type {type_name}: {e2}",
+					"Demo Data Generation",
+				)
 
 	frappe.db.commit()
 
 	if not mapping:
 		existing = frappe.get_all(
 			"Healthcare Service Unit Type",
-			filters={"inpatient_occupancy": 1},
 			pluck="name",
-			limit_page_length=0,
+			limit_page_length=5,
 		)
 		if existing:
 			for idx in range(len(HSU_TYPES)):
 				mapping[idx] = existing[idx % len(existing)]
-		else:
-			fallback_name = "General Ward"
-			if not frappe.db.exists("Healthcare Service Unit Type", fallback_name):
-				frappe.db.sql(
-					"""INSERT INTO `tabHealthcare Service Unit Type`
-					   (name, healthcare_service_unit_type, inpatient_occupancy,
-					    creation, modified, modified_by, owner)
-					   VALUES (%s, %s, 1, NOW(), NOW(), %s, %s)""",
-					(fallback_name, fallback_name, frappe.session.user, frappe.session.user),
-				)
-				frappe.db.commit()
-				_track("Healthcare Service Unit Type", fallback_name)
-			for idx in range(len(HSU_TYPES)):
-				mapping[idx] = fallback_name
 
 	return mapping
+
+
+def _hsu_type_sql_insert(type_name: str, table_cols: set[str]) -> None:
+	"""Insert an HSU type via raw SQL, using only columns that exist."""
+	now_str = frappe.utils.now()
+	user = frappe.session.user
+	cols = ["name", "creation", "modified", "modified_by", "owner"]
+	vals: list = [type_name, now_str, now_str, user, user]
+
+	if "inpatient_occupancy" in table_cols:
+		cols.append("inpatient_occupancy")
+		vals.append(1)
+	if "healthcare_service_unit_type" in table_cols:
+		cols.append("healthcare_service_unit_type")
+		vals.append(type_name)
+
+	col_str = ", ".join(f"`{c}`" for c in cols)
+	placeholders = ", ".join(["%s"] * len(vals))
+	frappe.db.sql(
+		f"INSERT IGNORE INTO `tabHealthcare Service Unit Type` ({col_str}) VALUES ({placeholders})",
+		vals,
+	)
 
 
 def _create_items() -> dict[str, str]:
