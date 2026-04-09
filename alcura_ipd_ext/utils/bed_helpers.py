@@ -62,11 +62,16 @@ def create_hsu_leaf_for_bed(
 		return hsu_name
 
 	if not service_unit_type:
-		service_unit_type = frappe.db.get_value(
-			"Healthcare Service Unit Type",
-			{"inpatient_occupancy": 1},
-			"name",
-		)
+		try:
+			service_unit_type = frappe.db.get_value(
+				"Healthcare Service Unit Type",
+				{"inpatient_occupancy": 1},
+				"name",
+			)
+		except Exception:
+			service_unit_type = frappe.db.get_value(
+				"Healthcare Service Unit Type", {}, "name"
+			)
 
 	hsu = frappe.get_doc(
 		{
