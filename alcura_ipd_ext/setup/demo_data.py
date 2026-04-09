@@ -338,6 +338,7 @@ def _create_hsu_types() -> dict[int, str]:
 		})
 		doc.flags.ignore_validate = True
 		doc.flags.ignore_permissions = True
+		doc.flags.ignore_mandatory = True
 		try:
 			doc.insert(ignore_if_duplicate=True)
 			_track(doc.doctype, doc.name)
@@ -347,6 +348,8 @@ def _create_hsu_types() -> dict[int, str]:
 				f"Demo data: failed to create HSU Type {type_name}: {e}",
 				"Demo Data Generation",
 			)
+
+	frappe.db.commit()
 	return mapping
 
 
@@ -493,7 +496,8 @@ def _create_infrastructure(company: str, root_hsu: str, hsu_types: dict) -> dict
 						"hospital_room": room_full,
 						"is_active": 1,
 					})
-				beds_lookup[(w_idx, r_idx, b_idx)] = bed_full
+				if frappe.db.exists("Hospital Bed", bed_full):
+					beds_lookup[(w_idx, r_idx, b_idx)] = bed_full
 
 		frappe.db.commit()
 
@@ -562,24 +566,13 @@ def _create_patients_and_admissions(
 		dept_name = DEPARTMENTS[dept_idx]
 		prac_name = practitioners.get(dept_idx) or practitioners.get(0)
 
-		ip_status = "Admitted"
-		discharged_dt = None
-		if status == "discharged":
-			ip_status = "Discharged"
-			discharged_dt = now - timedelta(
-				days=max(0, days_admitted - expected_los),
-				hours=_RNG.randint(1, 8),
-			)
-			if discharged_dt > now:
-				discharged_dt = now - timedelta(hours=_RNG.randint(4, 48))
-
 		ir_doc_data = {
 			"doctype": "Inpatient Record",
 			"patient": patient_name,
 			"company": company,
 			"medical_department": dept_name,
 			"primary_practitioner": prac_name,
-			"status": ip_status,
+			"status": "Admitted",
 			"scheduled_date": (admitted_dt - timedelta(hours=_RNG.randint(1, 24))).strftime("%Y-%m-%d"),
 			"admitted_datetime": admitted_dt.strftime("%Y-%m-%d %H:%M:%S"),
 			"expected_length_of_stay": expected_los,
@@ -593,17 +586,10 @@ def _create_patients_and_admissions(
 		}
 
 		if bed_hsu:
-			occ_rows = [{
+			ir_doc_data["inpatient_occupancy"] = [{
 				"service_unit": bed_hsu,
 				"check_in": admitted_dt.strftime("%Y-%m-%d %H:%M:%S"),
 			}]
-			if status == "discharged" and discharged_dt:
-				occ_rows[0]["check_out"] = discharged_dt.strftime("%Y-%m-%d %H:%M:%S")
-				occ_rows[0]["left"] = 1
-			ir_doc_data["inpatient_occupancy"] = occ_rows
-
-		if status == "discharged" and discharged_dt:
-			ir_doc_data["discharge_datetime"] = discharged_dt.strftime("%Y-%m-%d %H:%M:%S")
 
 		ir_name = _safe_insert(ir_doc_data, ignore_links=True)
 		ip_records.append(ir_name)
@@ -660,7 +646,7 @@ def _create_clinical_orders(
 			ordered_at = now - timedelta(
 				days=days_admitted, hours=_RNG.randint(0, 6),
 			)
-			order_status = _RNG.choice(["Active"] * 8 + ["Completed"] * 2)
+			order_status = _RNG.choice(["Ordered"] * 4 + ["In Progress"] * 3 + ["Completed"] * 3)
 
 			order_name = _safe_insert({
 				"doctype": "IPD Clinical Order",
@@ -717,7 +703,7 @@ def _create_clinical_orders(
 				"company": company,
 				"order_type": "Lab Test",
 				"urgency": _RNG.choice(["Routine"] * 5 + ["Urgent"] * 3 + ["STAT"] * 2),
-				"status": _RNG.choice(["Active", "Completed", "Completed"]),
+				"status": _RNG.choice(["Ordered", "In Progress", "Completed", "Completed"]),
 				"lab_test_name": lab_name,
 				"ordered_by": "Administrator",
 				"ordered_at": ordered_at.strftime("%Y-%m-%d %H:%M:%S"),
@@ -869,7 +855,7 @@ def _create_lab_samples(orders: list[dict]) -> None:
 				"Left hand dorsum", "Right hand dorsum",
 			])
 			if _RNG.random() > 0.3:
-				sample_data["status"] = "Handed Off"
+				sample_data["status"] = "In Transit"
 				sample_data["handed_off_by"] = "Administrator"
 				sample_data["handed_off_at"] = (coll_time + timedelta(minutes=_RNG.randint(5, 30))).strftime("%Y-%m-%d %H:%M:%S")
 				sample_data["transport_mode"] = _RNG.choice(["Runner", "Pneumatic Tube", "Manual"])
@@ -882,7 +868,7 @@ def _create_lab_samples(orders: list[dict]) -> None:
 def _create_dispense_entries(orders: list[dict]) -> None:
 	"""Create IPD Dispense Entry for medication orders."""
 	for order in orders:
-		if order["type"] != "Medication" or order.get("status") != "Active":
+		if order["type"] != "Medication" or order.get("status") not in ("Ordered", "In Progress"):
 			continue
 		if _RNG.random() < 0.3:
 			continue
@@ -1443,12 +1429,14 @@ def _create_operational_data(
 			continue
 
 		bed_name = beds.get((sc[5], sc[6], sc[7]))
-		ward = frappe.db.get_value("Hospital Bed", bed_name, "hospital_ward") if bed_name else None
-		room = frappe.db.get_value("Hospital Bed", bed_name, "hospital_room") if bed_name else None
+		if not bed_name or not frappe.db.exists("Hospital Bed", bed_name):
+			continue
+		ward = frappe.db.get_value("Hospital Bed", bed_name, "hospital_ward")
+		room = frappe.db.get_value("Hospital Bed", bed_name, "hospital_room")
 		days_admitted = sc[10]
 		status = sc[14]
 
-		hsu = frappe.db.get_value("Hospital Bed", bed_name, "healthcare_service_unit") if bed_name else None
+		hsu = frappe.db.get_value("Hospital Bed", bed_name, "healthcare_service_unit")
 
 		_safe_insert({
 			"doctype": "Bed Movement Log",
@@ -1844,6 +1832,67 @@ def _create_bed_reservations(beds: dict, company: str) -> None:
 
 # ── IPD Bed Policy defaults ────────────────────────────────────────
 
+def _finalize_discharged_patients(patients: list, ip_records: list, beds: dict) -> None:
+	"""Transition discharged patients' IRs from Admitted → Discharged.
+
+	Called AFTER all clinical/discharge docs are created so that their
+	validate hooks (which require IR status = Admitted) pass.
+	"""
+	now = now_datetime()
+	for sc_idx, sc in enumerate(PATIENT_SCENARIOS):
+		if sc[14] != "discharged":
+			continue
+		ir = ip_records[sc_idx]
+		if not ir:
+			continue
+
+		days_admitted = sc[10]
+		expected_los = sc[13]
+		discharge_days = max(0, days_admitted - expected_los)
+		discharged_dt = now - timedelta(days=discharge_days, hours=_RNG.randint(1, 8))
+		if discharged_dt > now:
+			discharged_dt = now - timedelta(hours=_RNG.randint(4, 48))
+
+		bed_name = beds.get((sc[5], sc[6], sc[7]))
+		bed_hsu = None
+		if bed_name and frappe.db.exists("Hospital Bed", bed_name):
+			bed_hsu = frappe.db.get_value("Hospital Bed", bed_name, "healthcare_service_unit")
+
+		update_fields = {
+			"status": "Discharged",
+			"discharge_datetime": discharged_dt.strftime("%Y-%m-%d %H:%M:%S"),
+			"custom_current_bed": None,
+			"custom_current_room": None,
+			"custom_current_ward": None,
+		}
+		frappe.db.set_value("Inpatient Record", ir, update_fields, update_modified=False)
+
+		if bed_hsu:
+			occ = frappe.db.get_value(
+				"Inpatient Occupancy",
+				{"parent": ir, "service_unit": bed_hsu, "left": 0},
+				"name",
+			)
+			if occ:
+				frappe.db.set_value(
+					"Inpatient Occupancy", occ,
+					{
+						"left": 1,
+						"check_out": discharged_dt.strftime("%Y-%m-%d %H:%M:%S"),
+					},
+					update_modified=False,
+				)
+
+		if bed_name and frappe.db.exists("Hospital Bed", bed_name):
+			frappe.db.set_value(
+				"Hospital Bed", bed_name,
+				"occupancy_status", "Vacant",
+				update_modified=False,
+			)
+
+	frappe.db.commit()
+
+
 def _set_bed_policy_defaults() -> None:
 	"""Ensure the singleton IPD Bed Policy has sensible values."""
 	try:
@@ -1933,9 +1982,12 @@ def generate_demo_data() -> dict:
 	_create_room_tariffs(hsu_types, company, customers)
 	_create_billing_rules(company, customers)
 
-	frappe.publish_progress(95, title=_("Generating Demo Data"), description=_("Creating discharge data..."))
+	frappe.publish_progress(93, title=_("Generating Demo Data"), description=_("Creating discharge data..."))
 	_create_discharge_data(patients, ip_records, practitioners, company)
 	_create_claim_packs(patients, ip_records, company)
+
+	frappe.publish_progress(97, title=_("Generating Demo Data"), description=_("Finalizing discharged patients..."))
+	_finalize_discharged_patients(patients, ip_records, beds)
 
 	_set_bed_policy_defaults()
 
