@@ -553,6 +553,16 @@ def _create_patients_and_admissions(
 			ip_records.append(None)
 			continue
 
+		existing_ir = frappe.db.get_value(
+			"Inpatient Record",
+			{"patient": patient_name, "status": ("in", ("Admitted", "Admission Scheduled"))},
+			"name",
+		)
+		if existing_ir:
+			ip_records.append(existing_ir)
+			_track("Inpatient Record", existing_ir)
+			continue
+
 		bed_key = (w_idx, r_idx, b_idx)
 		bed_name = beds.get(bed_key)
 		hsu_type_idx = WARD_LAYOUT[w_idx][3]
@@ -565,6 +575,19 @@ def _create_patients_and_admissions(
 		admitted_dt = now - timedelta(days=days_admitted, hours=_RNG.randint(0, 12))
 		dept_name = DEPARTMENTS[dept_idx]
 		prac_name = practitioners.get(dept_idx) or practitioners.get(0)
+
+		if not hsu_type:
+			hsu_type = frappe.db.get_value(
+				"Healthcare Service Unit Type",
+				{"inpatient_occupancy": 1},
+				"name",
+			)
+
+		room_name = None
+		ward_name = None
+		if bed_name and frappe.db.exists("Hospital Bed", bed_name):
+			room_name = frappe.db.get_value("Hospital Bed", bed_name, "hospital_room")
+			ward_name = frappe.db.get_value("Hospital Bed", bed_name, "hospital_ward")
 
 		ir_doc_data = {
 			"doctype": "Inpatient Record",
@@ -580,8 +603,8 @@ def _create_patients_and_admissions(
 			"custom_admission_priority": priority,
 			"custom_expected_los_days": expected_los,
 			"custom_current_bed": bed_name if status == "active" else None,
-			"custom_current_room": frappe.db.get_value("Hospital Bed", bed_name, "hospital_room") if bed_name else None,
-			"custom_current_ward": frappe.db.get_value("Hospital Bed", bed_name, "hospital_ward") if bed_name else None,
+			"custom_current_room": room_name if status == "active" else None,
+			"custom_current_ward": ward_name if status == "active" else None,
 			"custom_admission_notes": f"Admitted for {diagnosis}. {priority} priority.",
 		}
 
@@ -1919,10 +1942,10 @@ def generate_demo_data() -> dict:
 
 	existing = frappe.cache().get_value(DEMO_DATA_KEY)
 	if existing:
-		frappe.throw(
-			_("Demo data already exists. Please clear it before generating new data."),
-			exc=frappe.ValidationError,
-		)
+		try:
+			clear_demo_data()
+		except Exception:
+			frappe.cache().delete_value(DEMO_DATA_KEY)
 
 	frappe.flags.mute_emails = True
 	frappe.flags.mute_notifications = True
