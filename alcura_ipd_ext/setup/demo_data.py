@@ -634,11 +634,13 @@ def _create_patients_and_admissions(
 			continue
 
 		existing_ir = frappe.db.get_value(
-			"Inpatient Record",
-			{"patient": patient_name, "status": ("in", ("Admitted", "Admission Scheduled"))},
-			"name",
+			"Inpatient Record", {"patient": patient_name}, "name",
 		)
 		if existing_ir:
+			frappe.db.set_value(
+				"Inpatient Record", existing_ir, "status", "Admitted",
+				update_modified=False,
+			)
 			ip_records.append(existing_ir)
 			_track("Inpatient Record", existing_ir)
 			continue
