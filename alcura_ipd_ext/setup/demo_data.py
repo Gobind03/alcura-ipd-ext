@@ -325,15 +325,10 @@ def _create_hsu_types() -> dict[int, str]:
 	"""Ensure Healthcare Service Unit Types exist with IPD classification."""
 	mapping = {}
 	for idx, (type_name, category, occ_class, intensity) in enumerate(HSU_TYPES):
-		existing = frappe.db.get_value(
-			"Healthcare Service Unit Type",
-			{"healthcare_service_unit_type": type_name},
-			"name",
-		)
-		if existing:
-			mapping[idx] = existing
+		if frappe.db.exists("Healthcare Service Unit Type", type_name):
+			mapping[idx] = type_name
 			continue
-		name = _safe_insert({
+		doc = frappe.get_doc({
 			"doctype": "Healthcare Service Unit Type",
 			"healthcare_service_unit_type": type_name,
 			"inpatient_occupancy": 1,
@@ -341,8 +336,17 @@ def _create_hsu_types() -> dict[int, str]:
 			"occupancy_class": occ_class,
 			"nursing_intensity": intensity,
 		})
-		if name:
-			mapping[idx] = name
+		doc.flags.ignore_validate = True
+		doc.flags.ignore_permissions = True
+		try:
+			doc.insert(ignore_if_duplicate=True)
+			_track(doc.doctype, doc.name)
+			mapping[idx] = doc.name
+		except Exception as e:
+			frappe.log_error(
+				f"Demo data: failed to create HSU Type {type_name}: {e}",
+				"Demo Data Generation",
+			)
 	return mapping
 
 
