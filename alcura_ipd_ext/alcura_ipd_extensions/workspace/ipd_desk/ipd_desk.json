@@ -722,7 +722,7 @@
    "link_to": "IPD Lab Sample",
    "stats_filter": "{\"status\":[\"in\",[\"Pending\",\"Collected\",\"In Transit\"]]}",
    "type": "DocType"
-  }
+  },
   {
    "color": "Grey",
    "doc_view": "",
