@@ -541,7 +541,47 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 
 		frappe.db.commit()
 
+	_rollup_bed_counts()
 	return beds_lookup
+
+
+def _rollup_bed_counts() -> None:
+	"""Recompute total_beds / available_beds on every room and ward."""
+	frappe.db.sql("""
+		UPDATE `tabHospital Room` r SET
+			r.total_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_room = r.name AND b.is_active = 1
+			),
+			r.occupied_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_room = r.name AND b.is_active = 1
+				  AND b.occupancy_status = 'Occupied'
+			),
+			r.available_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_room = r.name AND b.is_active = 1
+				  AND b.occupancy_status = 'Vacant'
+			)
+	""")
+	frappe.db.sql("""
+		UPDATE `tabHospital Ward` w SET
+			w.total_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_ward = w.name AND b.is_active = 1
+			),
+			w.occupied_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_ward = w.name AND b.is_active = 1
+				  AND b.occupancy_status = 'Occupied'
+			),
+			w.available_beds = (
+				SELECT COUNT(*) FROM `tabHospital Bed` b
+				WHERE b.hospital_ward = w.name AND b.is_active = 1
+				  AND b.occupancy_status = 'Vacant'
+			)
+	""")
+	frappe.db.commit()
 
 
 def _insert_room_sql(
@@ -575,8 +615,12 @@ def _insert_bed_sql(
 		"""INSERT IGNORE INTO `tabHospital Bed`
 		   (name, bed_number, bed_label, hospital_room, hospital_ward,
 		    company, service_unit_type, is_active, occupancy_status,
+		    housekeeping_status, maintenance_hold, infection_block,
+		    gender_restriction,
 		    creation, modified, modified_by, owner)
-		   VALUES (%s, %s, %s, %s, %s, %s, %s, 1, 'Vacant', %s, %s, %s, %s)""",
+		   VALUES (%s, %s, %s, %s, %s, %s, %s, 1, 'Vacant',
+		    'Clean', 0, 0, 'No Restriction',
+		    %s, %s, %s, %s)""",
 		(name, bed_num.upper(), f"{ward_code}-{room_num}-{bed_num}",
 		 room_full, ward_full, company, service_unit_type,
 		 now_str, now_str, user, user),
@@ -2032,6 +2076,9 @@ def generate_demo_data() -> dict:
 
 	frappe.flags.mute_emails = True
 	frappe.flags.mute_notifications = True
+
+	from alcura_ipd_ext.setup.install import _patch_healthcare_schema
+	_patch_healthcare_schema()
 
 	_RNG.seed(42)
 

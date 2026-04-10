@@ -16,7 +16,30 @@ def after_install():
 	setup_intake_fixtures()
 	setup_charting_fixtures()
 	setup_monitoring_profile_fixtures()
+	_patch_healthcare_schema()
 	frappe.logger("alcura_ipd_ext").info("Alcura IPD Extensions installed successfully.")
+
+
+def _patch_healthcare_schema():
+	"""Add missing columns to Healthcare module tables if needed.
+
+	Some ERPNext Healthcare doctypes define fields that may not have
+	corresponding database columns after partial migrations.
+	"""
+	patches = [
+		("Patient Medical Record", "reference_name", "varchar(255)"),
+		("Patient Medical Record", "reference_doctype", "varchar(255)"),
+	]
+	for dt, col, col_type in patches:
+		table = f"tab{dt}"
+		try:
+			if not frappe.db.table_exists(table):
+				continue
+			existing = set(frappe.db.get_table_columns(dt))
+			if col not in existing:
+				frappe.db.sql_ddl(f"ALTER TABLE `{table}` ADD COLUMN `{col}` {col_type}")
+		except Exception:
+			pass
 
 
 def before_uninstall():
