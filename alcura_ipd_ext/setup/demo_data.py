@@ -2150,26 +2150,61 @@ def clear_demo_data() -> dict:
 	frappe.flags.mute_emails = True
 	frappe.flags.mute_notifications = True
 
+	# Reset bed occupancy so on_trash hooks don't block deletion
+	for bed_name in records.get("Hospital Bed", []):
+		try:
+			frappe.db.set_value("Hospital Bed", bed_name, "occupancy_status", "Vacant", update_modified=False)
+		except Exception:
+			pass
+	frappe.db.commit()
+
+	# Clean up Inpatient Record child tables before deletion
+	for ir_name in records.get("Inpatient Record", []):
+		try:
+			frappe.db.sql("DELETE FROM `tabInpatient Occupancy` WHERE parent=%s", ir_name)
+		except Exception:
+			pass
+	frappe.db.commit()
+
+	# Infrastructure and IR records use raw SQL deletion to bypass
+	# on_trash hooks that block deletion of linked/occupied items.
+	sql_delete_doctypes = {
+		"Hospital Bed", "Hospital Room", "Hospital Ward",
+		"Healthcare Service Unit", "Healthcare Service Unit Type",
+		"Inpatient Record",
+	}
+
 	for doctype in deletion_order:
 		names = records.get(doctype, [])
-		for name in names:
-			try:
-				if frappe.db.exists(doctype, name):
-					frappe.delete_doc(
-						doctype, name,
-						force=True,
-						ignore_permissions=True,
-						delete_permanently=True,
-					)
-					deleted += 1
-			except Exception as e:
-				frappe.log_error(
-					f"Demo data cleanup: failed to delete {doctype}/{name}: {e}",
-					"Demo Data Cleanup",
-				)
+		if not names:
+			continue
 
-		if names:
-			frappe.db.commit()
+		if doctype in sql_delete_doctypes:
+			table = f"tab{doctype}"
+			for name in names:
+				try:
+					frappe.db.sql(f"DELETE FROM `{table}` WHERE name=%s", name)
+					deleted += 1
+				except Exception:
+					pass
+		else:
+			for name in names:
+				try:
+					if frappe.db.exists(doctype, name):
+						frappe.delete_doc(
+							doctype, name,
+							force=True,
+							ignore_permissions=True,
+							delete_permanently=True,
+						)
+						deleted += 1
+				except Exception as e:
+					frappe.log_error(
+						f"Demo data cleanup: failed to delete {doctype}/{name}: {e}",
+						"Demo Data Cleanup",
+					)
+
+		frappe.db.commit()
 
 	remaining = [dt for dt in records if dt not in deletion_order]
 	for doctype_key in remaining:
