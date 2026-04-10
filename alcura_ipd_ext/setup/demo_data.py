@@ -2096,7 +2096,11 @@ def generate_demo_data() -> dict:
 
 @frappe.whitelist()
 def clear_demo_data() -> dict:
-	"""Remove all demo data created by generate_demo_data."""
+	"""Remove all demo data created by generate_demo_data.
+
+	Uses raw SQL DELETE for reliability — frappe.delete_doc triggers hooks
+	and validations that frequently block cleanup of interlinked demo records.
+	"""
 	cached = frappe.cache().get_value(DEMO_DATA_KEY)
 	if not cached:
 		frappe.throw(
@@ -2136,6 +2140,7 @@ def clear_demo_data() -> dict:
 		"Hospital Room",
 		"Hospital Ward",
 		"Healthcare Service Unit",
+		"Healthcare Service Unit Type",
 		"Healthcare Practitioner",
 		"Medical Department",
 		"Item",
@@ -2150,76 +2155,47 @@ def clear_demo_data() -> dict:
 	frappe.flags.mute_emails = True
 	frappe.flags.mute_notifications = True
 
-	# Reset bed occupancy so on_trash hooks don't block deletion
-	for bed_name in records.get("Hospital Bed", []):
-		try:
-			frappe.db.set_value("Hospital Bed", bed_name, "occupancy_status", "Vacant", update_modified=False)
-		except Exception:
-			pass
-	frappe.db.commit()
+	child_tables = [
+		"Inpatient Occupancy",
+		"Admission Checklist Item",
+		"IPD Clinical Order Item",
+		"IPD Discharge Advice Medication",
+		"TPA Claim Pack Document",
+	]
 
-	# Clean up Inpatient Record child tables before deletion
-	for ir_name in records.get("Inpatient Record", []):
-		try:
-			frappe.db.sql("DELETE FROM `tabInpatient Occupancy` WHERE parent=%s", ir_name)
-		except Exception:
-			pass
-	frappe.db.commit()
+	all_doctypes = list(dict.fromkeys(deletion_order + list(records.keys())))
 
-	# Infrastructure and IR records use raw SQL deletion to bypass
-	# on_trash hooks that block deletion of linked/occupied items.
-	sql_delete_doctypes = {
-		"Hospital Bed", "Hospital Room", "Hospital Ward",
-		"Healthcare Service Unit", "Healthcare Service Unit Type",
-		"Inpatient Record",
-	}
-
-	for doctype in deletion_order:
+	for doctype in all_doctypes:
 		names = records.get(doctype, [])
 		if not names:
 			continue
 
-		if doctype in sql_delete_doctypes:
-			table = f"tab{doctype}"
-			for name in names:
-				try:
-					frappe.db.sql(f"DELETE FROM `{table}` WHERE name=%s", name)
-					deleted += 1
-				except Exception:
-					pass
-		else:
-			for name in names:
-				try:
-					if frappe.db.exists(doctype, name):
-						frappe.delete_doc(
-							doctype, name,
-							force=True,
-							ignore_permissions=True,
-							delete_permanently=True,
-						)
-						deleted += 1
-				except Exception as e:
-					frappe.log_error(
-						f"Demo data cleanup: failed to delete {doctype}/{name}: {e}",
-						"Demo Data Cleanup",
-					)
+		table = f"tab{doctype}"
+		try:
+			if not frappe.db.table_exists(table):
+				continue
+		except Exception:
+			continue
 
-		frappe.db.commit()
-
-	remaining = [dt for dt in records if dt not in deletion_order]
-	for doctype_key in remaining:
-		for name in records[doctype_key]:
+		for ct in child_tables:
+			ct_table = f"tab{ct}"
 			try:
-				if frappe.db.exists(doctype_key, name):
-					frappe.delete_doc(
-						doctype_key, name,
-						force=True,
-						ignore_permissions=True,
-						delete_permanently=True,
+				if frappe.db.table_exists(ct_table):
+					placeholders = ", ".join(["%s"] * len(names))
+					frappe.db.sql(
+						f"DELETE FROM `{ct_table}` WHERE parent IN ({placeholders})",
+						names,
 					)
-					deleted += 1
 			except Exception:
 				pass
+
+		for name in names:
+			try:
+				frappe.db.sql(f"DELETE FROM `{table}` WHERE name=%s", name)
+				deleted += 1
+			except Exception:
+				pass
+
 		frappe.db.commit()
 
 	frappe.cache().delete_value(DEMO_DATA_KEY)
