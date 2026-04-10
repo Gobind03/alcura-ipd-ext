@@ -2079,7 +2079,7 @@ def generate_demo_data() -> dict:
 
 	_set_bed_policy_defaults()
 
-	frappe.cache().set_value(DEMO_DATA_KEY, json.dumps(_records))
+	frappe.cache().set_value(DEMO_DATA_KEY, _records)
 	frappe.db.commit()
 
 	frappe.flags.mute_emails = False
@@ -2108,7 +2108,12 @@ def clear_demo_data() -> dict:
 			exc=frappe.ValidationError,
 		)
 
-	records: dict[str, list[str]] = json.loads(cached)
+	if isinstance(cached, str):
+		records: dict[str, list[str]] = json.loads(cached)
+	elif isinstance(cached, dict):
+		records = cached
+	else:
+		records = {}
 
 	deletion_order = [
 		"TPA Claim Pack",
@@ -2171,21 +2176,15 @@ def clear_demo_data() -> dict:
 			continue
 
 		table = f"tab{doctype}"
-		try:
-			if not frappe.db.table_exists(table):
-				continue
-		except Exception:
-			continue
 
 		for ct in child_tables:
 			ct_table = f"tab{ct}"
 			try:
-				if frappe.db.table_exists(ct_table):
-					placeholders = ", ".join(["%s"] * len(names))
-					frappe.db.sql(
-						f"DELETE FROM `{ct_table}` WHERE parent IN ({placeholders})",
-						names,
-					)
+				placeholders = ", ".join(["%s"] * len(names))
+				frappe.db.sql(
+					f"DELETE FROM `{ct_table}` WHERE parent IN ({placeholders})",
+					tuple(names),
+				)
 			except Exception:
 				pass
 
@@ -2196,10 +2195,17 @@ def clear_demo_data() -> dict:
 			except Exception:
 				pass
 
-		frappe.db.commit()
+		try:
+			frappe.db.commit()
+		except Exception:
+			pass
 
 	frappe.cache().delete_value(DEMO_DATA_KEY)
-	frappe.db.commit()
+
+	try:
+		frappe.db.commit()
+	except Exception:
+		pass
 
 	frappe.flags.mute_emails = False
 	frappe.flags.mute_notifications = False
