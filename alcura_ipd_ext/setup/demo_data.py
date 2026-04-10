@@ -487,8 +487,9 @@ def _get_or_create_root_hsu(company: str) -> str:
 def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 	"""Create wards → rooms → beds.  Returns bed lookup dict.
 
-	HSU tree nodes are intentionally NOT created here to avoid fragile
+	Wards are NOT linked to Healthcare Service Units to avoid fragile
 	tree-doctype operations that cascade-fail during demo data generation.
+	The room/bed after_insert hooks return early when no HSU linkage exists.
 	"""
 	abbr = frappe.get_cached_value("Company", company, "abbr") or "DEMO"
 	beds_lookup = {}
@@ -525,7 +526,15 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 		for r_idx, (room_num, num_beds) in enumerate(rooms):
 			room_full = f"{ward_full}-{room_num}"
 			if not frappe.db.exists("Hospital Room", room_full):
-				_insert_room_sql(room_full, room_num, ward_name, ward_full, company, hsu_type_name)
+				_safe_insert({
+					"doctype": "Hospital Room",
+					"room_number": room_num,
+					"room_name": f"{ward_name} - Room {room_num}",
+					"hospital_ward": ward_full,
+					"company": company,
+					"service_unit_type": hsu_type_name,
+					"is_active": 1,
+				})
 				frappe.db.commit()
 
 			if not frappe.db.exists("Hospital Room", room_full):
@@ -535,97 +544,23 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 				bed_num = f"B{b_idx + 1}"
 				bed_full = f"{room_full}-{bed_num}"
 				if not frappe.db.exists("Hospital Bed", bed_full):
-					_insert_bed_sql(bed_full, bed_num, ward_code, room_num, room_full, ward_full, company, hsu_type_name)
+					_safe_insert({
+						"doctype": "Hospital Bed",
+						"bed_number": bed_num,
+						"bed_label": f"{ward_code}-{room_num}-{bed_num}",
+						"hospital_room": room_full,
+						"hospital_ward": ward_full,
+						"company": company,
+						"service_unit_type": hsu_type_name,
+						"is_active": 1,
+					})
 				if frappe.db.exists("Hospital Bed", bed_full):
 					beds_lookup[(w_idx, r_idx, b_idx)] = bed_full
 
 		frappe.db.commit()
 
-	_rollup_bed_counts()
+	frappe.local.message_log = []
 	return beds_lookup
-
-
-def _rollup_bed_counts() -> None:
-	"""Recompute total_beds / available_beds on every room and ward."""
-	frappe.db.sql("""
-		UPDATE `tabHospital Room` r SET
-			r.total_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_room = r.name AND b.is_active = 1
-			),
-			r.occupied_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_room = r.name AND b.is_active = 1
-				  AND b.occupancy_status = 'Occupied'
-			),
-			r.available_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_room = r.name AND b.is_active = 1
-				  AND b.occupancy_status = 'Vacant'
-			)
-	""")
-	frappe.db.sql("""
-		UPDATE `tabHospital Ward` w SET
-			w.total_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_ward = w.name AND b.is_active = 1
-			),
-			w.occupied_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_ward = w.name AND b.is_active = 1
-				  AND b.occupancy_status = 'Occupied'
-			),
-			w.available_beds = (
-				SELECT COUNT(*) FROM `tabHospital Bed` b
-				WHERE b.hospital_ward = w.name AND b.is_active = 1
-				  AND b.occupancy_status = 'Vacant'
-			)
-	""")
-	frappe.db.commit()
-
-
-def _insert_room_sql(
-	name: str, room_num: str, ward_name: str, ward_full: str,
-	company: str, service_unit_type: str,
-) -> None:
-	"""Insert a Hospital Room via raw SQL, bypassing after_insert hooks."""
-	now_str = frappe.utils.now()
-	user = frappe.session.user
-	frappe.db.sql(
-		"""INSERT IGNORE INTO `tabHospital Room`
-		   (name, room_number, room_name, hospital_ward, company,
-		    service_unit_type, is_active, total_beds, occupied_beds, available_beds,
-		    creation, modified, modified_by, owner)
-		   VALUES (%s, %s, %s, %s, %s, %s, 1, 0, 0, 0, %s, %s, %s, %s)""",
-		(name, room_num.upper(), f"{ward_name} - Room {room_num}",
-		 ward_full, company, service_unit_type,
-		 now_str, now_str, user, user),
-	)
-	_track("Hospital Room", name)
-
-
-def _insert_bed_sql(
-	name: str, bed_num: str, ward_code: str, room_num: str,
-	room_full: str, ward_full: str, company: str, service_unit_type: str,
-) -> None:
-	"""Insert a Hospital Bed via raw SQL, bypassing after_insert hooks."""
-	now_str = frappe.utils.now()
-	user = frappe.session.user
-	frappe.db.sql(
-		"""INSERT IGNORE INTO `tabHospital Bed`
-		   (name, bed_number, bed_label, hospital_room, hospital_ward,
-		    company, service_unit_type, is_active, occupancy_status,
-		    housekeeping_status, maintenance_hold, infection_block,
-		    gender_restriction,
-		    creation, modified, modified_by, owner)
-		   VALUES (%s, %s, %s, %s, %s, %s, %s, 1, 'Vacant',
-		    'Clean', 0, 0, 'No Restriction',
-		    %s, %s, %s, %s)""",
-		(name, bed_num.upper(), f"{ward_code}-{room_num}-{bed_num}",
-		 room_full, ward_full, company, service_unit_type,
-		 now_str, now_str, user, user),
-	)
-	_track("Hospital Bed", name)
 
 
 # ── Patient and admission creation ──────────────────────────────────
