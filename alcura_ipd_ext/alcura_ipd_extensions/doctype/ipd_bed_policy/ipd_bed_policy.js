@@ -88,11 +88,20 @@ function _confirm_clear_demo(frm) {
 						});
 					}
 				},
-				error() {
+				error(r) {
+					let server_msg = "";
+					try {
+						let msgs = JSON.parse(r.responseText);
+						server_msg = (msgs._server_messages || msgs.exc || msgs.message || "");
+						if (typeof server_msg === "string" && server_msg.startsWith("["))
+							server_msg = JSON.parse(server_msg).join("<br>");
+					} catch (_e) {
+						server_msg = r.responseText || "";
+					}
 					frappe.msgprint({
 						title: __("Error"),
 						indicator: "red",
-						message: __("Failed to clear demo data. Check the Error Log for details."),
+						message: __("Failed to clear demo data.") + "<br><br><pre>" + server_msg + "</pre>",
 					});
 				},
 			});

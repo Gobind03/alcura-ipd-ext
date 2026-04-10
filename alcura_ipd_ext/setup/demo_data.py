@@ -16,6 +16,51 @@ from frappe.utils import now_datetime, getdate, nowdate
 
 DEMO_DATA_KEY = "alcura_ipd_demo_records"
 
+
+def _save_tracking(records: dict) -> None:
+	"""Persist tracking data in both Redis (fast) and DB (durable)."""
+	payload = json.dumps(records)
+	frappe.cache().set_value(DEMO_DATA_KEY, records)
+	try:
+		frappe.db.set_global(DEMO_DATA_KEY, payload)
+		frappe.db.commit()
+	except Exception:
+		pass
+
+
+def _load_tracking() -> dict | None:
+	"""Load tracking data from Redis first, then DB fallback."""
+	cached = frappe.cache().get_value(DEMO_DATA_KEY)
+	if cached:
+		if isinstance(cached, dict):
+			return cached
+		try:
+			return json.loads(cached)
+		except Exception:
+			pass
+
+	db_val = None
+	try:
+		db_val = frappe.db.get_global(DEMO_DATA_KEY)
+	except Exception:
+		pass
+	if db_val:
+		try:
+			return json.loads(db_val)
+		except Exception:
+			pass
+	return None
+
+
+def _clear_tracking() -> None:
+	"""Remove tracking data from both Redis and DB."""
+	frappe.cache().delete_value(DEMO_DATA_KEY)
+	try:
+		frappe.db.set_global(DEMO_DATA_KEY, None)
+		frappe.db.commit()
+	except Exception:
+		pass
+
 # ── Reproducible random seed ────────────────────────────────────────
 _RNG = random.Random(42)
 
@@ -2002,12 +2047,12 @@ def generate_demo_data() -> dict:
 	global _records
 	_records = {}
 
-	existing = frappe.cache().get_value(DEMO_DATA_KEY)
+	existing = _load_tracking()
 	if existing:
 		try:
 			clear_demo_data()
 		except Exception:
-			frappe.cache().delete_value(DEMO_DATA_KEY)
+			_clear_tracking()
 
 	frappe.flags.mute_emails = True
 	frappe.flags.mute_notifications = True
@@ -2079,7 +2124,7 @@ def generate_demo_data() -> dict:
 
 	_set_bed_policy_defaults()
 
-	frappe.cache().set_value(DEMO_DATA_KEY, _records)
+	_save_tracking(_records)
 	frappe.db.commit()
 
 	frappe.flags.mute_emails = False
@@ -2101,19 +2146,9 @@ def clear_demo_data() -> dict:
 	Uses raw SQL DELETE for reliability — frappe.delete_doc triggers hooks
 	and validations that frequently block cleanup of interlinked demo records.
 	"""
-	cached = frappe.cache().get_value(DEMO_DATA_KEY)
-	if not cached:
-		frappe.throw(
-			_("No demo data tracking found. Nothing to clear."),
-			exc=frappe.ValidationError,
-		)
-
-	if isinstance(cached, str):
-		records: dict[str, list[str]] = json.loads(cached)
-	elif isinstance(cached, dict):
-		records = cached
-	else:
-		records = {}
+	records = _load_tracking()
+	if not records:
+		return {"message": _("No demo data tracking found. Nothing to clear.")}
 
 	deletion_order = [
 		"TPA Claim Pack",
@@ -2200,7 +2235,7 @@ def clear_demo_data() -> dict:
 		except Exception:
 			pass
 
-	frappe.cache().delete_value(DEMO_DATA_KEY)
+	_clear_tracking()
 
 	try:
 		frappe.db.commit()
