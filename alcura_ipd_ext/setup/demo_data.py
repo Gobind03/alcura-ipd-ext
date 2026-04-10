@@ -113,37 +113,46 @@ def _rebuild_tracking_from_db() -> dict[str, list[str]]:
 					bed_full = f"{room_full}-B{b_idx + 1}"
 					_collect("Hospital Bed", names=[bed_full])
 
-	for ir_name in records.get("Inpatient Record", []):
-		for child_dt in [
-			"IPD Clinical Order", "IPD Bedside Chart", "IPD Chart Entry",
-			"IPD IO Entry", "IPD Nursing Note", "IPD MAR Entry",
-			"IPD Dispense Entry", "IPD Lab Sample", "IPD Problem List Item",
-			"Admission Checklist", "IPD Discharge Advice",
-			"Nursing Discharge Checklist", "Discharge Billing Checklist",
-			"Bed Movement Log", "Bed Housekeeping Task",
-		]:
-			try:
-				found = frappe.get_all(
-					child_dt,
-					filters={"inpatient_record": ir_name},
-					pluck="name",
-				)
-				if found:
-					records.setdefault(child_dt, []).extend(found)
-			except Exception:
-				pass
-
-	for pname in patient_names:
-		for dt in ["Patient Payer Profile", "TPA Preauth Request", "Payer Eligibility Check"]:
-			try:
-				found = frappe.get_all(dt, filters={"patient": pname}, pluck="name")
-				if found:
-					records.setdefault(dt, []).extend(found)
-			except Exception:
-				pass
+	# App-specific DocTypes: collect ALL records since these only exist
+	# from demo data generation (no user-created records expected).
+	ipd_doctypes = [
+		"IPD Clinical Order", "IPD Bedside Chart", "IPD Chart Entry",
+		"IPD IO Entry", "IPD Nursing Note", "IPD MAR Entry",
+		"IPD Dispense Entry", "IPD Lab Sample", "IPD Problem List Item",
+		"Admission Checklist", "IPD Discharge Advice",
+		"Nursing Discharge Checklist", "Discharge Billing Checklist",
+		"Bed Movement Log", "Bed Housekeeping Task",
+		"Patient Payer Profile", "TPA Preauth Request",
+		"Payer Eligibility Check", "Payer Billing Rule Set",
+		"Room Tariff Mapping", "TPA Claim Pack",
+		"Active Protocol Bundle", "Bed Reservation",
+		"IPD Order SLA Config",
+	]
+	for dt in ipd_doctypes:
+		try:
+			found = frappe.get_all(dt, pluck="name", limit=0)
+			if found:
+				records.setdefault(dt, []).extend(found)
+		except Exception:
+			pass
 
 	payer_names = [p[0] for p in PAYER_COMPANIES]
 	_collect("Customer", names=payer_names)
+
+	# Tariff service items (DEMO-* pattern)
+	tariff_item_codes = []
+	for room_type, charges in TARIFF_CHARGE_RATES.items():
+		for charge_type in charges:
+			slug = f"{charge_type}-{room_type}".replace(" ", "-").upper()
+			tariff_item_codes.append(f"DEMO-{slug}")
+	_collect("Item", names=tariff_item_codes)
+
+	# Room Tariff Mappings linked to our HSU types
+	for hsu_type_name in hsu_type_names:
+		_collect("Room Tariff Mapping", filters={"room_type": hsu_type_name})
+
+	# Price List created by demo
+	_collect("Price List", names=["Standard Selling"])
 
 	return records
 
@@ -235,6 +244,53 @@ PAYER_COMPANIES = [
 	("Infosys Technologies", "Corporate"),
 	("Tata Steel Limited", "Corporate"),
 ]
+
+WARD_METADATA = {
+	"ICU": {"dept_idx": 6, "building": "Main Block", "floor": "2nd Floor", "nursing_station": "NS-ICU"},
+	"HDU": {"dept_idx": 6, "building": "Main Block", "floor": "2nd Floor", "nursing_station": "NS-HDU"},
+	"GW": {"dept_idx": 1, "building": "East Wing", "floor": "1st Floor", "nursing_station": "NS-GW"},
+	"PW": {"dept_idx": 3, "building": "West Wing", "floor": "3rd Floor", "nursing_station": "NS-PW"},
+	"SP": {"dept_idx": 1, "building": "East Wing", "floor": "2nd Floor", "nursing_station": "NS-SP"},
+}
+
+TARIFF_CHARGE_RATES = {
+	"General Ward": {
+		"Room Rent": 1500,
+		"Nursing Charge": 500,
+		"Diet Charge": 300,
+	},
+	"Semi-Private Room": {
+		"Room Rent": 3000,
+		"Nursing Charge": 800,
+		"Diet Charge": 400,
+		"Doctor Visit Charge": 500,
+	},
+	"Private Room": {
+		"Room Rent": 6000,
+		"Nursing Charge": 1200,
+		"Diet Charge": 500,
+		"Doctor Visit Charge": 800,
+	},
+	"ICU Bay": {
+		"Room Rent": 8000,
+		"Nursing Charge": 2000,
+		"ICU Monitoring Charge": 3000,
+		"Oxygen Charge": 1500,
+		"Diet Charge": 400,
+	},
+	"HDU Bay": {
+		"Room Rent": 5000,
+		"Nursing Charge": 1500,
+		"ICU Monitoring Charge": 1500,
+		"Diet Charge": 400,
+	},
+}
+
+PAYER_TARIFF_MULTIPLIERS = {
+	"Cash": 1.0,
+	"Insurance TPA": 1.15,
+	"Corporate": 1.05,
+}
 
 # Patient scenarios: (first, last, sex, age, blood_group, ward_idx, room_idx,
 #   bed_idx, diagnosis, dept_idx, days_admitted, payer_kind, priority,
@@ -585,6 +641,65 @@ def _create_customers() -> dict[str, str]:
 	return cust_map
 
 
+def _ensure_price_list() -> str:
+	"""Guarantee a selling Price List exists.  Returns its name."""
+	pl = frappe.db.get_value("Price List", {"selling": 1}, "name")
+	if pl:
+		return pl
+	name = _safe_insert({
+		"doctype": "Price List",
+		"price_list_name": "Standard Selling",
+		"selling": 1,
+		"buying": 0,
+		"currency": frappe.db.get_default("currency") or "INR",
+		"enabled": 1,
+	})
+	if name:
+		frappe.db.commit()
+		return name
+	return frappe.db.get_value("Price List", {}, "name") or "Standard Selling"
+
+
+def _create_tariff_service_items() -> dict[str, str]:
+	"""Create Item records for every (charge_type, room_type) combination.
+
+	Returns a dict keyed by ``"{charge_type}::{room_type}"`` → item_code.
+	"""
+	groups_needed = {"Services": "All Item Groups"}
+	for grp, parent in groups_needed.items():
+		if not frappe.db.exists("Item Group", grp):
+			_safe_insert({
+				"doctype": "Item Group",
+				"item_group_name": grp,
+				"parent_item_group": parent,
+			})
+
+	item_map: dict[str, str] = {}
+
+	for room_type, charges in TARIFF_CHARGE_RATES.items():
+		for charge_type in charges:
+			key = f"{charge_type}::{room_type}"
+			slug = f"{charge_type}-{room_type}".replace(" ", "-").upper()
+			code = f"DEMO-{slug}"
+
+			if frappe.db.exists("Item", code):
+				item_map[key] = code
+				continue
+			name = _safe_insert({
+				"doctype": "Item",
+				"item_code": code,
+				"item_name": f"{room_type} - {charge_type}",
+				"item_group": "Services",
+				"stock_uom": "Nos",
+				"is_stock_item": 0,
+			})
+			if name:
+				item_map[key] = name
+
+	frappe.db.commit()
+	return item_map
+
+
 # ── Infrastructure creation ─────────────────────────────────────────
 
 def _get_or_create_root_hsu(company: str) -> str:
@@ -615,7 +730,7 @@ def _get_or_create_root_hsu(company: str) -> str:
 	return name or hsu_name
 
 
-def _create_infrastructure(company: str, hsu_types: dict) -> dict:
+def _create_infrastructure(company: str, hsu_types: dict, departments: dict) -> dict:
 	"""Create wards → rooms → beds.  Returns bed lookup dict.
 
 	Wards are NOT linked to Healthcare Service Units to avoid fragile
@@ -634,16 +749,30 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 			)
 			continue
 
+		meta = WARD_METADATA.get(ward_code, {})
+		dept_idx = meta.get("dept_idx")
+		dept_name = departments.get(dept_idx) if dept_idx is not None else None
+
 		ward_full = f"{abbr}-{ward_code}"
 		if not frappe.db.exists("Hospital Ward", ward_full):
-			_safe_insert({
+			ward_doc = {
 				"doctype": "Hospital Ward",
 				"ward_code": ward_code,
 				"ward_name": ward_name,
 				"company": company,
 				"ward_classification": classification,
+				"healthcare_service_unit_type": hsu_type_name,
 				"is_active": 1,
-			})
+			}
+			if dept_name:
+				ward_doc["medical_department"] = dept_name
+			if meta.get("building"):
+				ward_doc["building"] = meta["building"]
+			if meta.get("floor"):
+				ward_doc["floor"] = meta["floor"]
+			if meta.get("nursing_station"):
+				ward_doc["nursing_station"] = meta["nursing_station"]
+			_safe_insert(ward_doc)
 
 		if not frappe.db.exists("Hospital Ward", ward_full):
 			frappe.log_error(
@@ -657,7 +786,7 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 		for r_idx, (room_num, num_beds) in enumerate(rooms):
 			room_full = f"{ward_full}-{room_num}"
 			if not frappe.db.exists("Hospital Room", room_full):
-				_safe_insert({
+				room_doc = {
 					"doctype": "Hospital Room",
 					"room_number": room_num,
 					"room_name": f"{ward_name} - Room {room_num}",
@@ -665,7 +794,12 @@ def _create_infrastructure(company: str, hsu_types: dict) -> dict:
 					"company": company,
 					"service_unit_type": hsu_type_name,
 					"is_active": 1,
-				})
+				}
+				if meta.get("floor"):
+					room_doc["floor"] = meta["floor"]
+				if meta.get("building"):
+					room_doc["wing"] = meta["building"]
+				_safe_insert(room_doc)
 				frappe.db.commit()
 
 			if not frappe.db.exists("Hospital Room", room_full):
@@ -1908,65 +2042,92 @@ def _create_sla_configs() -> None:
 
 # ── Room tariff mappings ────────────────────────────────────────────
 
-def _create_room_tariffs(hsu_types: dict, company: str, customers: dict) -> None:
-	"""Create Room Tariff Mappings for different payer types."""
-	price_list = frappe.db.get_value("Price List", {"selling": 1}, "name")
-	if not price_list:
-		return
+def _create_room_tariffs(
+	hsu_types: dict,
+	company: str,
+	customers: dict,
+	price_list: str,
+	tariff_items: dict,
+) -> None:
+	"""Create Room Tariff Mappings for Cash, Insurance TPA, and Corporate payers.
 
-	room_items = {}
-	for type_name in ["General Ward", "Private Room", "Semi-Private Room", "ICU Bay", "HDU Bay"]:
-		code = f"DEMO-ROOM-{type_name.replace(' ', '-').upper()}"
-		if not frappe.db.exists("Item", code):
-			_safe_insert({
-				"doctype": "Item",
-				"item_code": code,
-				"item_name": f"{type_name} - Room Rent",
-				"item_group": "Services",
-				"stock_uom": "Nos",
-				"is_stock_item": 0,
-			})
-		room_items[type_name] = code
+	Each mapping contains multiple charge-type rows (Room Rent, Nursing, etc.)
+	with payer-specific rate multipliers.
+	"""
+	payer_configs: list[tuple[str, str | None]] = [
+		("Cash", None),
+	]
+	for cust_name, payer_type in PAYER_COMPANIES[:2]:
+		customer = customers.get(cust_name)
+		if customer:
+			payer_configs.append(("Insurance TPA", customer))
+	for cust_name, payer_type in PAYER_COMPANIES[4:6]:
+		customer = customers.get(cust_name)
+		if customer:
+			payer_configs.append(("Corporate", customer))
 
-	tariff_rates = {
-		"General Ward": 1500,
-		"Semi-Private Room": 3000,
-		"Private Room": 6000,
-		"ICU Bay": 8000,
-		"HDU Bay": 5000,
+	billing_freq_map = {
+		"Room Rent": "Per Day",
+		"Nursing Charge": "Per Day",
+		"ICU Monitoring Charge": "Per Day",
+		"Oxygen Charge": "Per Day",
+		"Doctor Visit Charge": "Per Visit",
+		"Diet Charge": "Per Day",
 	}
 
 	for type_idx, type_name in hsu_types.items():
 		hsu_type_display = HSU_TYPES[type_idx][0]
-		rate = tariff_rates.get(hsu_type_display, 2000)
-		item_code = room_items.get(hsu_type_display)
-		if not item_code:
+		charges = TARIFF_CHARGE_RATES.get(hsu_type_display)
+		if not charges:
 			continue
 
-		existing = frappe.db.get_value(
-			"Room Tariff Mapping",
-			{"room_type": type_name, "payer_type": "Cash", "company": company},
-			"name",
-		)
-		if existing:
-			continue
+		for payer_type, payer in payer_configs:
+			filters = {
+				"room_type": type_name,
+				"payer_type": payer_type,
+				"company": company,
+			}
+			if payer:
+				filters["payer"] = payer
+			else:
+				filters["payer"] = ("is", "not set")
 
-		_safe_insert({
-			"doctype": "Room Tariff Mapping",
-			"room_type": type_name,
-			"company": company,
-			"payer_type": "Cash",
-			"valid_from": _date(365),
-			"price_list": price_list,
-			"is_active": 1,
-			"tariff_items": [{
-				"charge_type": "Room Rent",
-				"item_code": item_code,
-				"rate": rate,
-				"uom": "Nos",
-				"billing_frequency": "Per Day",
-			}],
-		}, ignore_links=True)
+			existing = frappe.db.get_value("Room Tariff Mapping", filters, "name")
+			if existing:
+				continue
+
+			multiplier = PAYER_TARIFF_MULTIPLIERS.get(payer_type, 1.0)
+			rows = []
+			for charge_type, base_rate in charges.items():
+				item_key = f"{charge_type}::{hsu_type_display}"
+				item_code = tariff_items.get(item_key)
+				if not item_code:
+					continue
+				rows.append({
+					"charge_type": charge_type,
+					"item_code": item_code,
+					"rate": round(base_rate * multiplier),
+					"uom": "Nos",
+					"billing_frequency": billing_freq_map.get(charge_type, "Per Day"),
+				})
+
+			if not rows:
+				continue
+
+			mapping_doc = {
+				"doctype": "Room Tariff Mapping",
+				"room_type": type_name,
+				"company": company,
+				"payer_type": payer_type,
+				"valid_from": _date(365),
+				"price_list": price_list,
+				"is_active": 1,
+				"tariff_items": rows,
+			}
+			if payer:
+				mapping_doc["payer"] = payer
+
+			_safe_insert(mapping_doc, ignore_links=True)
 
 	frappe.db.commit()
 
@@ -2159,8 +2320,15 @@ def generate_demo_data() -> dict:
 	customers = _create_customers()
 	_create_sla_configs()
 
+	frappe.publish_progress(10, title=_("Generating Demo Data"), description=_("Creating pricing dependencies..."))
+	price_list = _ensure_price_list()
+	tariff_service_items = _create_tariff_service_items()
+
 	frappe.publish_progress(15, title=_("Generating Demo Data"), description=_("Building hospital infrastructure..."))
-	beds = _create_infrastructure(company, hsu_types)
+	beds = _create_infrastructure(company, hsu_types, departments)
+
+	frappe.publish_progress(20, title=_("Generating Demo Data"), description=_("Creating room tariff mappings..."))
+	_create_room_tariffs(hsu_types, company, customers, price_list, tariff_service_items)
 
 	frappe.publish_progress(25, title=_("Generating Demo Data"), description=_("Creating patients and admissions..."))
 	patients, ip_records = _create_patients_and_admissions(
@@ -2198,7 +2366,6 @@ def generate_demo_data() -> dict:
 	frappe.publish_progress(90, title=_("Generating Demo Data"), description=_("Creating operational data..."))
 	_create_operational_data(patients, ip_records, beds, company)
 	_create_bed_reservations(beds, company)
-	_create_room_tariffs(hsu_types, company, customers)
 	_create_billing_rules(company, customers)
 
 	frappe.publish_progress(93, title=_("Generating Demo Data"), description=_("Creating discharge data..."))
@@ -2275,6 +2442,7 @@ def clear_demo_data() -> dict:
 		"Item Group",
 		"Customer",
 		"IPD Order SLA Config",
+		"Price List",
 	]
 
 	deleted = 0
@@ -2285,10 +2453,26 @@ def clear_demo_data() -> dict:
 
 	child_tables = [
 		"Inpatient Occupancy",
+		"Admission Checklist Entry",
 		"Admission Checklist Item",
+		"Admission Checklist Template Item",
 		"IPD Clinical Order Item",
+		"IPD Chart Observation",
 		"IPD Discharge Advice Medication",
+		"IPD Intake Assessment Response",
+		"IPD Intake Scored Assessment",
+		"IPD Order SLA Milestone",
+		"IPD SLA Milestone Target",
+		"Nursing Discharge Checklist Item",
+		"Discharge Checklist Item",
+		"Payer Billing Rule Item",
+		"Protocol Bundle Step",
+		"Protocol Step Tracker",
+		"Room Tariff Item",
 		"TPA Claim Pack Document",
+		"TPA Preauth Response",
+		"Device Observation Reading",
+		"Device Parameter Mapping",
 	]
 
 	all_doctypes = list(dict.fromkeys(deletion_order + list(records.keys())))
