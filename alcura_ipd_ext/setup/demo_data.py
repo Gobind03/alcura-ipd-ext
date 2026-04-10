@@ -61,6 +61,92 @@ def _clear_tracking() -> None:
 	except Exception:
 		pass
 
+
+def _rebuild_tracking_from_db() -> dict[str, list[str]]:
+	"""Rediscover demo records from DB using known constant patterns.
+
+	Used as a last resort when both Redis and DB tracking data are lost.
+	"""
+	records: dict[str, list[str]] = {}
+
+	def _collect(doctype: str, filters: dict | None = None, names: list | None = None):
+		try:
+			if names:
+				for n in names:
+					if frappe.db.exists(doctype, n):
+						records.setdefault(doctype, []).append(n)
+			elif filters:
+				found = frappe.get_all(doctype, filters=filters, pluck="name")
+				if found:
+					records.setdefault(doctype, []).extend(found)
+		except Exception:
+			pass
+
+	patient_names = [f"{first} {last}" for first, last, *_ in PATIENT_SCENARIOS]
+	_collect("Patient", names=patient_names)
+
+	for pname in patient_names:
+		_collect("Inpatient Record", filters={"patient_name": pname})
+
+	practitioner_names = [f"{first} {last}" for first, last, *_ in PRACTITIONERS]
+	_collect("Healthcare Practitioner", names=practitioner_names)
+
+	_collect("Medical Department", names=list(DEPARTMENTS))
+
+	hsu_type_names = [t[0] for t in HSU_TYPES]
+	_collect("Healthcare Service Unit Type", names=hsu_type_names)
+
+	abbrs = []
+	try:
+		abbrs = frappe.get_all("Company", pluck="abbr")
+	except Exception:
+		pass
+
+	for abbr in (abbrs or ["DEMO"]):
+		for ward_code, _wn, _cls, _hsu_idx, rooms in WARD_LAYOUT:
+			ward_full = f"{abbr}-{ward_code}"
+			_collect("Hospital Ward", names=[ward_full])
+			for room_num, num_beds in rooms:
+				room_full = f"{ward_full}-{room_num}"
+				_collect("Hospital Room", names=[room_full])
+				for b_idx in range(num_beds):
+					bed_full = f"{room_full}-B{b_idx + 1}"
+					_collect("Hospital Bed", names=[bed_full])
+
+	for ir_name in records.get("Inpatient Record", []):
+		for child_dt in [
+			"IPD Clinical Order", "IPD Bedside Chart", "IPD Chart Entry",
+			"IPD IO Entry", "IPD Nursing Note", "IPD MAR Entry",
+			"IPD Dispense Entry", "IPD Lab Sample", "IPD Problem List Item",
+			"Admission Checklist", "IPD Discharge Advice",
+			"Nursing Discharge Checklist", "Discharge Billing Checklist",
+			"Bed Movement Log", "Bed Housekeeping Task",
+		]:
+			try:
+				found = frappe.get_all(
+					child_dt,
+					filters={"inpatient_record": ir_name},
+					pluck="name",
+				)
+				if found:
+					records.setdefault(child_dt, []).extend(found)
+			except Exception:
+				pass
+
+	for pname in patient_names:
+		for dt in ["Patient Payer Profile", "TPA Preauth Request", "Payer Eligibility Check"]:
+			try:
+				found = frappe.get_all(dt, filters={"patient": pname}, pluck="name")
+				if found:
+					records.setdefault(dt, []).extend(found)
+			except Exception:
+				pass
+
+	payer_names = [p[0] for p in PAYER_COMPANIES]
+	_collect("Customer", names=payer_names)
+
+	return records
+
 # ── Reproducible random seed ────────────────────────────────────────
 _RNG = random.Random(42)
 
@@ -2148,7 +2234,9 @@ def clear_demo_data() -> dict:
 	"""
 	records = _load_tracking()
 	if not records:
-		return {"message": _("No demo data tracking found. Nothing to clear.")}
+		records = _rebuild_tracking_from_db()
+	if not records:
+		return {"message": _("No demo data found. Nothing to clear.")}
 
 	deletion_order = [
 		"TPA Claim Pack",
